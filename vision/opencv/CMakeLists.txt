@@ -25,8 +25,8 @@ if(PLATFORM STREQUAL ios)
     include_directories(${OpenCV_INCLUDE_DIRS})
 
     target_include_directories(zetic_mlange_feature_opencv PUBLIC ${OpenCV_INCLUDE_DIRS})
-    
-    
+
+
     target_link_libraries(zetic_mlange_feature_opencv
                             ${OpenCV_LIBS}
                             zetic_feature_common)
@@ -39,7 +39,9 @@ elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     target_include_directories(zetic_mlange_feature_opencv PUBLIC
                     ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
-    set(OPENCV_DIR "${OPENCV_ANDROID_SDK_PATH}/native/jni")
+    set(OPENCV_ANDROID_SDK_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/android/sdk")
+    set(OpenCV_DIR "${OPENCV_ANDROID_SDK_PATH}/native/jni")
+    add_subdirectory(${OPENCV_ANDROID_SDK_PATH}/libcxx_helper)
 
     find_package(OpenCV REQUIRED)
     include_directories(${OpenCV_INCLUDE_DIRS})
