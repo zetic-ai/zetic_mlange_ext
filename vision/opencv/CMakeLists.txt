@@ -5,9 +5,11 @@ project(zetic_mlange_feature_opencv)
 set(ZETIC_UTIL_OPENCV_DIR ${ZETIC_UTIL_PATH}/third-party/opencv-4.10.0)
 set(ZETIC_UTIL_OPENCV_SYMLINK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/zetic-opencv-4.10.0)
 
-# Make symlink for
-ADD_CUSTOM_TARGET(link_target ALL
-                  COMMAND ${CMAKE_COMMAND} -E create_symlink ${ZETIC_UTIL_OPENCV_DIR} ${ZETIC_UTIL_OPENCV_SYMLINK_DIR})
+# Make symlink for zetic_util
+file(CREATE_LINK
+        ${ZETIC_UTIL_OPENCV_DIR}
+        ${ZETIC_UTIL_OPENCV_SYMLINK_DIR}
+        SYMBOLIC)
 
 if(PLATFORM STREQUAL ios)
     # Build for (1) XCode - iOS
