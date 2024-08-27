@@ -7,7 +7,7 @@
 #define YOLO8_OUTPUT_DIM1 8400
 #define YOLO8_OUTPUT_DIM2 84
 
-MLangeYoloV8Feature::MLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const char* coco_file_path) {
+ZeticMLangeYoloV8Feature::ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const char* coco_file_path) {
     
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     ret = this->readCocoYaml(coco_file_path);
@@ -32,12 +32,12 @@ MLangeYoloV8Feature::MLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const 
     this->mlange_feature_opencv = new MLangeFeatureOpenCV();
 }
 
-MLangeYoloV8Feature::~MLangeYoloV8Feature() {
+ZeticMLangeYoloV8Feature::~ZeticMLangeYoloV8Feature() {
     delete(this->mlange_feature_opencv);
 }
 
 // TODO: We assign delete responsibility to user, possible hazard.
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::getFloatArrayFromImage(cv::Mat& input_img, float* blob) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getFloatArrayFromImage(cv::Mat& input_img, float* blob) {
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     
     ret = this->mlange_feature_opencv->getFloatarrayFromImage(input_img, blob);
@@ -49,7 +49,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::getFloatArrayFromImage(cv::Ma
     return ret;
 }
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
      std::vector<int> input_img_size = this->dl_params.imgSize;
     
     if (this->yolo_model_type != YOLO_CLS) {
@@ -61,7 +61,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::preprocess(cv::Mat& input_img
     }
 }
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result, void* output) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result, void* output) {
     if (this->yolo_model_type == YOLO_CLS) {
         cv::Mat rawData;
         
@@ -130,7 +130,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::postprocess(std::vector<DL_RE
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::resultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::resultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
     if (this->yolo_model_type == YOLO_CLS) { 
         return this->classifierResultToImg(img, res);
     } else {
@@ -138,7 +138,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::resultToImg(cv::Mat& img, std
     }
 }
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::detectorResultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
 
     for (auto& re : res) {
         cv::RNG rng(cv::getTickCount());
@@ -175,7 +175,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::detectorResultToImg(cv::Mat& 
 }
 
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::classifierResultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::classifierResultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
     
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     
@@ -199,7 +199,7 @@ Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::classifierResultToImg(cv::Mat
     return ret;
 }
 
-Zetic_MLange_Feature_Result_t MLangeYoloV8Feature::readCocoYaml(const char* coco_file_path) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::readCocoYaml(const char* coco_file_path) {
 
     // Open the YAML file
     std::ifstream file(coco_file_path);

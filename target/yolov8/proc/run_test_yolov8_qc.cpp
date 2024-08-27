@@ -75,7 +75,7 @@ void test_yolo8_qnn(std::string model_file_path,
 
     std::vector<DL_RESULT> res;
 
-    MLangeYoloV8Feature mlangeYoloV8Feature = MLangeYoloV8Feature(yolo_model_type, coco_file_path.c_str());
+    ZeticMLangeYoloV8Feature mlangeYoloV8Feature = ZeticMLangeYoloV8Feature(yolo_model_type, coco_file_path.c_str());
 
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     ret = mlangeYoloV8Feature.preprocess(img, processedImg);
