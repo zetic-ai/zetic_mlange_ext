@@ -1,2 +1,3 @@
 
 add_subdirectory(yolov8)
+add_subdirectory(face_emotion_recognition)
