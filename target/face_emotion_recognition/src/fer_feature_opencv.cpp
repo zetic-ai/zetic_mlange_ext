@@ -177,9 +177,8 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::weightedNonMaximumSuppressi
     while (!remaining_indexed_scores.empty()) {
         FaceDetectionResult detection = detections[remaining_indexed_scores[0].first];
 
-        if (detection.score < MIN_SCORE) {
+        if (detection.score < MIN_SCORE)
             break;
-        }
 
         size_t num_prev_indexed_scores = remaining_indexed_scores.size();
         Box detection_bbox = detection.bbox;
@@ -205,19 +204,14 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::weightedNonMaximumSuppressi
             for (const auto& pair : candidates) {
                 total_score += pair.second;
 
-                weighted.xmin = detections[pair.first].bbox.xmin * pair.second;
-                weighted.ymin = detections[pair.first].bbox.ymin * pair.second;
-                weighted.xmax = detections[pair.first].bbox.xmax * pair.second;
-                weighted.ymax = detections[pair.first].bbox.ymax * pair.second;
+                weighted = detections[pair.first].bbox * pair.second;
             }
 
-            weighted.xmin = weighted.xmin / total_score;
-            weighted.ymin = weighted.ymin / total_score;
-            weighted.xmax = weighted.xmax / total_score;
-            weighted.ymax = weighted.ymax / total_score;
+            weighted /= total_score;
 
             weighted_detection = FaceDetectionResult { weighted, detection.score };
         }
+        weighted_detection = FaceDetectionResult { detections[candidates[0].first].bbox, candidates[0].second };
 
         detections_result.push_back(weighted_detection);
 
