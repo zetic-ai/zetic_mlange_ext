@@ -1,15 +1,15 @@
-#include "fer_feature_opencv.h"
+#include "face_detection_feature_opencv.h"
 
-ZeticMLangeFERFeature::ZeticMLangeFERFeature() {
+ZeticMLangeFaceDetectionFeature::ZeticMLangeFaceDetectionFeature() {
     mlange_feature_opencv = new MLangeFeatureOpenCV();
     ssd_generate_anchors();
 }
 
-ZeticMLangeFERFeature::~ZeticMLangeFERFeature() {
+ZeticMLangeFaceDetectionFeature::~ZeticMLangeFaceDetectionFeature() {
 
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::preprocessFaceDetection(const cv::Mat& input_img, cv::Mat& input_data) {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::preprocess(const cv::Mat& input_img, cv::Mat& input_data) {
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
@@ -19,7 +19,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::preprocessFaceDetection(con
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::postprocessFaceDetection(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results) {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::postprocess(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results) {
     float* regressors = reinterpret_cast<float*>(output_data[0]);
     float* classificators =  reinterpret_cast<float*>(output_data[1]);
 
@@ -39,7 +39,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::postprocessFaceDetection(uc
     return nonMaximumSuppression(detection_result, face_detection_results);
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes) {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes) {
     int num_boxes = raw_boxes.size() / 16;
     int num_points = 8;
 
@@ -74,7 +74,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::decodeBoxes(const std::vect
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::getSigmoidScores(const std::vector<float>& raw_scores, std::vector<float>& scores) {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::getSigmoidScores(const std::vector<float>& raw_scores, std::vector<float>& scores) {
     scores = raw_scores;
 
     for (size_t i = 0; i < scores.size(); i++) {
@@ -89,7 +89,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::getSigmoidScores(const std:
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::convertToDetections(const std::vector<Box>& boxes, const std::vector<float>& scores, std::vector<FaceDetectionResult>& converted_result) {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::convertToDetections(const std::vector<Box>& boxes, const std::vector<float>& scores, std::vector<FaceDetectionResult>& converted_result) {
     for (size_t i = 0; i < boxes.size(); ++i) {
         if (scores[i] > MIN_SCORE && boxes[i].isValid())
             converted_result.push_back(FaceDetectionResult { boxes[i], scores[i] });
@@ -98,7 +98,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::convertToDetections(const s
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::ssd_generate_anchors() {
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::ssd_generate_anchors() {
     int layer_id = 0;
     int num_layers = 4;
     const std::vector<int>& strides = {8, 16, 16, 16};
@@ -139,8 +139,8 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::ssd_generate_anchors() {
 }
 
 Zetic_MLange_Feature_Result_t
-ZeticMLangeFERFeature::nonMaximumSuppression(const std::vector<FaceDetectionResult> &detections,
-                                             std::vector<FaceDetectionResult> &detections_result) {
+ZeticMLangeFaceDetectionFeature::nonMaximumSuppression(const std::vector<FaceDetectionResult> &detections,
+                                                       std::vector<FaceDetectionResult> &detections_result) {
     std::vector<float> scores;
     scores.reserve(detections.size());
     for (const auto& detection : detections) {
@@ -165,7 +165,7 @@ ZeticMLangeFERFeature::nonMaximumSuppression(const std::vector<FaceDetectionResu
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFERFeature::weightedNonMaximumSuppression(
+Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::weightedNonMaximumSuppression(
         const std::vector<std::pair<int, float>>& indexed_scores,
         const std::vector<FaceDetectionResult> &detections,
         std::vector<FaceDetectionResult> &detections_result) {

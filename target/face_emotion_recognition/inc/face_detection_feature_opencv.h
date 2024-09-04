@@ -80,13 +80,13 @@ public:
     float score;
 };
 
-class ZeticMLangeFERFeature {
+class ZeticMLangeFaceDetectionFeature {
 public:
-    ZeticMLangeFERFeature();
-    ~ZeticMLangeFERFeature();
+    ZeticMLangeFaceDetectionFeature();
+    ~ZeticMLangeFaceDetectionFeature();
 
-    Zetic_MLange_Feature_Result_t preprocessFaceDetection(const cv::Mat& input_img, cv::Mat& input_data);
-    Zetic_MLange_Feature_Result_t postprocessFaceDetection(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results);
+    Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, cv::Mat& input_data);
+    Zetic_MLange_Feature_Result_t postprocess(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results);
 
 private:
     float sigmoid(float x) {
