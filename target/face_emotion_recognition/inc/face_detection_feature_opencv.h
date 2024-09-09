@@ -14,7 +14,7 @@ namespace ZeticMLange {
         ~ZeticMLangeFaceDetectionFeature();
 
         Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, cv::Mat& input_data);
-        Zetic_MLange_Feature_Result_t postprocess(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results);
+        Zetic_MLange_Feature_Result_t postprocess(uint8_t** output_data, std::vector<FaceDetectionResult>& face_detection_results);
 
     private:
         Zetic_MLange_Feature_Result_t decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes);

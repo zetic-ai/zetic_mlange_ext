@@ -5,6 +5,7 @@ project(zetic_mlange_feature_face_emotion_recognition)
 add_library(zetic_mlange_feature_face_emotion_recognition SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_feature_opencv.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/face_landmark_feature_opencv.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/face_emotion_recognition_feature_opencv.cpp
 )
 
 target_include_directories(zetic_mlange_feature_face_emotion_recognition PUBLIC
