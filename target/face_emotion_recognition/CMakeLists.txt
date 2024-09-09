@@ -13,7 +13,7 @@ target_include_directories(zetic_mlange_feature_face_emotion_recognition PUBLIC
 target_include_directories(zetic_mlange_feature_face_emotion_recognition PUBLIC ${OpenCV_INCLUDE_DIRS})
 
 if(PLATFORM STREQUAL "android")
-    target_link_libraries(zetic_mlange_feature_face_emotion_recognition 
+    target_link_libraries(zetic_mlange_feature_face_emotion_recognition
                             ${OpenCV_LIBS}
                             zetic_mlange_feature_opencv
                             zetic_feature_common
@@ -26,13 +26,9 @@ elseif(PLATFORM STREQUAL "ios")
                             ${OpenCV_LIBS}
                             zetic_mlange_feature_opencv
                             zetic_feature_common)
-else()  
+else()
     target_link_libraries(zetic_mlange_feature_face_emotion_recognition
                             ${OpenCV_LIBS}
                             zetic_mlange_feature_opencv
                             zetic_feature_common)
 endif()
-
-# add_executable(run_test_fer_ort
-#                  ${CMAKE_CURRENT_SOURCE_DIR}/proc/run_test_fer_ort.cpp)
-# target_link_libraries(run_test_fer_ort zetic_mlange_feature_face_emotion_recognition)

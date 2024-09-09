@@ -2,111 +2,38 @@
 
 #include "feature_opencv.h"
 #include "zetic_feature_types.h"
+#include "face_detection_result.h"
+#include "utils.h"
 
-#include <cmath>
 #include <vector>
 
-class Box {
-public:
-    Box() : Box(0, 0, 0, 0) {}
-    Box(float xmin, float ymin, float xmax, float ymax) : xmin{xmin}, ymin{ymin}, xmax{xmax}, ymax{ymax} {}
-    Box(const cv::Rect2f rect) : xmin{rect.x - (rect.width / 2)}, ymin{rect.y - (rect.height / 2)}, xmax{rect.x + (rect.width / 2)}, ymax{rect.y + (rect.height / 2)} {}
-    Box(const Box& other) : xmin{other.xmin}, ymin {other.ymin}, xmax {other.xmax}, ymax{other.ymax} {}
+namespace ZeticMLange {
+    class ZeticMLangeFaceDetectionFeature {
+    public:
+        ZeticMLangeFaceDetectionFeature();
+        ~ZeticMLangeFaceDetectionFeature();
 
-    Box operator*(float factor) const {
-        return Box(*this) *= factor;
-    }
-    Box& operator*=(float factor) {
-        xmin *= factor;
-        ymin *= factor;
-        xmax *= factor;
-        ymax *= factor;
-        return *this;
-    }
+        Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, cv::Mat& input_data);
+        Zetic_MLange_Feature_Result_t postprocess(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results);
 
-    Box operator/(float factor) {
-        return Box(*this) /= factor;
-    }
-    Box& operator/=(float factor) {
-        xmin /= factor;
-        ymin /= factor;
-        xmax /= factor;
-        ymax /= factor;
-        return *this;
-    }
+    private:
+        Zetic_MLange_Feature_Result_t decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes);
+        Zetic_MLange_Feature_Result_t getSigmoidScores(const std::vector<float>& raw_scores, std::vector<float>& scores);
+        Zetic_MLange_Feature_Result_t convertToDetections(const std::vector<Box>& boxes, const std::vector<float>& scores, std::vector<FaceDetectionResult>& converted_result);
+        Zetic_MLange_Feature_Result_t ssd_generate_anchors();
 
-    bool isValid() const {
-        return (xmin < xmax) && (ymin < ymax);
-    }
+        Zetic_MLange_Feature_Result_t nonMaximumSuppression(const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
+        Zetic_MLange_Feature_Result_t weightedNonMaximumSuppression(const std::vector<std::pair<int, float>>& indexed_scores, const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
 
-    Box intersect(const Box& other) const {
-        if (isValid()) {
-            return Box(
-                    std::max(xmin, other.xmin),
-                    std::max(ymin, other.ymin),
-                    std::min(xmax, other.xmax),
-                    std::min(ymax, other.ymax));
-        } else {
-            return Box(0,0,0,0);
-        }
-    }
+        std::vector<float> anchors;
+        cv::Size scale = cv::Size(128, 128);
 
-    float area() const {
-        return (xmax - xmin) * (ymax - ymin);
-    }
+        const int RAW_SCORE_LIMIT = 80;
+        const float MIN_SCORE = 0.5f;
+        const float MIN_SUPPRESSION_THRESHOLD = 0.3f;
 
-    float overlapSimilarity(const Box& other) const {
-        Box intersection = intersect(other);
-        if (!intersection.isValid())
-            return 0.0f;
-        float intersection_area = intersection.area();
-        float denominator = (area()) + (other.area()) - intersection_area;
-        if (denominator > 0.0f) {
-            return intersection_area / denominator;
-        } else {
-            return 0.0f;
-        }
-    }
+        MLangeFeatureOpenCV* mlange_feature_opencv;
+    };
 
-    float xmin;
-    float ymin;
-    float xmax;
-    float ymax;
-};
+}
 
-class FaceDetectionResult {
-public:
-    Box bbox;
-    float score;
-};
-
-class ZeticMLangeFaceDetectionFeature {
-public:
-    ZeticMLangeFaceDetectionFeature();
-    ~ZeticMLangeFaceDetectionFeature();
-
-    Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, cv::Mat& input_data);
-    Zetic_MLange_Feature_Result_t postprocess(uchar** output_data, std::vector<FaceDetectionResult>& face_detection_results);
-
-private:
-    float sigmoid(float x) {
-        return 1.f / (1.f + std::exp(-x));
-    }
-
-    Zetic_MLange_Feature_Result_t decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes);
-    Zetic_MLange_Feature_Result_t getSigmoidScores(const std::vector<float>& raw_scores, std::vector<float>& scores);
-    Zetic_MLange_Feature_Result_t convertToDetections(const std::vector<Box>& boxes, const std::vector<float>& scores, std::vector<FaceDetectionResult>& converted_result);
-    Zetic_MLange_Feature_Result_t ssd_generate_anchors();
-
-    Zetic_MLange_Feature_Result_t nonMaximumSuppression(const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
-    Zetic_MLange_Feature_Result_t weightedNonMaximumSuppression(const std::vector<std::pair<int, float>>& indexed_scores, const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
-
-    std::vector<float> anchors;
-    cv::Size scale = cv::Size(128, 128);
-
-    const int RAW_SCORE_LIMIT = 80;
-    const float MIN_SCORE = 0.5f;
-    const float MIN_SUPPRESSION_THRESHOLD = 0.3f;
-
-    MLangeFeatureOpenCV* mlange_feature_opencv;
-};

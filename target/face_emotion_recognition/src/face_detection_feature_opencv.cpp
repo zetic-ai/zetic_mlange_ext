@@ -1,5 +1,7 @@
 #include "face_detection_feature_opencv.h"
 
+using namespace ZeticMLange;
+
 ZeticMLangeFaceDetectionFeature::ZeticMLangeFaceDetectionFeature() {
     mlange_feature_opencv = new MLangeFeatureOpenCV();
     ssd_generate_anchors();
@@ -13,7 +15,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeFaceDetectionFeature::preprocess(const 
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
-    cv::resize(input_img, input_data, cv::Size(128, 128));
+    cv::resize(input_img, input_data, scale);
     input_data.convertTo(input_data, CV_32F, 1.f / 255.f, 0);
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;
