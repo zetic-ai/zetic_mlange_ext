@@ -21,7 +21,6 @@ ZeticMLangeFaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &
         return ZETIC_MLANGE_FEATURE_FAIL;
 
     cv::resize(mat, input_data, input_size);
-    cv::imwrite("/data/data/com.zetic.zetic_mlange_android/files/file.jpg", mat);
     input_data.convertTo(input_data, CV_32F, 1.f / 255.f, 0);
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;
