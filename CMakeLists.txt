@@ -49,13 +49,15 @@ if(PLATFORM STREQUAL android)
     message("ANDROID_TOOL_CHAIN: ${CMAKE_TOOLCHAIN_FILE}")
 endif()
 
-project(zetic_mlange_feature C)
+project(zetic_mlange_ext CXX)
 
 add_compile_options(-Werror)
 
 add_subdirectory(common)
 
 add_subdirectory(vision)
+
+add_subdirectory(tokenizer)
 
 # Target should be included at last
 add_subdirectory(target)
