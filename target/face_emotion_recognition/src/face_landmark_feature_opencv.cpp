@@ -10,17 +10,15 @@ ZeticMLangeFaceLandmarkFeature::~ZeticMLangeFaceLandmarkFeature() = default;
 Zetic_MLange_Feature_Result_t
 ZeticMLangeFaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &roi,
                                            cv::Mat &input_data) {
-    cv::Mat mat;
-    cv::resize(input_img, mat, {128, 128});
-    cv::Rect rect_roi(roi.xmin, roi.ymin,
-                      roi.xmax - roi.xmin,
-                      roi.ymax - roi.ymin);
-    mat = mat(rect_roi);
-
-    if (*mat.size == 0)
+    if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
-    cv::resize(mat, input_data, input_size);
+    cv::Rect rect_roi(roi.xmin * input_img.cols, roi.ymin * input_img.rows,
+                      (roi.xmax - roi.xmin) * input_img.cols,
+                      (roi.ymax - roi.ymin) * input_img.rows);
+    input_data = input_img(rect_roi);
+
+    cv::resize(input_data, input_data, input_size);
     input_data.convertTo(input_data, CV_32F, 1.f / 255.f, 0);
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;

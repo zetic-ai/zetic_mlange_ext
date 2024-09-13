@@ -15,12 +15,12 @@ ZeticMLange::ZeticMLangeFaceEmotionRecognition::preprocess(const cv::Mat &input_
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
-    cv::Rect rect_roi(roi.xmin, roi.ymin,
-                      roi.xmax - roi.xmin,
-                      roi.ymax - roi.ymin);
+    cv::Rect rect_roi(roi.xmin * input_img.cols, roi.ymin * input_img.rows,
+                      (roi.xmax - roi.xmin) * input_img.cols,
+                      (roi.ymax - roi.ymin) * input_img.rows);
     input_data = input_img(rect_roi);
 
-    cv::resize(input_img, input_data, scale);
+    cv::resize(input_data, input_data, scale);
     input_data.convertTo(input_data, CV_32F);
 
     std::vector<cv::Mat> channels(3);
