@@ -30,15 +30,9 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatarrayFromImage(cv
     int channels = input_image.channels();
     int imgHeight = input_image.rows;
     int imgWidth = input_image.cols;
-    int idx = 0;
-    for (int row = 0; row < imgHeight; ++row) {
-        for (int col = 0; col < imgWidth; ++col) {
-            cv::Vec3f pixel = input_image.at<cv::Vec3f>(row, col);
-            t_array[idx++] = pixel[0];
-            t_array[idx++] = pixel[1];
-            t_array[idx++] = pixel[2];
-        }
-    }
+
+    std::memcpy(t_array, input_image.data, channels * imgHeight * imgWidth * sizeof(float));
+    
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
