@@ -1,4 +1,4 @@
-#include "../inc/face_detection_feature_opencv.h"
+#include "face_detection_feature_opencv.h"
 
 using namespace ZeticMLange;
 

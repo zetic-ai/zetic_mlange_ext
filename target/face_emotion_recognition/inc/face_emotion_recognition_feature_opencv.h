@@ -5,10 +5,10 @@
 #include "data/box.h"
 
 namespace ZeticMLange {
-    class FaceEmotionRecognition {
+    class FaceEmotionRecognitionFeature {
     public:
-        FaceEmotionRecognition();
-        ~FaceEmotionRecognition();
+        FaceEmotionRecognitionFeature();
+        ~FaceEmotionRecognitionFeature();
 
         Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, const Box& roi, cv::Mat& input_data);
         Zetic_MLange_Feature_Result_t postprocess(uint8_t** output_data, std::pair<float, std::string>& result);

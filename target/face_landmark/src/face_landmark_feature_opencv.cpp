@@ -1,4 +1,4 @@
-#include "../inc/face_landmark_feature_opencv.h"
+#include "face_landmark_feature_opencv.h"
 #include "nn_utils.h"
 
 using namespace ZeticMLange;

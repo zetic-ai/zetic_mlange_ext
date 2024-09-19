@@ -2,16 +2,16 @@
 
 using namespace ZeticMLange;
 
-FaceEmotionRecognition::FaceEmotionRecognition() {
+FaceEmotionRecognitionFeature::FaceEmotionRecognitionFeature() {
 
 }
 
-FaceEmotionRecognition::~FaceEmotionRecognition() {
+FaceEmotionRecognitionFeature::~FaceEmotionRecognitionFeature() {
 
 }
 
 Zetic_MLange_Feature_Result_t
-FaceEmotionRecognition::preprocess(const cv::Mat &input_img,
+FaceEmotionRecognitionFeature::preprocess(const cv::Mat &input_img,
                                                 const Box &roi,
                                                 cv::Mat &input_data) {
     if (input_img.empty())
@@ -34,7 +34,7 @@ FaceEmotionRecognition::preprocess(const cv::Mat &input_img,
 }
 
 Zetic_MLange_Feature_Result_t
-FaceEmotionRecognition::postprocess(uint8_t **output_data,
+FaceEmotionRecognitionFeature::postprocess(uint8_t **output_data,
                                                  std::pair<float, std::string> &result) {
     float *output = reinterpret_cast<float *>(output_data[0]);
     int argmax = std::distance(output, std::max_element(output, output + 7));
