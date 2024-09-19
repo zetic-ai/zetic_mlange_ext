@@ -1,15 +1,15 @@
-#include "face_landmark_feature_opencv.h"
-#include "utils.h"
+#include "../inc/face_landmark_feature_opencv.h"
+#include "nn_utils.h"
 
 using namespace ZeticMLange;
 
-ZeticMLangeFaceLandmarkFeature::ZeticMLangeFaceLandmarkFeature() = default;
+FaceLandmarkFeature::FaceLandmarkFeature() = default;
 
-ZeticMLangeFaceLandmarkFeature::~ZeticMLangeFaceLandmarkFeature() = default;
+FaceLandmarkFeature::~FaceLandmarkFeature() = default;
 
 Zetic_MLange_Feature_Result_t
-ZeticMLangeFaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &roi,
-                                           cv::Mat &input_data) {
+FaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &roi,
+                                cv::Mat &input_data) {
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
@@ -24,8 +24,8 @@ ZeticMLangeFaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeFaceLandmarkFeature::postprocess(uchar **output_data,
-                                                                          FaceLandmarkResult &face_landmark_result) {
+Zetic_MLange_Feature_Result_t FaceLandmarkFeature::postprocess(uchar **output_data,
+                                                               FaceLandmarkResult &face_landmark_result) {
     float *raw_landmarks = reinterpret_cast<float *>(output_data[1]);
     float *raw_confidence = reinterpret_cast<float *>(output_data[0]);
 

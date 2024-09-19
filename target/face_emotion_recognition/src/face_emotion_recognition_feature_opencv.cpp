@@ -1,17 +1,19 @@
 #include "face_emotion_recognition_feature_opencv.h"
 
-ZeticMLange::ZeticMLangeFaceEmotionRecognition::ZeticMLangeFaceEmotionRecognition() {
+using namespace ZeticMLange;
+
+FaceEmotionRecognition::FaceEmotionRecognition() {
 
 }
 
-ZeticMLange::ZeticMLangeFaceEmotionRecognition::~ZeticMLangeFaceEmotionRecognition() {
+FaceEmotionRecognition::~FaceEmotionRecognition() {
 
 }
 
 Zetic_MLange_Feature_Result_t
-ZeticMLange::ZeticMLangeFaceEmotionRecognition::preprocess(const cv::Mat &input_img,
-                                                           const Box &roi,
-                                                           cv::Mat &input_data) {
+FaceEmotionRecognition::preprocess(const cv::Mat &input_img,
+                                                const Box &roi,
+                                                cv::Mat &input_data) {
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
@@ -32,8 +34,8 @@ ZeticMLange::ZeticMLangeFaceEmotionRecognition::preprocess(const cv::Mat &input_
 }
 
 Zetic_MLange_Feature_Result_t
-ZeticMLange::ZeticMLangeFaceEmotionRecognition::postprocess(uint8_t **output_data,
-                                                            std::pair<float, std::string> &result) {
+FaceEmotionRecognition::postprocess(uint8_t **output_data,
+                                                 std::pair<float, std::string> &result) {
     float *output = reinterpret_cast<float *>(output_data[0]);
     int argmax = std::distance(output, std::max_element(output, output + 7));
 

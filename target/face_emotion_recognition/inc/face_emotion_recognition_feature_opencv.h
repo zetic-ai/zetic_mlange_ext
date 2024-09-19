@@ -2,13 +2,13 @@
 
 #include "feature_opencv.h"
 #include "zetic_feature_types.h"
-#include "box.h"
+#include "data/box.h"
 
 namespace ZeticMLange {
-    class ZeticMLangeFaceEmotionRecognition {
+    class FaceEmotionRecognition {
     public:
-        ZeticMLangeFaceEmotionRecognition();
-        ~ZeticMLangeFaceEmotionRecognition();
+        FaceEmotionRecognition();
+        ~FaceEmotionRecognition();
 
         Zetic_MLange_Feature_Result_t preprocess(const cv::Mat& input_img, const Box& roi, cv::Mat& input_data);
         Zetic_MLange_Feature_Result_t postprocess(uint8_t** output_data, std::pair<float, std::string>& result);
