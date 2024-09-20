@@ -26,6 +26,7 @@ namespace ZeticMLange {
         Zetic_MLange_Feature_Result_t weightedNonMaximumSuppression(const std::vector<std::pair<int, float>>& indexed_scores, const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
 
         std::vector<float> anchors;
+        // resolution of input image of model
         cv::Size scale = cv::Size(128, 128);
 
         const int RAW_SCORE_LIMIT = 80;
