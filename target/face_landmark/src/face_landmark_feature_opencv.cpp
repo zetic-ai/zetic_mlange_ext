@@ -26,8 +26,8 @@ FaceLandmarkFeature::preprocess(const cv::Mat &input_img, const Box &roi,
 
 Zetic_MLange_Feature_Result_t FaceLandmarkFeature::postprocess(uchar **output_data,
                                                                FaceLandmarkResult &face_landmark_result) {
-    float *raw_landmarks = reinterpret_cast<float *>(output_data[1]);
-    float *raw_confidence = reinterpret_cast<float *>(output_data[0]);
+    float *raw_landmarks = reinterpret_cast<float *>(output_data[FACE_LANDMARK_FEATURE_RAW_LANDMARK_OUTPUT_IDX]);
+    float *raw_confidence = reinterpret_cast<float *>(output_data[FACE_LANDMARK_FEATURE_RAW_CONFIDENCE_OUTPUT_IDX]);
 
     face_landmark_result.confidence = sigmoid(raw_confidence[0]);
 

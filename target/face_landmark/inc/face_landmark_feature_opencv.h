@@ -9,6 +9,9 @@
 #include <cmath>
 #include <vector>
 
+#define FACE_LANDMARK_FEATURE_RAW_LANDMARK_OUTPUT_IDX 1
+#define FACE_LANDMARK_FEATURE_RAW_CONFIDENCE_OUTPUT_IDX 0
+
 namespace ZeticMLange {
     class FaceLandmarkFeature {
     public:
