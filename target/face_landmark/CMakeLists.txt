@@ -19,7 +19,7 @@ if(PLATFORM STREQUAL "android")
             m
             android
             log)
-elseif(PLATFORM STREQUAL "ios")
+else()
     target_link_libraries(zetic_mlange_feature_face_landmark
             ${OpenCV_LIBS}
             zetic_mlange_feature_opencv
