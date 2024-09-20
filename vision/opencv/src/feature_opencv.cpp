@@ -26,6 +26,16 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatarrayFromImage(cv::Ma
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
+Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatarrayFromImage(cv::Mat& input_image, float* t_array) {
+    int channels = input_image.channels();
+    int imgHeight = input_image.rows;
+    int imgWidth = input_image.cols;
+
+    std::memcpy(t_array, input_image.data, channels * imgHeight * imgWidth * sizeof(float));
+    
+    return ZETIC_MLANGE_FEATURE_SUCCESS;
+}
+
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getLetterBox(cv::Mat& input_img, std::vector<int> input_img_size, cv::Mat& output_image) {
     if (input_img.channels() == 3) {
         output_image = input_img.clone();

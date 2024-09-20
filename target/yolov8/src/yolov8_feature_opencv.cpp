@@ -89,8 +89,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         rawData = rawData.t();
         float* data = (float*)(rawData.data);
 
-        for (int i = 0; i < strideNum; ++i)
-        {
+        for (int i = 0; i < strideNum; ++i) {
             float* classesScores = data + 4;
             cv::Mat scores(1, this->classes.size(), CV_32FC1, classesScores);
             cv::Point class_id;
@@ -115,6 +114,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             }
             data += signalResultNum;
         }
+
         std::vector<int> nmsResult;
         cv::dnn::NMSBoxes(boxes, confidences, this->dl_params.rectConfidenceThreshold, this->dl_params.iouThreshold, nmsResult);
         for (int i = 0; i < nmsResult.size(); ++i) {
