@@ -42,7 +42,7 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::postprocess(uchar** output_d
 }
 
 Zetic_MLange_Feature_Result_t FaceDetectionFeature::decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes) {
-    int num_boxes = raw_boxes.size() / 16;
+    int num_boxes = (int)raw_boxes.size() / 16;
     int num_points = 8;
 
     boxes.resize(num_boxes);

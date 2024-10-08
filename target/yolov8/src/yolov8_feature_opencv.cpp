@@ -66,7 +66,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         cv::Mat rawData;
         
         // FP32
-        rawData = cv::Mat(1, this->classes.size(), CV_32F, output);
+        rawData = cv::Mat(1, (int)this->classes.size(), CV_32F, output);
         float *data = (float *) rawData.data;
 
         DL_RESULT result;
@@ -91,7 +91,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
 
         for (int i = 0; i < strideNum; ++i) {
             float* classesScores = data + 4;
-            cv::Mat scores(1, this->classes.size(), CV_32FC1, classesScores);
+            cv::Mat scores(1, (int)this->classes.size(), CV_32FC1, classesScores);
             cv::Point class_id;
             double maxClassScore;
             cv::minMaxLoc(scores, 0, &maxClassScore, 0, &class_id);
@@ -155,7 +155,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
         cv::rectangle(
             img,
             cv::Point(re.box.x, re.box.y - 25),
-            cv::Point(re.box.x + label.length() * 15, re.box.y),
+            cv::Point(re.box.x + (int)label.length() * 15, re.box.y),
             color,
             cv::FILLED
         );

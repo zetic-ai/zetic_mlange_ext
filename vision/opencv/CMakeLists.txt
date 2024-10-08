@@ -13,7 +13,7 @@ file(CREATE_LINK
 
 if(PLATFORM STREQUAL ios)
     # Build for (1) XCode - iOS
-    add_library(zetic_mlange_feature_opencv SHARED
+    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
 
     target_include_directories(zetic_mlange_feature_opencv PUBLIC
@@ -33,7 +33,7 @@ if(PLATFORM STREQUAL ios)
 
 elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     # Build for (2) Android Studio - Android
-    add_library(zetic_mlange_feature_opencv SHARED
+    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
 
     target_include_directories(zetic_mlange_feature_opencv PUBLIC
@@ -55,7 +55,7 @@ elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
                             log)
 else()
     # Build for (3) linux, android - Mentat binaries
-    add_library(zetic_mlange_feature_opencv SHARED
+    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
 
     target_include_directories(zetic_mlange_feature_opencv PUBLIC

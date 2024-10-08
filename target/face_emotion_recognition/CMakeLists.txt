@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(zetic_mlange_feature_face_emotion_recognition)
 
-add_library(zetic_mlange_feature_face_emotion_recognition SHARED
+add_library(zetic_mlange_feature_face_emotion_recognition ${LIBRARY_BUILD_TYPE}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/face_emotion_recognition_feature_opencv.cpp
 )
 
