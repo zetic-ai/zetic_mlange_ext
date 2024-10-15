@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(zetic_mlange_feature_face_detection)
 
-add_library(zetic_mlange_feature_face_detection SHARED
+add_library(zetic_mlange_feature_face_detection ${LIBRARY_BUILD_TYPE}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_feature_opencv.cpp
 )
 

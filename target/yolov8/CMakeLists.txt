@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(zetic_mlange_feature_yolov8)
 
-add_library(zetic_mlange_feature_yolov8 SHARED
+add_library(zetic_mlange_feature_yolov8 ${LIBRARY_BUILD_TYPE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/src/yolov8_feature_opencv.cpp)
 
 target_include_directories(zetic_mlange_feature_yolov8 PUBLIC

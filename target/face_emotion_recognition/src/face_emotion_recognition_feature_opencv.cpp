@@ -37,7 +37,7 @@ Zetic_MLange_Feature_Result_t
 FaceEmotionRecognitionFeature::postprocess(uint8_t **output_data,
                                                  std::pair<float, std::string> &result) {
     float *output = reinterpret_cast<float *>(output_data[0]);
-    int argmax = std::distance(output, std::max_element(output, output + 7));
+    int argmax = (int)std::distance(output, std::max_element(output, output + 7));
 
     result = {output[argmax], emotions[argmax]};
     return ZETIC_MLANGE_FEATURE_SUCCESS;

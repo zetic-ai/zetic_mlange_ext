@@ -12,7 +12,7 @@ set(ZETIC_FEATURE_COMMON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 set(ZETIC_FEATURE_COMMON_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/zetic_feature_types.c)
 
-add_library(zetic_feature_common SHARED ${ZETIC_FEATURE_COMMON_SRCS})
+add_library(zetic_feature_common ${LIBRARY_BUILD_TYPE} ${ZETIC_FEATURE_COMMON_SRCS})
 target_include_directories(zetic_feature_common PUBLIC ${ZETIC_FEATURE_COMMON_INCLUDE_DIRS})
 
 if(PLATFORM STREQUAL "android")
