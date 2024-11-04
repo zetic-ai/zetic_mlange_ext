@@ -27,29 +27,7 @@ if(PLATFORM STREQUAL ios)
             ${OPENCV_IOS_INSTALL_PATH}/include/opencv4
     )
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(OPENCV_LIB "${OPENCV_IOS_BUILD_PATH}/lib/Debug/libopencv_world.a")
-        set(ZLIB_LIB "${OPENCV_IOS_BUILD_PATH}/3rdparty/lib/Debug/libzlib.a")
-        message(STATUS "Using Debug libraries")
-    else()
-        set(OPENCV_LIB "${OPENCV_IOS_BUILD_PATH}/lib/Release/libopencv_world.a")
-        set(ZLIB_LIB "${OPENCV_IOS_BUILD_PATH}/3rdparty/lib/Release/libzlib.a")
-        message(STATUS "Using Release libraries")
-    endif()
-
     target_link_libraries(zetic_mlange_feature_opencv PUBLIC
-        "-force_load ${OPENCV_LIB}"
-        "-force_load ${ZLIB_LIB}"
-        "-framework Foundation"
-        "-framework Accelerate"
-        "-framework CoreMedia"
-        "-framework CoreVideo"
-        "-framework CoreGraphics"
-        "-framework AVFoundation"
-        "-framework UIKit"
-        "-framework AssetsLibrary"
-        "-framework CoreImage"
-        "-framework CoreFoundation"
         zetic_feature_common
     )
 
