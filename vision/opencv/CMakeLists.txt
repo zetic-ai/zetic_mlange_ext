@@ -15,21 +15,43 @@ if(PLATFORM STREQUAL ios)
     # Build for (1) XCode - iOS
     add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
-
     target_include_directories(zetic_mlange_feature_opencv PUBLIC
                                 ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+                                
+    set(OPENCV_IOS_INSTALL_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_install")
+    set(OPENCV_IOS_BUILD_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_build")
 
-    set(OPENCV_IOS_BUILD_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios/build/build-arm64-iphoneos")
-    set(OpenCV_DIR "${OPENCV_IOS_BUILD_PATH}/install/lib/cmake/opencv4")
-    find_package(OpenCV REQUIRED opencv_world)
-    include_directories(${OpenCV_INCLUDE_DIRS})
+    include_directories(${OPENCV_IOS_INSTALL_PATH}/include/opencv4)
+    target_include_directories(zetic_mlange_feature_opencv
+        PUBLIC
+            ${OPENCV_IOS_INSTALL_PATH}/include/opencv4
+    )
 
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC ${OpenCV_INCLUDE_DIRS})
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(OPENCV_LIB "${OPENCV_IOS_BUILD_PATH}/lib/Debug/libopencv_world.a")
+        set(ZLIB_LIB "${OPENCV_IOS_BUILD_PATH}/3rdparty/lib/Debug/libzlib.a")
+        message(STATUS "Using Debug libraries")
+    else()
+        set(OPENCV_LIB "${OPENCV_IOS_BUILD_PATH}/lib/Release/libopencv_world.a")
+        set(ZLIB_LIB "${OPENCV_IOS_BUILD_PATH}/3rdparty/lib/Release/libzlib.a")
+        message(STATUS "Using Release libraries")
+    endif()
 
-
-    target_link_libraries(zetic_mlange_feature_opencv
-                            ${OpenCV_LIBS}
-                            zetic_feature_common)
+    target_link_libraries(zetic_mlange_feature_opencv PUBLIC
+        "-force_load ${OPENCV_LIB}"
+        "-force_load ${ZLIB_LIB}"
+        "-framework Foundation"
+        "-framework Accelerate"
+        "-framework CoreMedia"
+        "-framework CoreVideo"
+        "-framework CoreGraphics"
+        "-framework AVFoundation"
+        "-framework UIKit"
+        "-framework AssetsLibrary"
+        "-framework CoreImage"
+        "-framework CoreFoundation"
+        zetic_feature_common
+    )
 
 elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     # Build for (2) Android Studio - Android
