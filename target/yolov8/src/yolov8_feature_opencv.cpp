@@ -97,6 +97,11 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             cv::minMaxLoc(scores, 0, &maxClassScore, 0, &class_id);
             if (maxClassScore > this->dl_params.rectConfidenceThreshold)
             {
+                
+                // Hard-coding only for balls
+//                if (class_id.x != 0)
+//                    continue;
+                
                 confidences.push_back(maxClassScore);
                 class_ids.push_back(class_id.x);
                 float x = data[0];
@@ -141,9 +146,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::resultToImg(cv::Mat& img
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
 
     for (auto& re : res) {
-//        if (re.classId != 32)
-//            continue;
-        
+
         cv::RNG rng(cv::getTickCount());
         // TODO: Currently Hard-coded RGB value to fix the class color
         cv::Scalar color((re.classId + 72) * 1717 % 256, (re.classId + 7) * 33 % 126 + 70, (re.classId + 47) * 107 % 256);
