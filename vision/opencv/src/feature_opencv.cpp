@@ -9,8 +9,8 @@ MLangeFeatureOpenCV::~MLangeFeatureOpenCV(){}
 
 
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatarrayFromImage(cv::Mat& input_image, float* t_array) {
-    float delimeter_for_division = 1.f/255.f;
-    input_image.convertTo(input_image, CV_32F, 1.0 / 255.0);
+    float delimeter_for_division = 1.f / 255.f;
+    input_image.convertTo(input_image, CV_32F, delimeter_for_division);
 
     std::vector<cv::Mat> channels;
     cv::split(input_image, channels);
@@ -39,8 +39,7 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatarrayFromImage(cv
 
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getLetterBox(cv::Mat& input_img, std::vector<int> input_img_size, cv::Mat& output_image) {
     if (input_img.channels() == 3) {
-        output_image = input_img.clone();
-        cv::cvtColor(output_image, output_image, cv::COLOR_BGR2RGB);
+        cv::cvtColor(input_img, output_image, cv::COLOR_BGR2RGB);
     } else {
         cv::cvtColor(input_img, output_image, cv::COLOR_GRAY2RGB);
     }
@@ -52,24 +51,19 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getLetterBox(cv::Mat& input_i
         float resizeScales = input_img.rows / (float)input_img_size.at(0);
         cv::resize(output_image, output_image, cv::Size(input_img_size.at(0), int(input_img.rows / resizeScales)));
     }
-    // Calculate the desired size
+    
     int desired_rows = input_img_size.at(0);
     int desired_cols = input_img_size.at(1);
 
-    // Calculate the amount of padding needed
     int top = 0;
     int left = 0;
     int bottom = desired_rows - output_image.rows;
     int right = desired_cols - output_image.cols;
 
-    // Ensure that padding amounts are non-negative
     if (bottom < 0 || right < 0) {
-        // Handle error: output_image is larger than the desired size
-        // You can choose to resize or crop the image instead
-        return; // or handle appropriately
+        return;
     }
 
-    // Pad the image using copyMakeBorder
     cv::copyMakeBorder(output_image, output_image, top, bottom, left, right, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;
@@ -78,8 +72,7 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getLetterBox(cv::Mat& input_i
 
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getCenterCrop(cv::Mat& input_img, std::vector<int> input_img_size, cv::Mat& output_image) {
     if (input_img.channels() == 3) {
-        output_image = input_img.clone();
-        cv::cvtColor(output_image, output_image, cv::COLOR_BGR2RGB);
+        cv::cvtColor(input_img, output_image, cv::COLOR_BGR2RGB);
     } else {
         cv::cvtColor(input_img, output_image, cv::COLOR_GRAY2RGB);
     }

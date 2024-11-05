@@ -249,4 +249,3 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::readCocoYaml(const char*
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-
