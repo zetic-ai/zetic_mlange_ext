@@ -5,6 +5,8 @@
 #include "feature_opencv.h"
 #include "zetic_feature_types.h"
 
+#define MAX_YOLO_RESULT_COUNT 20
+
 enum YOLO_MODEL_TYPE {
     YOLO_DETECT_V8 = 1,
     YOLO_POSE = 2,
@@ -17,6 +19,15 @@ typedef struct _DL_RESULT {
     cv::Rect box;
     std::vector<cv::Point2f> keyPoints;
 } DL_RESULT;
+
+typedef struct {
+    int32_t classId;
+    float confidence;
+    int32_t x;
+    int32_t y;
+    int32_t width;
+    int32_t height;
+} DLResultC;
 
 typedef struct _DL_PARAM {
     std::vector<int> imgSize = { 640, 640 };

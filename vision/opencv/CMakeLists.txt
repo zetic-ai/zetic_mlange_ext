@@ -15,21 +15,21 @@ if(PLATFORM STREQUAL ios)
     # Build for (1) XCode - iOS
     add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
-
     target_include_directories(zetic_mlange_feature_opencv PUBLIC
                                 ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+                                
+    set(OPENCV_IOS_INSTALL_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_install")
+    set(OPENCV_IOS_BUILD_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_build")
 
-    set(OPENCV_IOS_BUILD_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios/build/build-arm64-iphoneos")
-    set(OpenCV_DIR "${OPENCV_IOS_BUILD_PATH}/install/lib/cmake/opencv4")
-    find_package(OpenCV REQUIRED opencv_world)
-    include_directories(${OpenCV_INCLUDE_DIRS})
+    include_directories(${OPENCV_IOS_INSTALL_PATH}/include/opencv4)
+    target_include_directories(zetic_mlange_feature_opencv
+        PUBLIC
+            ${OPENCV_IOS_INSTALL_PATH}/include/opencv4
+    )
 
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC ${OpenCV_INCLUDE_DIRS})
-
-
-    target_link_libraries(zetic_mlange_feature_opencv
-                            ${OpenCV_LIBS}
-                            zetic_feature_common)
+    target_link_libraries(zetic_mlange_feature_opencv PUBLIC
+        zetic_feature_common
+    )
 
 elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     # Build for (2) Android Studio - Android
