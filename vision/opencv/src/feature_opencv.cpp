@@ -61,7 +61,7 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getLetterBox(cv::Mat& input_i
     int right = desired_cols - output_image.cols;
 
     if (bottom < 0 || right < 0) {
-        return;
+        return ZETIC_MLANGE_FEATURE_FAIL;
     }
 
     cv::copyMakeBorder(output_image, output_image, top, bottom, left, right, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
