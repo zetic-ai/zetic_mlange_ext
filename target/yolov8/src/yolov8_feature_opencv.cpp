@@ -37,10 +37,11 @@ ZeticMLangeYoloV8Feature::~ZeticMLangeYoloV8Feature() {
 }
 
 // TODO: We assign delete responsibility to user, possible hazard.
-Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getFloatArrayFromImage(cv::Mat& input_img, float* blob) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getByteArrayFromImage(cv::Mat &input_img,
+                                                                              int8_t *blob) {
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     
-    ret = this->mlange_feature_opencv->getFloatarrayFromImage(input_img, blob);
+    ret = this->mlange_feature_opencv->getByteArrayFromImage(input_img, blob);
     if (ret != ZETIC_MLANGE_FEATURE_SUCCESS) {
         ERRLOG("Failed to get float array from image!");
         return ret;
@@ -84,7 +85,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
         
-        cv::Mat rawData = cv::Mat(signalResultNum, strideNum, CV_32F, output);
+        cv::Mat rawData = cv::Mat(signalResultNum, strideNum, CV_8SC4, output);
 
         rawData = rawData.t();
         float* data = (float*)(rawData.data);
