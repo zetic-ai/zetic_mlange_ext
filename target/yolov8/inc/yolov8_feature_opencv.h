@@ -41,7 +41,7 @@ public:
     ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const char* coco_file_path);
     ~ZeticMLangeYoloV8Feature();
 
-    Zetic_MLange_Feature_Result_t getFloatArrayFromImage(cv::Mat& input_img, float* blob);
+    Zetic_MLange_Feature_Result_t getByteArrayFromImage(cv::Mat& input_img, int8_t* blob);
     Zetic_MLange_Feature_Result_t preprocess(cv::Mat& input_img, cv::Mat& output_image);
     Zetic_MLange_Feature_Result_t postprocess(std::vector<DL_RESULT>& output_dl_result, void* output);
 

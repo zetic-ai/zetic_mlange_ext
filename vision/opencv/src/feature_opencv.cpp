@@ -27,6 +27,26 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatarrayFromImage(cv::Ma
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
+Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getByteArrayFromImage(cv::Mat& input_image, int8_t* t_array) {
+    float delimeter_for_division = 1.f / 255.f;
+    input_image.convertTo(input_image, CV_32F, delimeter_for_division);
+
+    std::vector<cv::Mat> channel_image;
+    cv::split(input_image, channel_image);
+
+    int height = input_image.rows;
+    int width = input_image.cols;
+    int channels = input_image.channels();
+
+    size_t offset = 0;
+    for (int c = 0; c < channels; ++c) {
+        std::memcpy(t_array + offset, (int8_t*)channel_image[c].data, height * width * sizeof(float));
+        offset += height * width * sizeof(float);
+    }
+
+    return ZETIC_MLANGE_FEATURE_SUCCESS;
+}
+
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatarrayFromImage(cv::Mat& input_image, float* t_array) {
     int channels = input_image.channels();
     int imgHeight = input_image.rows;
