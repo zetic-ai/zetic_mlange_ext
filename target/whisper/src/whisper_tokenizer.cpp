@@ -3,7 +3,7 @@
 std::string WhisperTokenizer::decode(const std::vector<int> &ids, bool skip_special_tokens) {
     std::vector<std::string> textPieces;
 
-    for (int id : ids) {
+    for (int id: ids) {
         if (skip_special_tokens && special_tokens.find(id) != special_tokens.end()) {
             continue;
         }
@@ -22,7 +22,7 @@ std::string WhisperTokenizer::decode(const std::vector<int> &ids, bool skip_spec
 std::string WhisperTokenizer::mergeTokens(const std::vector<std::string> &tokens) {
     std::string result;
 
-    for (const auto &token : tokens) {
+    for (const auto &token: tokens) {
         if (token == "Ġ") {
             result += " ";
         } else {
@@ -54,10 +54,15 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
     }
 
     while (true) {
-        size_t keyStart = content.find(",\"", pos + 1) + 1;
+        size_t keyStart = content.find('\"', pos + 1);
         if (keyStart == std::string::npos) break;
 
-        size_t keyEnd = content.find("\":", keyStart + 1);
+        size_t keyEnd = content.find('\"', keyStart + 1);
+        while (content[keyEnd - 1] == '\\') {
+            if (content[keyEnd - 2] == '\\')
+                break;
+            keyEnd = content.find('\"', keyEnd + 1);
+        }
         if (keyEnd == std::string::npos) break;
 
         std::string key = content.substr(keyStart + 1, keyEnd - keyStart - 1);
@@ -112,7 +117,7 @@ std::map<uint8_t, std::string> WhisperTokenizer::bytesToUnicode() {
     uint32_t n = 0;
     for (uint16_t b = 0; b < 256; ++b) {
         bool found = false;
-        for (uint8_t existing : bs) {
+        for (uint8_t existing: bs) {
             if (b == existing) {
                 found = true;
                 break;
@@ -192,9 +197,6 @@ std::string WhisperTokenizer::decodeText(const std::string &text) {
     result.reserve(bytes.size());
 
     std::string utf8String(bytes.begin(), bytes.end());
-
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    std::wstring wideString = converter.from_bytes(utf8String);
 
     return utf8String;
 }
