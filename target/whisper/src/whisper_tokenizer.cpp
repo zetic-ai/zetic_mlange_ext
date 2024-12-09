@@ -1,8 +1,16 @@
 #include "whisper_tokenizer.h"
 #include "dbg_util.h"
 
+WhisperTokenizer::WhisperTokenizer(const std::string& vocabulary_path) {
+    loadVocabulary(vocabulary_path);
+    byte_encoder = bytesToUnicode();
+    for (const auto& pair : byte_encoder) {
+        byte_decoder[pair.second] = pair.first;
+    }
+}
+
 std::string WhisperTokenizer::decode(const std::vector<int> &ids, bool skip_special_tokens) {
-    std::vector<std::string> textPieces;
+    std::vector<std::string> text_pieces;
 
     for (int id: ids) {
         if (skip_special_tokens && special_tokens.find(id) != special_tokens.end()) {
@@ -11,11 +19,11 @@ std::string WhisperTokenizer::decode(const std::vector<int> &ids, bool skip_spec
 
         auto it = vocabulary.find(id);
         if (it != vocabulary.end()) {
-            textPieces.push_back(it->second);
+            text_pieces.push_back(it->second);
         }
     }
 
-    std::string result = mergeTokens(textPieces);
+    std::string result = mergeTokens(text_pieces);
 
     return decodeText(result);
 }
@@ -38,11 +46,11 @@ std::string WhisperTokenizer::mergeTokens(const std::vector<std::string> &tokens
     return result.substr(start, end - start + 1);
 }
 
-std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std::string &filepath) {
-    std::ifstream file(filepath);
+std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std::string &file_path) {
+    std::ifstream file(file_path);
 
     if (!file.is_open()) {
-        ERRLOG("Unable to open file: %s", filepath);
+        ERRLOG("Unable to open file: %s", file_path.c_str());
         return std::unordered_map<int, std::string>();
     }
 
@@ -57,40 +65,40 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
     }
 
     while (true) {
-        size_t keyStart = content.find('\"', pos + 1);
-        if (keyStart == std::string::npos) break;
+        size_t key_start = content.find('\"', pos + 1);
+        if (key_start == std::string::npos) break;
 
-        size_t keyEnd = content.find('\"', keyStart + 1);
-        while (content[keyEnd - 1] == '\\') {
-            if (content[keyEnd - 2] == '\\')
+        size_t key_end = content.find('\"', key_start + 1);
+        while (content[key_end - 1] == '\\') {
+            if (content[key_end - 2] == '\\')
                 break;
-            keyEnd = content.find('\"', keyEnd + 1);
+            key_end = content.find('\"', key_end + 1);
         }
-        if (keyEnd == std::string::npos) break;
+        if (key_end == std::string::npos) break;
 
-        std::string key = content.substr(keyStart + 1, keyEnd - keyStart - 1);
+        std::string key = content.substr(key_start + 1, key_end - key_start - 1);
 
-        size_t colon = content.find(':', keyEnd + 1);
+        size_t colon = content.find(':', key_end + 1);
         if (colon == std::string::npos) break;
 
-        size_t valueEnd = content.find_first_of(",}", colon + 1);
-        if (valueEnd == std::string::npos) break;
+        size_t value_end = content.find_first_of(",}", colon + 1);
+        if (value_end == std::string::npos) break;
 
-        std::string valueStr = content.substr(colon + 1, valueEnd - colon - 1);
-        valueStr.erase(0, valueStr.find_first_not_of(" \n\r\t"));
-        valueStr.erase(valueStr.find_last_not_of(" \n\r\t") + 1);
+        std::string value_str = content.substr(colon + 1, value_end - colon - 1);
+        value_str.erase(0, value_str.find_first_not_of(" \n\r\t"));
+        value_str.erase(value_str.find_last_not_of(" \n\r\t") + 1);
 
         try {
-            int value = std::stoi(valueStr);
+            int value = std::stoi(value_str);
             vocabulary[value] = key;
         }
         catch (const std::exception &e) {
-            ERRLOG("Invalid number format in JSON: %s", valueStr);
+            ERRLOG("Invalid number format in JSON: %s", value_str.c_str());
             return std::unordered_map<int, std::string>();
         }
 
-        pos = valueEnd;
-        if (content[valueEnd] == '}') break;
+        pos = value_end;
+        if (content[value_end] == '}') break;
     }
 
     if (vocabulary.empty()) {
@@ -206,7 +214,7 @@ std::string WhisperTokenizer::decodeText(const std::string &text) {
     std::string result;
     result.reserve(bytes.size());
 
-    std::string utf8String(bytes.begin(), bytes.end());
+    std::string utf8_str(bytes.begin(), bytes.end());
 
-    return utf8String;
+    return utf8_str;
 }

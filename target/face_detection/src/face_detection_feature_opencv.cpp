@@ -4,7 +4,7 @@ using namespace ZeticMLange;
 
 FaceDetectionFeature::FaceDetectionFeature() {
     mlange_feature_opencv = new MLangeFeatureOpenCV();
-    ssd_generate_anchors();
+    ssdGenerateAnchors();
 }
 
 FaceDetectionFeature::~FaceDetectionFeature() {
@@ -67,10 +67,10 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::decodeBoxes(const std::vecto
         float half_size_x = points[1][0] / 2;
         float half_size_y = points[1][1] / 2;
 
-        boxes[i].xmin = center_x - half_size_x;
-        boxes[i].ymin = center_y - half_size_y;
-        boxes[i].xmax = center_x + half_size_x;
-        boxes[i].ymax = center_y + half_size_y;
+        boxes[i].x_min = center_x - half_size_x;
+        boxes[i].y_min = center_y - half_size_y;
+        boxes[i].x_max = center_x + half_size_x;
+        boxes[i].y_max = center_y + half_size_y;
     }
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;
@@ -100,7 +100,7 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::convertToDetections(const st
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t FaceDetectionFeature::ssd_generate_anchors() {
+Zetic_MLange_Feature_Result_t FaceDetectionFeature::ssdGenerateAnchors() {
     int layer_id = 0;
     int num_layers = 4;
     const std::vector<int>& strides = {8, 16, 16, 16};
@@ -183,14 +183,14 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::weightedNonMaximumSuppressio
             break;
 
         size_t num_prev_indexed_scores = remaining_indexed_scores.size();
-        Box detection_bbox = detection.bbox;
+        Box detection_bbox = detection.bounding_box;
 
         remaining.clear();
         candidates.clear();
         FaceDetectionResult weighted_detection = detection;
 
         for (const auto& pair : remaining_indexed_scores) {
-            Box remaining_bbox = detections[pair.first].bbox;
+            Box remaining_bbox = detections[pair.first].bounding_box;
             float similarity = remaining_bbox.overlapSimilarity(detection_bbox);
             if (similarity > MIN_SUPPRESSION_THRESHOLD) {
                 candidates.emplace_back(pair.first, pair.second);
@@ -206,14 +206,14 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::weightedNonMaximumSuppressio
             for (const auto& pair : candidates) {
                 total_score += pair.second;
 
-                weighted = detections[pair.first].bbox * pair.second;
+                weighted = detections[pair.first].bounding_box * pair.second;
             }
 
             weighted /= total_score;
 
             weighted_detection = FaceDetectionResult { weighted, detection.score };
         }
-        weighted_detection = FaceDetectionResult { detections[candidates[0].first].bbox, candidates[0].second };
+        weighted_detection = FaceDetectionResult { detections[candidates[0].first].bounding_box, candidates[0].second };
 
         detections_result.push_back(weighted_detection);
 

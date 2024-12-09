@@ -17,9 +17,9 @@ FaceEmotionRecognitionFeature::preprocess(const cv::Mat &input_img,
     if (input_img.empty())
         return ZETIC_MLANGE_FEATURE_FAIL;
 
-    cv::Rect rect_roi(roi.xmin * input_img.cols, roi.ymin * input_img.rows,
-                      (roi.xmax - roi.xmin) * input_img.cols,
-                      (roi.ymax - roi.ymin) * input_img.rows);
+    cv::Rect rect_roi(roi.x_min * input_img.cols, roi.y_min * input_img.rows,
+                      (roi.x_max - roi.x_min) * input_img.cols,
+                      (roi.y_max - roi.y_min) * input_img.rows);
     input_data = input_img(rect_roi);
 
     cv::resize(input_data, input_data, scale);

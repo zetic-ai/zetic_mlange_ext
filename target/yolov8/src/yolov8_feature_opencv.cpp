@@ -23,9 +23,9 @@ ZeticMLangeYoloV8Feature::ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_ty
         
     } else {
         DL_PARAM params;
-        params.rectConfidenceThreshold = 0.5;
-        params.iouThreshold = 0.5;
-        params.imgSize = { 640, 640 };
+        params.rect_confidence_threshold = 0.5;
+        params.iou_threshold = 0.5;
+        params.img_size = { 640, 640 };
         this->dl_params = params;
     }
 
@@ -51,11 +51,11 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getByteArrayFromImage(cv
 }
 
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
-     std::vector<int> input_img_size = this->dl_params.imgSize;
+     std::vector<int> input_img_size = this->dl_params.img_size;
     
     if (this->yolo_model_type != YOLO_CLS) {
-        xResizeScale = input_img.cols / (float)input_img_size.at(0);
-        yResizeScale = input_img.rows / (float)input_img_size.at(1);
+        x_resize_scale = input_img.cols / (float)input_img_size.at(0);
+        y_resize_scale = input_img.rows / (float)input_img_size.at(1);
         return this->mlange_feature_opencv->getLetterBox(input_img, input_img_size, output_image);
     } else {
         return this->mlange_feature_opencv->getCenterCrop(input_img, input_img_size, output_image);
@@ -64,69 +64,64 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& inpu
 
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result, void* output) {
     if (this->yolo_model_type == YOLO_CLS) {
-        cv::Mat rawData;
+        cv::Mat raw_data;
         
         // FP32
-        rawData = cv::Mat(1, (int)this->classes.size(), CV_32F, output);
-        float *data = (float *) rawData.data;
+        raw_data = cv::Mat(1, (int)this->classes.size(), CV_32F, output);
+        float *data = (float *) raw_data.data;
 
         DL_RESULT result;
         for (int i = 0; i < this->classes.size(); i++) {
-            result.classId = i;
+            result.class_id = i;
             result.confidence = data[i];
             output_dl_result.push_back(result);
         }
     } else {
         // Hard-coded output dimensions
-        int strideNum = YOLO8_OUTPUT_DIM1; //outputNodeDims[1];//8400
-        int signalResultNum = YOLO8_OUTPUT_DIM2; //outputNodeDims[2];//84
+        int stride_num = YOLO8_OUTPUT_DIM1; //outputNodeDims[1];//8400
+        int signal_result_num = YOLO8_OUTPUT_DIM2; //outputNodeDims[2];//84
 
         std::vector<int> class_ids;
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
         
-        cv::Mat rawData = cv::Mat(signalResultNum, strideNum, CV_8SC4, output);
+        cv::Mat raw_data = cv::Mat(signal_result_num, stride_num, CV_8SC4, output);
 
-        rawData = rawData.t();
-        float* data = (float*)(rawData.data);
+        raw_data = raw_data.t();
+        float* data = (float*)(raw_data.data);
 
-        for (int i = 0; i < strideNum; ++i) {
-            float* classesScores = data + 4;
-            cv::Mat scores(1, (int)this->classes.size(), CV_32FC1, classesScores);
+        for (int i = 0; i < stride_num; ++i) {
+            float* classes_scores = data + 4;
+            cv::Mat scores(1, (int)this->classes.size(), CV_32FC1, classes_scores);
             cv::Point class_id;
-            double maxClassScore;
-            cv::minMaxLoc(scores, 0, &maxClassScore, 0, &class_id);
-            if (maxClassScore > this->dl_params.rectConfidenceThreshold)
+            double max_class_score;
+            cv::minMaxLoc(scores, 0, &max_class_score, 0, &class_id);
+            if (max_class_score > this->dl_params.rect_confidence_threshold)
             {
-                
-                // Hard-coding only for balls
-//                if (class_id.x != 0)
-//                    continue;
-                
-                confidences.push_back(maxClassScore);
+                confidences.push_back(max_class_score);
                 class_ids.push_back(class_id.x);
                 float x = data[0];
                 float y = data[1];
                 float w = data[2];
                 float h = data[3];
 
-                int left = int((x - 0.5 * w) * xResizeScale);
-                int top = int((y - 0.5 * h) * yResizeScale);
+                int left = int((x - 0.5 * w) * x_resize_scale);
+                int top = int((y - 0.5 * h) * y_resize_scale);
 
-                int width = int(w * xResizeScale);
-                int height = int(h * yResizeScale);
+                int width = int(w * x_resize_scale);
+                int height = int(h * y_resize_scale);
 
                 boxes.push_back(cv::Rect(left, top, width, height));
             }
-            data += signalResultNum;
+            data += signal_result_num;
         }
 
-        std::vector<int> nmsResult;
-        cv::dnn::NMSBoxes(boxes, confidences, this->dl_params.rectConfidenceThreshold, this->dl_params.iouThreshold, nmsResult);
-        for (int i = 0; i < nmsResult.size(); ++i) {
-            int idx = nmsResult[i];
+        std::vector<int> nms_result;
+        cv::dnn::NMSBoxes(boxes, confidences, this->dl_params.rect_confidence_threshold, this->dl_params.iou_threshold, nms_result);
+        for (int i = 0; i < nms_result.size(); ++i) {
+            int idx = nms_result[i];
             DL_RESULT result;
-            result.classId = class_ids[idx];
+            result.class_id = class_ids[idx];
             result.confidence = confidences[idx];
             result.box = boxes[idx];
             output_dl_result.push_back(result);
@@ -150,13 +145,13 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
 
         cv::RNG rng(cv::getTickCount());
         // TODO: Currently Hard-coded RGB value to fix the class color
-        cv::Scalar color((re.classId + 72) * 1717 % 256, (re.classId + 7) * 33 % 126 + 70, (re.classId + 47) * 107 % 256);
+        cv::Scalar color((re.class_id + 72) * 1717 % 256, (re.class_id + 7) * 33 % 126 + 70, (re.class_id + 47) * 107 % 256);
 
         cv::rectangle(img, re.box, color, 5);
 
         float confidence = re.confidence;
         std::cout << std::fixed << std::setprecision(2);
-        std::string label = this->classes[re.classId] + " " +
+        std::string label = this->classes[re.class_id] + " " +
             std::to_string(confidence).substr(0, std::to_string(confidence).size() - 4);
 
         cv::rectangle(

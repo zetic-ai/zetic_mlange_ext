@@ -1,80 +1,115 @@
 #include "whisper_processor.h"
 #include "dbg_util.h"
 
-std::vector<std::vector<float>>
-WhisperProcessor::melFilterBank(int numFrequencyBins, int numMelFilters, float minFrequency,
-                                float maxFrequency, int samplingRate, const std::string &norm,
-                                const std::string &melScale, bool triangularizeInMelSpace) {
+WhisperProcessor::WhisperProcessor(int n_fft, int hop_length) : n_fft(n_fft), hop_length(hop_length),
+    mel_filters(melFilterBank(
+            1 + 400 / 2,  // num_frequency_bins
+            80,           // num_mel_filters
+            0.0f,        // min_frequency
+            8000.0f,     // max_frequency
+            16000,       // sampling_rate
+            "slaney",    // norm
+            "slaney"     // mel_scale
+    )),
+    hann_window(n_fft),
+    dft_coefficients_real(n_fft, std::vector<float>(n_fft)),
+    dft_coefficients_imag(n_fft, std::vector<float>(n_fft))
+{
+    // Initialize Hann window
+    for (int i = 0; i < n_fft; i++) {
+        hann_window[i] = 0.5f * (1.0f - std::cos(2.0f * M_PI * i / n_fft));
+    }
+    // Initialize DFT coefficients
+    for (int k = 0; k < n_fft; k++) {
+        for (int t = 0; t < n_fft; t++) {
+            double angle = -2.0 * M_PI * k * t / n_fft;
+            dft_coefficients_real[k][t] = static_cast<float>(std::cos(angle));
+            dft_coefficients_imag[k][t] = static_cast<float>(std::sin(angle));
+        }
+    }
+}
+
+std::vector<float> WhisperProcessor::process(const std::vector<float>& audio_input) {
+    // Pad and reflect the input
+    auto padded_input = reflectPad(pad(audio_input));
+    // Compute Short-Time Fourier Transform
+    auto stft = computeSTFT(padded_input);
+    // Compute magnitude spectrograms
+    auto magnitudes = computeMagnitudes(stft);
+    // Apply mel filterbank
+    auto mel_spec = applyMelFilterbank(magnitudes);
+    // Normalize and take log
+    return normalizeLogMel(mel_spec);
+}
+
+std::vector<std::vector<float>> WhisperProcessor::melFilterBank(int num_frequency_bins, int num_mel_filters, float min_frequency,
+                                float max_frequency, int sampling_rate, const std::string &norm,
+                                const std::string &mel_scale, bool triangularize_in_mel_space) {
     if (!norm.empty() && norm != "slaney") {
         ERRLOG("norm must be empty or \"slaney\"");
         return std::vector<std::vector<float>>();
     }
 
     // Center points of the triangular mel filters
-    float melMin = hertzToMel(minFrequency, melScale);
-    float melMax = hertzToMel(maxFrequency, melScale);
+    float mel_min = hertzToMel(min_frequency, mel_scale);
+    float mel_max = hertzToMel(max_frequency, mel_scale);
 
-    std::vector<float> melFreqs(numMelFilters + 2);
-    for (int i = 0; i < numMelFilters + 2; i++) {
-        melFreqs[i] = melMin + (melMax - melMin) * i / (numMelFilters + 1);
+    std::vector<float> mel_freqs(num_mel_filters + 2);
+    for (int i = 0; i < num_mel_filters + 2; i++) {
+        mel_freqs[i] = mel_min + (mel_max - mel_min) * i / (num_mel_filters + 1);
     }
 
-    std::vector<float> filterFreqs(numMelFilters + 2);
-    for (int i = 0; i < melFreqs.size(); i++) {
-        filterFreqs[i] = melToHertz(melFreqs[i], melScale);
+    std::vector<float> filter_freqs(num_mel_filters + 2);
+    for (int i = 0; i < mel_freqs.size(); i++) {
+        filter_freqs[i] = melToHertz(mel_freqs[i], mel_scale);
     }
 
-    std::vector<float> fftFreqs(numFrequencyBins);
-    if (triangularizeInMelSpace) {
-        float fftBinWidth = static_cast<float>(samplingRate) / (numFrequencyBins * 2);
-        for (int i = 0; i < numFrequencyBins; i++) {
-            fftFreqs[i] = hertzToMel(fftBinWidth * i, melScale);
+    std::vector<float> fft_freqs(num_frequency_bins);
+    if (triangularize_in_mel_space) {
+        float fft_bin_width = static_cast<float>(sampling_rate) / (num_frequency_bins * 2);
+        for (int i = 0; i < num_frequency_bins; i++) {
+            fft_freqs[i] = hertzToMel(fft_bin_width * i, mel_scale);
         }
     } else {
-        for (int i = 0; i < numFrequencyBins; i++) {
-            fftFreqs[i] = (static_cast<float>(samplingRate) / 2) * i / (numFrequencyBins - 1);
+        for (int i = 0; i < num_frequency_bins; i++) {
+            fft_freqs[i] = (static_cast<float>(sampling_rate) / 2) * i / (num_frequency_bins - 1);
         }
     }
 
-    auto melFilters = createTriangularFilterBank(fftFreqs, filterFreqs, numMelFilters);
+    auto mel_filters = createTriangularFilterBank(fft_freqs, filter_freqs, num_mel_filters);
 
-    for (int i = 0; i < numMelFilters; i++) {
-        float enorm = 2.0f / (filterFreqs[i + 2] - filterFreqs[i]);
-        for (float &value: melFilters[i]) {
+    for (int i = 0; i < num_mel_filters; i++) {
+        float enorm = 2.0f / (filter_freqs[i + 2] - filter_freqs[i]);
+        for (float &value: mel_filters[i]) {
             value *= enorm;
         }
     }
 
     // Check for zero filters
-    bool hasZeroFilter = false;
-    for (const auto &filter: melFilters) {
-        bool allZero = true;
+    bool has_zero_filter = false;
+    for (const auto &filter: mel_filters) {
+        bool all_zero = true;
         for (float value: filter) {
             if (value != 0.0f) {
-                allZero = false;
+                all_zero = false;
                 break;
             }
         }
-        if (allZero) {
-            hasZeroFilter = true;
+        if (all_zero) {
+            has_zero_filter = true;
             break;
         }
     }
 
-    if (hasZeroFilter) {
-        std::cout << "Warning: At least one mel filter has all zero values. "
-                  << "The value for numMelFilters (" << numMelFilters
-                  << ") may be set too high. "
-                  << "Or, the value for numFrequencyBins (" << numFrequencyBins
-                  << ") may be set too low."
-                  << std::endl;
+    if (has_zero_filter) {
+        DBGLOG("Warning: At least one mel filter has all zero values. The value for num_mel_filters (%d) may be set too high. Or, the value for num_frequency_bins (%d) may be set too low.", num_mel_filters, num_frequency_bins);
     }
 
-    return melFilters;
+    return mel_filters;
 }
 
-float WhisperProcessor::hertzToMel(float hz, const std::string &melScale) {
-    if (melScale == "slaney") {
+float WhisperProcessor::hertzToMel(float hz, const std::string &mel_scale) {
+    if (mel_scale == "slaney") {
         const float f_min = 0.0f;
         const float f_sp = 200.0f / 3.0f;
         const float min_log_hz = 1000.0f;
@@ -91,8 +126,8 @@ float WhisperProcessor::hertzToMel(float hz, const std::string &melScale) {
     }
 }
 
-float WhisperProcessor::melToHertz(float mel, const std::string &melScale) {
-    if (melScale == "slaney") {
+float WhisperProcessor::melToHertz(float mel, const std::string &mel_scale) {
+    if (mel_scale == "slaney") {
         const float f_min = 0.0f;
         const float f_sp = 200.0f / 3.0f;
         const float min_log_hz = 1000.0f;
@@ -109,33 +144,32 @@ float WhisperProcessor::melToHertz(float mel, const std::string &melScale) {
     }
 }
 
-std::vector<std::vector<float>>
-WhisperProcessor::createTriangularFilterBank(const std::vector<float> &fftFreqs,
-                                             const std::vector<float> &filterFreqs,
-                                             int numMelFilters) {
-    std::vector<std::vector<float>> melFilters(
-            numMelFilters,
-            std::vector<float>(fftFreqs.size(), 0.0f)
+std::vector<std::vector<float>> WhisperProcessor::createTriangularFilterBank(const std::vector<float> &fft_freqs,
+                                             const std::vector<float> &filter_freqs,
+                                             int num_mel_filters) {
+    std::vector<std::vector<float>> mel_filters(
+            num_mel_filters,
+            std::vector<float>(fft_freqs.size(), 0.0f)
     );
 
-    for (int i = 0; i < numMelFilters; i++) {
-        float left = filterFreqs[i];
-        float center = filterFreqs[i + 1];
-        float right = filterFreqs[i + 2];
+    for (int i = 0; i < num_mel_filters; i++) {
+        float left = filter_freqs[i];
+        float center = filter_freqs[i + 1];
+        float right = filter_freqs[i + 2];
 
-        for (size_t j = 0; j < fftFreqs.size(); j++) {
-            float freq = fftFreqs[j];
+        for (size_t j = 0; j < fft_freqs.size(); j++) {
+            float freq = fft_freqs[j];
             if (freq >= left && freq <= right) {
                 if (freq <= center) {
-                    melFilters[i][j] = (freq - left) / (center - left);
+                    mel_filters[i][j] = (freq - left) / (center - left);
                 } else {
-                    melFilters[i][j] = (right - freq) / (right - center);
+                    mel_filters[i][j] = (right - freq) / (right - center);
                 }
             }
         }
     }
 
-    return melFilters;
+    return mel_filters;
 }
 
 std::vector<float>
@@ -150,123 +184,120 @@ WhisperProcessor::pad(const std::vector<float> &speech, int maxLength, float pad
         return {speech.begin(), speech.begin() + maxLength};
     }
 
-    std::vector<float> paddedArray(maxLength, paddingValue);
-    std::copy(speech.begin(), speech.end(), paddedArray.begin());
-    return paddedArray;
+    std::vector<float> padded_array(maxLength, paddingValue);
+    std::copy(speech.begin(), speech.end(), padded_array.begin());
+    return padded_array;
 }
 
 std::vector<float> WhisperProcessor::reflectPad(const std::vector<float> &input) {
-    int pad = nFft / 2;
-    size_t inputLength = input.size();
-    size_t paddedLength = inputLength + 2 * pad;
-    std::vector<float> paddedArray(paddedLength);
+    int pad = n_fft / 2;
+    size_t input_length = input.size();
+    size_t padded_length = input_length + 2 * pad;
+    std::vector<float> padded_array(padded_length);
 
-    std::copy(input.begin(), input.end(), paddedArray.begin() + pad);
+    std::copy(input.begin(), input.end(), padded_array.begin() + pad);
 
     for (int i = 0; i < pad; i++) {
-        paddedArray[pad - 1 - i] = input[i + 1];
+        padded_array[pad - 1 - i] = input[i + 1];
     }
 
     for (int i = 0; i < pad; i++) {
-        paddedArray[pad + inputLength + i] = input[inputLength - i - 1];
+        padded_array[pad + input_length + i] = input[input_length - i - 1];
     }
 
-    return paddedArray;
+    return padded_array;
 }
 
-std::vector<std::vector<Complex>>
-WhisperProcessor::computeSTFT(const std::vector<float> &waveform) {
-    size_t numFrames = (waveform.size() - nFft) / hopLength + 1;
-    int frequencyBins = nFft / 2 + 1;
+std::vector<std::vector<Complex>> WhisperProcessor::computeSTFT(const std::vector<float> &waveform) {
+    size_t num_frames = (waveform.size() - n_fft) / hop_length + 1;
+    int frequency_bins = n_fft / 2 + 1;
 
     std::vector<std::vector<Complex>> result(
-            frequencyBins,
-            std::vector<Complex>(numFrames)
+            frequency_bins,
+            std::vector<Complex>(num_frames)
     );
 
-    std::vector<float> windowedFrame(nFft);
+    std::vector<float> windowed_frame(n_fft);
 
-    for (int frame = 0; frame < numFrames; frame++) {
-        int start = frame * hopLength;
+    for (int frame = 0; frame < num_frames; frame++) {
+        int start = frame * hop_length;
 
         // Apply window
-        for (int i = 0; i < nFft; i++) {
-            windowedFrame[i] = waveform[start + i] * hannWindow[i];
+        for (int i = 0; i < n_fft; i++) {
+            windowed_frame[i] = waveform[start + i] * hann_window[i];
         }
 
         // Compute DFT for each frequency bin
-        for (int k = 0; k < frequencyBins; k++) {
-            float sumReal = 0.0f;
-            float sumImag = 0.0f;
+        for (int k = 0; k < frequency_bins; k++) {
+            float sum_real = 0.0f;
+            float sum_imag = 0.0f;
 
-            const auto &cosRow = dftCoefficientsReal[k];
-            const auto &sinRow = dftCoefficientsImag[k];
+            const auto &cos_row = dft_coefficients_real[k];
+            const auto &sin_row = dft_coefficients_imag[k];
 
             // Manual loop unrolling
             int t = 0;
-            while (t < nFft - 3) {
-                float sample0 = windowedFrame[t];
-                float sample1 = windowedFrame[t + 1];
-                float sample2 = windowedFrame[t + 2];
-                float sample3 = windowedFrame[t + 3];
+            while (t < n_fft - 3) {
+                float sample0 = windowed_frame[t];
+                float sample1 = windowed_frame[t + 1];
+                float sample2 = windowed_frame[t + 2];
+                float sample3 = windowed_frame[t + 3];
 
-                sumReal += sample0 * cosRow[t] +
-                           sample1 * cosRow[t + 1] +
-                           sample2 * cosRow[t + 2] +
-                           sample3 * cosRow[t + 3];
-                sumImag += sample0 * sinRow[t] +
-                           sample1 * sinRow[t + 1] +
-                           sample2 * sinRow[t + 2] +
-                           sample3 * sinRow[t + 3];
+                sum_real += sample0 * cos_row[t] +
+                           sample1 * cos_row[t + 1] +
+                           sample2 * cos_row[t + 2] +
+                           sample3 * cos_row[t + 3];
+                sum_imag += sample0 * sin_row[t] +
+                           sample1 * sin_row[t + 1] +
+                           sample2 * sin_row[t + 2] +
+                           sample3 * sin_row[t + 3];
 
                 t += 4;
             }
 
             // Handle remaining elements
-            while (t < nFft) {
-                float sample = windowedFrame[t];
-                sumReal += sample * cosRow[t];
-                sumImag += sample * sinRow[t];
+            while (t < n_fft) {
+                float sample = windowed_frame[t];
+                sum_real += sample * cos_row[t];
+                sum_imag += sample * sin_row[t];
                 t++;
             }
 
-            result[k][frame] = Complex(sumReal, sumImag);
+            result[k][frame] = Complex(sum_real, sum_imag);
         }
     }
 
     return result;
 }
 
-std::vector<std::vector<float>>
-WhisperProcessor::computeMagnitudes(const std::vector<std::vector<Complex>> &stft) {
+std::vector<std::vector<float>> WhisperProcessor::computeMagnitudes(const std::vector<std::vector<Complex>> &stft) {
     std::vector<std::vector<float>> magnitudes;
     for (const auto &frame: stft) {
-        std::vector<float> frameMagnitudes(frame.size() - 1);
+        std::vector<float> frame_magnitudes(frame.size() - 1);
         for (size_t i = 0; i < frame.size() - 1; i++) {
             float magnitude = frame[i].abs();
-            frameMagnitudes[i] = magnitude * magnitude;
+            frame_magnitudes[i] = magnitude * magnitude;
         }
-        magnitudes.push_back(frameMagnitudes);
+        magnitudes.push_back(frame_magnitudes);
     }
     return magnitudes;
 }
 
-std::vector<float>
-WhisperProcessor::applyMelFilterbank(const std::vector<std::vector<float>> &magnitudes) {
+std::vector<float> WhisperProcessor::applyMelFilterbank(const std::vector<std::vector<float>> &magnitudes) {
     {
-        size_t numFrames = magnitudes[0].size();
-        size_t numMels = melFilters.size();
-        size_t numFreqBins = melFilters[0].size();
+        size_t num_frames = magnitudes[0].size();
+        size_t numMels = mel_filters.size();
+        size_t num_freq_bins = mel_filters[0].size();
 
-        std::vector<float> result(numFrames * numMels);
+        std::vector<float> result(num_frames * numMels);
 
         for (int mel = 0; mel < numMels; mel++) {
-            for (int frame = 0; frame < numFrames; frame++) {
+            for (int frame = 0; frame < num_frames; frame++) {
                 float sum = 0.0f;
-                for (int freq = 0; freq < numFreqBins; freq++) {
-                    sum += melFilters[mel][freq] * magnitudes[freq][frame];
+                for (int freq = 0; freq < num_freq_bins; freq++) {
+                    sum += mel_filters[mel][freq] * magnitudes[freq][frame];
                 }
-                result[mel * numFrames + frame] = sum;
+                result[mel * num_frames + frame] = sum;
             }
         }
 
@@ -274,22 +305,22 @@ WhisperProcessor::applyMelFilterbank(const std::vector<std::vector<float>> &magn
     }
 }
 
-std::vector<float> WhisperProcessor::normalizeLogMel(const std::vector<float> &melSpec) {
-    std::vector<float> logSpec(melSpec.size());
+std::vector<float> WhisperProcessor::normalizeLogMel(const std::vector<float> &mel_spec) {
+    std::vector<float> log_spec(mel_spec.size());
 
     // Calculate log10 values with clamp
-    for (size_t i = 0; i < melSpec.size(); i++) {
-        logSpec[i] = std::log10(std::max(melSpec[i], 1e-10f));
+    for (size_t i = 0; i < mel_spec.size(); i++) {
+        log_spec[i] = std::log10(std::max(mel_spec[i], 1e-10f));
     }
 
     // Find maximum value
-    float maxVal = *std::max_element(logSpec.begin(), logSpec.end());
+    float max_val = *std::max_element(log_spec.begin(), log_spec.end());
 
     // Apply maximum value threshold and normalization
-    for (float &value: logSpec) {
-        value = std::max(value, maxVal - 8.0f);
+    for (float &value: log_spec) {
+        value = std::max(value, max_val - 8.0f);
         value = (value + 4.0f) / 4.0f;
     }
 
-    return logSpec;
+    return log_spec;
 }

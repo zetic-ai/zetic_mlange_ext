@@ -14,14 +14,14 @@ enum YOLO_MODEL_TYPE {
 };
 
 typedef struct _DL_RESULT {
-    int classId;
+    int class_id;
     float confidence;
     cv::Rect box;
-    std::vector<cv::Point2f> keyPoints;
+    std::vector<cv::Point2f> key_points;
 } DL_RESULT;
 
 typedef struct {
-    int32_t classId;
+    int32_t class_id;
     float confidence;
     int32_t x;
     int32_t y;
@@ -30,10 +30,10 @@ typedef struct {
 } DLResultC;
 
 typedef struct _DL_PARAM {
-    std::vector<int> imgSize = { 640, 640 };
-    float rectConfidenceThreshold = 0.5;
-    float iouThreshold = 0.5;
-    int	keyPointsNum = 2;                       //Note:kpt number for pose
+    std::vector<int> img_size = { 640, 640 };
+    float rect_confidence_threshold = 0.5;
+    float iou_threshold = 0.5;
+    int	key_points_num = 2;                       //Note:kpt number for pose
 } DL_PARAM;
 
 class ZeticMLangeYoloV8Feature {
@@ -58,6 +58,6 @@ private:
     int yolo_model_type;
     MLangeFeatureOpenCV* mlange_feature_opencv;
     DL_PARAM dl_params;
-    float xResizeScale;     // For letterbox scale
-    float yResizeScale;     // For letterbox scale
+    float x_resize_scale;     // For letterbox scale
+    float y_resize_scale;     // For letterbox scale
 };

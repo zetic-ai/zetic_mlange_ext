@@ -20,7 +20,7 @@ namespace ZeticMLange {
         Zetic_MLange_Feature_Result_t decodeBoxes(const std::vector<float>& raw_boxes, std::vector<Box>& boxes);
         Zetic_MLange_Feature_Result_t getSigmoidScores(const std::vector<float>& raw_scores, std::vector<float>& scores);
         Zetic_MLange_Feature_Result_t convertToDetections(const std::vector<Box>& boxes, const std::vector<float>& scores, std::vector<FaceDetectionResult>& converted_result);
-        Zetic_MLange_Feature_Result_t ssd_generate_anchors();
+        Zetic_MLange_Feature_Result_t ssdGenerateAnchors();
 
         Zetic_MLange_Feature_Result_t nonMaximumSuppression(const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);
         Zetic_MLange_Feature_Result_t weightedNonMaximumSuppression(const std::vector<std::pair<int, float>>& indexed_scores, const std::vector<FaceDetectionResult>& detections, std::vector<FaceDetectionResult>& detections_result);

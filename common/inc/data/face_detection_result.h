@@ -5,7 +5,7 @@
 namespace ZeticMLange {
     class FaceDetectionResult {
     public:
-        Box bbox;
+        Box bounding_box;
         float score;
     };
 }
