@@ -1,4 +1,5 @@
 #include "whisper_tokenizer.h"
+#include "dbg_util.h"
 
 std::string WhisperTokenizer::decode(const std::vector<int> &ids, bool skip_special_tokens) {
     std::vector<std::string> textPieces;
@@ -41,7 +42,8 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
     std::ifstream file(filepath);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Unable to open file: " + filepath);
+        ERRLOG("Unable to open file: %s", filepath);
+        return std::unordered_map<int, std::string>();
     }
 
     std::stringstream buffer;
@@ -50,7 +52,8 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
 
     size_t pos = content.find('{');
     if (pos == std::string::npos) {
-        throw std::runtime_error("Invalid JSON format: missing opening brace");
+        ERRLOG("Invalid JSON format: missing opening brace");
+        return std::unordered_map<int, std::string>();
     }
 
     while (true) {
@@ -80,8 +83,10 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
         try {
             int value = std::stoi(valueStr);
             vocabulary[value] = key;
-        } catch (const std::exception &e) {
-            throw std::runtime_error("Invalid number format in JSON: " + valueStr);
+        }
+        catch (const std::exception &e) {
+            ERRLOG("Invalid number format in JSON: %s", valueStr);
+            return std::unordered_map<int, std::string>();
         }
 
         pos = valueEnd;
@@ -89,7 +94,8 @@ std::unordered_map<int, std::string> WhisperTokenizer::loadVocabulary(const std:
     }
 
     if (vocabulary.empty()) {
-        throw std::runtime_error("No valid key-value pairs found in JSON");
+        ERRLOG("No valid key-value pairs found in JSON");
+        return std::unordered_map<int, std::string>();
     }
 
     return vocabulary;
@@ -168,17 +174,20 @@ std::string WhisperTokenizer::decodeText(const std::string &text) {
                 utf8_char = text.substr(i, 2);
                 i += 2;
             } else {
-                throw std::runtime_error("Invalid UTF-8 sequence");
+                ERRLOG("Invalid UTF-8 sequence");
+                return "";
             }
         } else if ((text[i] & 0xF0) == 0xE0) {
             if (i + 2 < text.length()) {
                 utf8_char = text.substr(i, 3);
                 i += 3;
             } else {
-                throw std::runtime_error("Invalid UTF-8 sequence");
+                ERRLOG("Invalid UTF-8 sequence");
+                return "";
             }
         } else {
-            throw std::runtime_error("Invalid UTF-8 sequence");
+            ERRLOG("Invalid UTF-8 sequence");
+            return "";
         }
 
         auto it = byte_decoder.find(utf8_char);
@@ -189,7 +198,8 @@ std::string WhisperTokenizer::decodeText(const std::string &text) {
         } else if (errors == "ignore") {
             continue;
         } else {
-            throw std::runtime_error("Unknown character in text");
+            ERRLOG("Unknown character in text");
+            return "";
         }
     }
 

@@ -1,11 +1,13 @@
 #include "whisper_processor.h"
+#include "dbg_util.h"
 
 std::vector<std::vector<float>>
 WhisperProcessor::melFilterBank(int numFrequencyBins, int numMelFilters, float minFrequency,
                                 float maxFrequency, int samplingRate, const std::string &norm,
                                 const std::string &melScale, bool triangularizeInMelSpace) {
     if (!norm.empty() && norm != "slaney") {
-        throw std::runtime_error("norm must be empty or \"slaney\"");
+        ERRLOG("norm must be empty or \"slaney\"");
+        return std::vector<std::vector<float>>();
     }
 
     // Center points of the triangular mel filters
