@@ -138,7 +138,7 @@ WhisperProcessor::createTriangularFilterBank(const std::vector<float> &fftFreqs,
 
 std::vector<float>
 WhisperProcessor::pad(const std::vector<float> &speech, int maxLength, float paddingValue) {
-    int currentLength = speech.size();
+    size_t currentLength = speech.size();
 
     if (currentLength == maxLength) {
         return speech;
@@ -155,8 +155,8 @@ WhisperProcessor::pad(const std::vector<float> &speech, int maxLength, float pad
 
 std::vector<float> WhisperProcessor::reflectPad(const std::vector<float> &input) {
     int pad = nFft / 2;
-    int inputLength = input.size();
-    int paddedLength = inputLength + 2 * pad;
+    size_t inputLength = input.size();
+    size_t paddedLength = inputLength + 2 * pad;
     std::vector<float> paddedArray(paddedLength);
 
     std::copy(input.begin(), input.end(), paddedArray.begin() + pad);
@@ -174,7 +174,7 @@ std::vector<float> WhisperProcessor::reflectPad(const std::vector<float> &input)
 
 std::vector<std::vector<Complex>>
 WhisperProcessor::computeSTFT(const std::vector<float> &waveform) {
-    int numFrames = (waveform.size() - nFft) / hopLength + 1;
+    size_t numFrames = (waveform.size() - nFft) / hopLength + 1;
     int frequencyBins = nFft / 2 + 1;
 
     std::vector<std::vector<Complex>> result(
@@ -252,9 +252,9 @@ WhisperProcessor::computeMagnitudes(const std::vector<std::vector<Complex>> &stf
 std::vector<float>
 WhisperProcessor::applyMelFilterbank(const std::vector<std::vector<float>> &magnitudes) {
     {
-        int numFrames = magnitudes[0].size();
-        int numMels = melFilters.size();
-        int numFreqBins = melFilters[0].size();
+        size_t numFrames = magnitudes[0].size();
+        size_t numMels = melFilters.size();
+        size_t numFreqBins = melFilters[0].size();
 
         std::vector<float> result(numFrames * numMels);
 
