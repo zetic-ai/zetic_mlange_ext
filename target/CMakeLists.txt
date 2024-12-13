@@ -1,5 +1,0 @@
-add_subdirectory(whisper)
-add_subdirectory(yolov8)
-add_subdirectory(face_detection)
-add_subdirectory(face_landmark)
-add_subdirectory(face_emotion_recognition)
