@@ -16,6 +16,7 @@ if (PLATFORM STREQUAL "android")
             ${OpenCV_LIBS}
             opencv_feature
             common_feature
+            entity_feature
             m
             android
             log)
@@ -23,5 +24,6 @@ else ()
     target_link_libraries(face_landmark_feature
             ${OpenCV_LIBS}
             opencv_feature
-            common_feature)
+            common_feature
+            entity_feature)
 endif ()
