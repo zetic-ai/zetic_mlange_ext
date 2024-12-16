@@ -14,7 +14,7 @@ if (PLATFORM STREQUAL "android")
     target_link_libraries(yolov8_feature
             ${OpenCV_LIBS}
             opencv_feature
-            zetic_feature_common
+            common_feature
             m
             android
             log)
@@ -23,12 +23,12 @@ elseif (PLATFORM STREQUAL "ios")
     target_link_libraries(yolov8_feature
             ${OpenCV_LIBS}
             opencv_feature
-            zetic_feature_common)
+            common_feature)
 else ()
     target_link_libraries(yolov8_feature
             ${OpenCV_LIBS}
             opencv_feature
-            zetic_feature_common)
+            common_feature)
 endif ()
 
 # TODO: Test executables need mlange_ort, mlange_qc. 

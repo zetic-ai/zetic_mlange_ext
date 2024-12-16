@@ -15,7 +15,7 @@ if (PLATFORM STREQUAL "android")
     target_link_libraries(face_detection_feature
             ${OpenCV_LIBS}
             opencv_feature
-            zetic_feature_common
+            common_feature
             m
             android
             log)
@@ -23,5 +23,5 @@ else ()
     target_link_libraries(face_detection_feature
             ${OpenCV_LIBS}
             opencv_feature
-            zetic_feature_common)
+            common_feature)
 endif ()

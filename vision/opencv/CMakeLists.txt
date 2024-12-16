@@ -28,7 +28,7 @@ if(PLATFORM STREQUAL ios)
     )
 
     target_link_libraries(opencv_feature PUBLIC
-        zetic_feature_common
+        common_feature
     )
 
 elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
@@ -49,7 +49,7 @@ elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     target_include_directories(opencv_feature PUBLIC ${OpenCV_INCLUDE_DIRS})
     target_link_libraries(opencv_feature
                             ${OpenCV_LIBS}
-                            zetic_feature_common
+                            common_feature
                             m
                             android
                             log)
@@ -76,13 +76,13 @@ else()
     if(PLATFORM STREQUAL "android")
         target_link_libraries(opencv_feature
                         ${OpenCV_LIBS}
-                        zetic_feature_common
+                        common_feature
                         m
                         android
                         log)
     else()
         target_link_libraries(opencv_feature
                         ${OpenCV_LIBS}
-                        zetic_feature_common)
+                        common_feature)
     endif()
 endif()

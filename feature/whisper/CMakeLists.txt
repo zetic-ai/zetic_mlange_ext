@@ -12,11 +12,11 @@ target_include_directories(whisper_feature PUBLIC
 
 if (PLATFORM STREQUAL "android")
     target_link_libraries(whisper_feature
-            zetic_feature_common
+            common_feature
             m
             android
             log)
 else ()
     target_link_libraries(whisper_feature
-            zetic_feature_common)
+            common_feature)
 endif ()
