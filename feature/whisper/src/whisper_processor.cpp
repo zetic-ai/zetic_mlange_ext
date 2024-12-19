@@ -3,13 +3,13 @@
 
 WhisperProcessor::WhisperProcessor(int n_fft, int hop_length) : n_fft(n_fft), hop_length(hop_length),
     mel_filters(melFilterBank(
-            1 + 400 / 2,  // num_frequency_bins
-            80,           // num_mel_filters
-            0.0f,        // min_frequency
-            8000.0f,     // max_frequency
-            16000,       // sampling_rate
-            "slaney",    // norm
-            "slaney"     // mel_scale
+            num_frequency_bins,  // num_frequency_bins
+            num_mel_filters,           // num_mel_filters
+            min_frequency,        // min_frequency
+            max_frequency,     // max_frequency
+            sampling_rate,       // sampling_rate
+            norm,    // norm
+            mel_scale     // mel_scale
     )),
     hann_window(n_fft),
     dft_coefficients_real(n_fft, std::vector<float>(n_fft)),

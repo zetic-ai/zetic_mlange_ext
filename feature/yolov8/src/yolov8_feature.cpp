@@ -144,7 +144,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
     for (auto& re : res) {
 
         cv::RNG rng(cv::getTickCount());
-        // TODO: Currently Hard-coded RGB value to fix the class color
+        // hard-coded YOLO detection color generation value
         cv::Scalar color((re.class_id + 72) * 1717 % 256, (re.class_id + 7) * 33 % 126 + 70, (re.class_id + 47) * 107 % 256);
 
         cv::rectangle(img, re.box, color, 5);
