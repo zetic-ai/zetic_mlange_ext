@@ -7,22 +7,21 @@
 MLangeFeatureOpenCV::MLangeFeatureOpenCV(){}
 MLangeFeatureOpenCV::~MLangeFeatureOpenCV(){}
 
-
-Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatarrayFromImage(cv::Mat& input_image, float* t_array) {
+Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatArrayFromImage(cv::Mat& input_image, float* t_array) {
     float delimeter_for_division = 1.f / 255.f;
     input_image.convertTo(input_image, CV_32F, delimeter_for_division);
 
-    std::vector<cv::Mat> channels;
-    cv::split(input_image, channels);
+    std::vector<cv::Mat> image_channels;
+    cv::split(input_image, image_channels);
 
-    int imgHeight = input_image.rows;
-    int imgWidth = input_image.cols;
-    int channelsCount = input_image.channels();
+    int height = input_image.rows;
+    int width = input_image.cols;
+    int channels = input_image.channels();
 
     size_t offset = 0;
-    for (int c = 0; c < channelsCount; ++c) {
-        std::memcpy(t_array + offset, channels[c].data, imgHeight * imgWidth * sizeof(float));
-        offset += imgHeight * imgWidth;
+    for (int c = 0; c < channels; ++c) {
+        std::memcpy(t_array + offset, image_channels[c].data, height * width * sizeof(float));
+        offset += height * width;
     }
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
@@ -47,12 +46,12 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getByteArrayFromImage(cv::Mat
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
-Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatarrayFromImage(cv::Mat& input_image, float* t_array) {
+Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFlatFloatArrayFromImage(cv::Mat& input_image, float* t_array) {
+    int height = input_image.rows;
+    int width = input_image.cols;
     int channels = input_image.channels();
-    int imgHeight = input_image.rows;
-    int imgWidth = input_image.cols;
 
-    std::memcpy(t_array, input_image.data, channels * imgHeight * imgWidth * sizeof(float));
+    std::memcpy(t_array, input_image.data, channels * height * width * sizeof(float));
     
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
@@ -97,12 +96,12 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getCenterCrop(cv::Mat& input_
         cv::cvtColor(input_img, output_image, cv::COLOR_GRAY2RGB);
     }
 
-    int h = input_img.rows;
-    int w = input_img.cols;
-    int m = feature_min(h, w);
-    int top = (h - m) / 2;
-    int left = (w - m) / 2;
-    cv::resize(output_image(cv::Rect(left, top, m, m)), output_image, cv::Size(input_img_size.at(0), input_img_size.at(1)));
+    int height = input_img.rows;
+    int width = input_img.cols;
+    int min = feature_min(height, width);
+    int top = (height - min) / 2;
+    int left = (width - min) / 2;
+    cv::resize(output_image(cv::Rect(left, top, min, min)), output_image, cv::Size(input_img_size.at(0), input_img_size.at(1)));
     
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }

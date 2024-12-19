@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(zetic_mlange_feature_opencv)
+project(opencv_feature)
 
 set(ZETIC_UTIL_OPENCV_DIR ${ZETIC_UTIL_PATH}/third-party/opencv-4.10.0)
 set(ZETIC_UTIL_OPENCV_SYMLINK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/zetic-opencv-4.10.0)
@@ -13,30 +13,30 @@ file(CREATE_LINK
 
 if(PLATFORM STREQUAL ios)
     # Build for (1) XCode - iOS
-    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
+    add_library(opencv_feature ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC
+    target_include_directories(opencv_feature PUBLIC
                                 ${CMAKE_CURRENT_SOURCE_DIR}/inc)
                                 
     set(OPENCV_IOS_INSTALL_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_install")
     set(OPENCV_IOS_BUILD_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/ios_build")
 
     include_directories(${OPENCV_IOS_INSTALL_PATH}/include/opencv4)
-    target_include_directories(zetic_mlange_feature_opencv
+    target_include_directories(opencv_feature
         PUBLIC
             ${OPENCV_IOS_INSTALL_PATH}/include/opencv4
     )
 
-    target_link_libraries(zetic_mlange_feature_opencv PUBLIC
-        zetic_feature_common
+    target_link_libraries(opencv_feature PUBLIC
+        common_feature
     )
 
 elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     # Build for (2) Android Studio - Android
-    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
+    add_library(opencv_feature ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
 
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC
+    target_include_directories(opencv_feature PUBLIC
                     ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
     set(OPENCV_ANDROID_SDK_PATH "${ZETIC_UTIL_OPENCV_SYMLINK_DIR}/android/sdk")
@@ -46,19 +46,19 @@ elseif(DEFINED ZETIC_MLANGE_ROOT_PATH)
     find_package(OpenCV REQUIRED)
     include_directories(${OpenCV_INCLUDE_DIRS})
 
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC ${OpenCV_INCLUDE_DIRS})
-    target_link_libraries(zetic_mlange_feature_opencv 
+    target_include_directories(opencv_feature PUBLIC ${OpenCV_INCLUDE_DIRS})
+    target_link_libraries(opencv_feature
                             ${OpenCV_LIBS}
-                            zetic_feature_common
+                            common_feature
                             m
                             android
                             log)
 else()
     # Build for (3) linux, android - Mentat binaries
-    add_library(zetic_mlange_feature_opencv ${LIBRARY_BUILD_TYPE}
+    add_library(opencv_feature ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
 
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC
+    target_include_directories(opencv_feature PUBLIC
                     ${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
     if(PLATFORM STREQUAL android)
@@ -71,18 +71,18 @@ else()
 
     find_package(OpenCV REQUIRED)
     include_directories(${OpenCV_INCLUDE_DIRS})
-    target_include_directories(zetic_mlange_feature_opencv PUBLIC ${OpenCV_INCLUDE_DIRS})
+    target_include_directories(opencv_feature PUBLIC ${OpenCV_INCLUDE_DIRS})
 
     if(PLATFORM STREQUAL "android")
-        target_link_libraries(zetic_mlange_feature_opencv 
+        target_link_libraries(opencv_feature
                         ${OpenCV_LIBS}
-                        zetic_feature_common
+                        common_feature
                         m
                         android
                         log)
     else()
-        target_link_libraries(zetic_mlange_feature_opencv 
+        target_link_libraries(opencv_feature
                         ${OpenCV_LIBS}
-                        zetic_feature_common)
+                        common_feature)
     endif()
 endif()

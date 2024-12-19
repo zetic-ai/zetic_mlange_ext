@@ -58,4 +58,4 @@ add_subdirectory(common)
 add_subdirectory(vision)
 
 # Target should be included at last
-add_subdirectory(target)
+add_subdirectory(feature)
