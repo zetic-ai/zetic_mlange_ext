@@ -2,7 +2,7 @@
 
 
 #include <vector>
-#include "../../entity/inc/landmark.h"
+#include "landmark.h"
 
 namespace ZeticMLange {
     class FaceLandmarkResult {

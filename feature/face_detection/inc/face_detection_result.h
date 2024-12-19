@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../entity/inc/box.h"
+#include "box.h"
 
 namespace ZeticMLange {
     class FaceDetectionResult {

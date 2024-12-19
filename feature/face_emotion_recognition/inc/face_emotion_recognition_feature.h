@@ -2,7 +2,7 @@
 
 #include "feature_opencv.h"
 #include "zetic_feature_types.h"
-#include "../../entity/inc/box.h"
+#include "box.h"
 
 namespace ZeticMLange {
     class FaceEmotionRecognitionFeature {

@@ -3,7 +3,7 @@
 #include "feature_opencv.h"
 #include "zetic_feature_types.h"
 #include "face_landmark_result.h"
-#include "../../entity/inc/box.h"
+#include "box.h"
 
 #include <cmath>
 #include <vector>
