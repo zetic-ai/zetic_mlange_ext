@@ -72,7 +72,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
 
         for (size_t i = 0; i < this->classes.size(); ++i) {
             DL_RESULT result;
-            result.class_id  = static_cast<int>(i);
+            result.class_id = static_cast<int>(i);
             result.confidence = data[i];
             output_dl_result.push_back(result);
         }
@@ -80,7 +80,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
     else {
         // YOLO detection branch
         // e.g. stride_num = 8400, signal_result_num = 84
-        int stride_num        = YOLO8_OUTPUT_DIM1;
+        int stride_num = YOLO8_OUTPUT_DIM1;
         int signal_result_num = YOLO8_OUTPUT_DIM2;
 
         // Usually YOLOv8 output = 8400 anchors × 84 floats each
@@ -89,7 +89,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         // raw_data.rows = signal_result_num (e.g. 84)
         // raw_data.cols = stride_num        (e.g. 8400)
 
-        std::vector<int>   class_ids;
+        std::vector<int> class_ids;
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
 
@@ -140,9 +140,9 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         // Collect final results
         for (int idx : nms_result) {
             DL_RESULT result;
-            result.class_id   = class_ids[idx];
+            result.class_id = class_ids[idx];
             result.confidence = confidences[idx];
-            result.box        = boxes[idx];
+            result.box = boxes[idx];
             output_dl_result.push_back(result);
         }
     }
