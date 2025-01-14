@@ -5,7 +5,15 @@
 #include <random>
 
 #define YOLO8_OUTPUT_DIM1 8400
-#define YOLO8_OUTPUT_DIM2 84
+#define YOLO8_OUTPUT_DIM2 28 // iclo test only
+
+#include <algorithm>
+std::vector<int> iclo_detected_classes = {2, 7, 8, 14, 16, 17, 18, 19, 21};
+
+// TODO: Need double-check iclo caries classes
+//std::vector<int> iclo_caries_classes = {6, 8, 12, 13, 14, 18};
+
+std::vector<int> iclo_caries_classes = {6, 12, 13};
 
 ZeticMLangeYoloV8Feature::ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const char* coco_file_path) {
     
@@ -78,8 +86,8 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         }
     } else {
         // Hard-coded output dimensions
-        int stride_num = YOLO8_OUTPUT_DIM1; //outputNodeDims[1];//8400
-        int signal_result_num = YOLO8_OUTPUT_DIM2; //outputNodeDims[2];//84
+        int stride_num = YOLO8_OUTPUT_DIM1; //outputNodeDims[1];
+        int signal_result_num = YOLO8_OUTPUT_DIM2; //outputNodeDims[2];
 
         std::vector<int> class_ids;
         std::vector<float> confidences;
@@ -96,9 +104,28 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             cv::Point class_id;
             double max_class_score;
             cv::minMaxLoc(scores, 0, &max_class_score, 0, &class_id);
-            if (max_class_score > this->dl_params.rect_confidence_threshold)
-            {
-                confidences.push_back(max_class_score);
+
+            bool detected = false;
+            // (1) Filter the class
+            if (std::find(iclo_detected_classes.begin(), iclo_detected_classes.end(), class_id.x) != iclo_detected_classes.end()) {
+                // the detected class is in iclo detected classes
+                // TODO: Remove hard-coded score
+                if (max_class_score > 0.5f) {
+                    detected = true;
+                }
+            } else if (std::find(iclo_caries_classes.begin(), iclo_caries_classes.end(), class_id.x) != iclo_caries_classes.end()) {
+                // the detected class is in iclo caries classes
+                // TODO: Remove hard-coded score
+                if (max_class_score > 0.3f) {
+                    detected = true;
+                }
+            } else {
+                // do nothing
+            }
+
+            if (detected) {
+
+                confidences.push_back((float)max_class_score);
                 class_ids.push_back(class_id.x);
                 float x = data[0];
                 float y = data[1];
@@ -111,7 +138,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
                 int width = int(w * x_resize_scale);
                 int height = int(h * y_resize_scale);
 
-                boxes.push_back(cv::Rect(left, top, width, height));
+                boxes.emplace_back(left, top, width, height);
             }
             data += signal_result_num;
         }
@@ -151,8 +178,9 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
 
         float confidence = re.confidence;
         std::cout << std::fixed << std::setprecision(2);
-        std::string label = this->classes[re.class_id] + " " +
-            std::to_string(confidence).substr(0, std::to_string(confidence).size() - 4);
+
+        // iclo label: label only
+        std::string label = std::to_string(confidence).substr(0, std::to_string(confidence).size() - 4);
 
         cv::rectangle(
             img,
