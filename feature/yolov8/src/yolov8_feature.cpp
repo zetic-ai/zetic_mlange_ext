@@ -8,15 +8,23 @@
 #define YOLO8_OUTPUT_DIM2 28 // iclo test only
 
 #include <algorithm>
-std::vector<int> iclo_detected_classes = {2, 7, 8, 14, 16, 17, 18, 19, 21};
+std::vector<int> iclo_detected_classes = {2, 7, 16, 17, 18, 19, 21};
+//std::vector<int> iclo_detected_classes = {2, 7, 8, 14, 16, 17, 18, 19, 21};
+
+std::vector<int> iclo_treatment_classes = {2, 16, 17, 19, 21};
 
 // TODO: Need double-check iclo caries classes
-//std::vector<int> iclo_caries_classes = {6, 8, 12, 13, 14, 18};
+std::vector<int> iclo_caries_classes = {6, 8, 12, 13, 14};
 
-std::vector<int> iclo_caries_classes = {6, 12, 13};
+#define ICLO_CLASS_TREATMENT 2
+#define ICLO_CLASS_CARIES 6
+#define ICLO_CLASS_CALCULUS 7
+#define ICLO_CLASS_SUSPECTED 18
+
+//std::vector<int> iclo_caries_classes = {6, 12, 13};
 
 ZeticMLangeYoloV8Feature::ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_type, const char* coco_file_path) {
-    
+
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     ret = this->readCocoYaml(coco_file_path);
     if (ret != ZETIC_MLANGE_FEATURE_SUCCESS) {
@@ -28,7 +36,7 @@ ZeticMLangeYoloV8Feature::ZeticMLangeYoloV8Feature(YOLO_MODEL_TYPE yolo_model_ty
     if (this->yolo_model_type == YOLO_CLS) {
         DL_PARAM params{ {224, 224} };
         this->dl_params = params;
-        
+
     } else {
         DL_PARAM params;
         params.rect_confidence_threshold = 0.5;
@@ -48,7 +56,7 @@ ZeticMLangeYoloV8Feature::~ZeticMLangeYoloV8Feature() {
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getByteArrayFromImage(cv::Mat &input_img,
                                                                               int8_t *blob) {
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
-    
+
     ret = this->mlange_feature_opencv->getByteArrayFromImage(input_img, blob);
     if (ret != ZETIC_MLANGE_FEATURE_SUCCESS) {
         ERRLOG("Failed to get float array from image!");
@@ -60,7 +68,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::getByteArrayFromImage(cv
 
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
      std::vector<int> input_img_size = this->dl_params.img_size;
-    
+
     if (this->yolo_model_type != YOLO_CLS) {
         x_resize_scale = input_img.cols / (float)input_img_size.at(0);
         y_resize_scale = input_img.rows / (float)input_img_size.at(1);
@@ -73,7 +81,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& inpu
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result, void* output) {
     if (this->yolo_model_type == YOLO_CLS) {
         cv::Mat raw_data;
-        
+
         // FP32
         raw_data = cv::Mat(1, (int)this->classes.size(), CV_32F, output);
         float *data = (float *) raw_data.data;
@@ -92,7 +100,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         std::vector<int> class_ids;
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
-        
+
         cv::Mat raw_data = cv::Mat(signal_result_num, stride_num, CV_8SC4, output);
 
         raw_data = raw_data.t();
@@ -106,17 +114,24 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             cv::minMaxLoc(scores, 0, &max_class_score, 0, &class_id);
 
             bool detected = false;
+            int target_class_id;
             // (1) Filter the class
-            if (std::find(iclo_detected_classes.begin(), iclo_detected_classes.end(), class_id.x) != iclo_detected_classes.end()) {
-                // the detected class is in iclo detected classes
-                // TODO: Remove hard-coded score
-                if (max_class_score > 0.5f) {
-                    detected = true;
-                }
-            } else if (std::find(iclo_caries_classes.begin(), iclo_caries_classes.end(), class_id.x) != iclo_caries_classes.end()) {
+            if (std::find(iclo_caries_classes.begin(), iclo_caries_classes.end(), class_id.x) != iclo_caries_classes.end()) {
                 // the detected class is in iclo caries classes
                 // TODO: Remove hard-coded score
                 if (max_class_score > 0.3f) {
+                    detected = true;
+                    target_class_id = ICLO_CLASS_CARIES;
+                }
+            } else if (std::find(iclo_detected_classes.begin(), iclo_detected_classes.end(), class_id.x) != iclo_detected_classes.end()) {
+                // the detected class is in iclo detected classes
+                // TODO: Remove hard-coded score
+                if (max_class_score > 0.5f) {
+                    if (std::find(iclo_treatment_classes.begin(), iclo_treatment_classes.end(), class_id.x) != iclo_treatment_classes.end()) {
+                        target_class_id = ICLO_CLASS_TREATMENT;
+                    } else {
+                        target_class_id = class_id.x;
+                    }
                     detected = true;
                 }
             } else {
@@ -126,7 +141,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             if (detected) {
 
                 confidences.push_back((float)max_class_score);
-                class_ids.push_back(class_id.x);
+                class_ids.push_back(target_class_id);
                 float x = data[0];
                 float y = data[1];
                 float w = data[2];
@@ -144,7 +159,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
         }
 
         std::vector<int> nms_result;
-        cv::dnn::NMSBoxes(boxes, confidences, this->dl_params.rect_confidence_threshold, this->dl_params.iou_threshold, nms_result);
+        cv::dnn::NMSBoxes(boxes, confidences, 0.3f, 0.3f, nms_result);
         for (int i = 0; i < nms_result.size(); ++i) {
             int idx = nms_result[i];
             DL_RESULT result;
@@ -159,7 +174,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
 }
 
 Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::resultToImg(cv::Mat& img, std::vector<DL_RESULT> res) {
-    if (this->yolo_model_type == YOLO_CLS) { 
+    if (this->yolo_model_type == YOLO_CLS) {
         return this->classifierResultToImg(img, res);
     } else {
         return this->detectorResultToImg(img, res);
@@ -180,7 +195,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
         std::cout << std::fixed << std::setprecision(2);
 
         // iclo label: label only
-        std::string label = std::to_string(confidence).substr(0, std::to_string(confidence).size() - 4);
+       std::string label = std::to_string(confidence).substr(0, std::to_string(confidence).size() - 4);
 
         cv::rectangle(
             img,
