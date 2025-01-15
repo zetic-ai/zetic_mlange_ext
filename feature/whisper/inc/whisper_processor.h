@@ -14,6 +14,13 @@ public:
     std::vector<float> process(const std::vector<float>& audio_input);
 
 private:
+    const int num_frequency_bins = 1 + 400 / 2;
+    const int num_mel_filters = 80;
+    const float min_frequency = 0.0f;
+    const float max_frequency = 8000.0f;
+    const int sampling_rate = 16000;
+    const std::string norm = "slaney";
+    const std::string mel_scale = "slaney";
     const int n_fft;
     const int hop_length;
     const std::vector<std::vector<float>> mel_filters;
@@ -41,5 +48,4 @@ private:
     std::vector<std::vector<float>> computeMagnitudes(const std::vector<std::vector<Complex>>& stft);
     std::vector<float> applyMelFilterbank(const std::vector<std::vector<float>>& magnitudes);
     std::vector<float> normalizeLogMel(const std::vector<float>& melSpec);
-
 };

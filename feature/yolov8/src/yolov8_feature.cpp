@@ -78,40 +78,58 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::preprocess(cv::Mat& inpu
     }
 }
 
-Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result, void* output) {
+Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<DL_RESULT>& output_dl_result,
+                                                                    void* output)
+{
     if (this->yolo_model_type == YOLO_CLS) {
-        cv::Mat raw_data;
+        // Classification branch
+        cv::Mat raw_data(1, static_cast<int>(this->classes.size()), CV_32F, output);
+        float* data = reinterpret_cast<float*>(raw_data.data);
 
-        // FP32
-        raw_data = cv::Mat(1, (int)this->classes.size(), CV_32F, output);
-        float *data = (float *) raw_data.data;
-
-        DL_RESULT result;
-        for (int i = 0; i < this->classes.size(); i++) {
-            result.class_id = i;
+        for (size_t i = 0; i < this->classes.size(); ++i) {
+            DL_RESULT result;
+            result.class_id = static_cast<int>(i);
             result.confidence = data[i];
             output_dl_result.push_back(result);
         }
-    } else {
-        // Hard-coded output dimensions
-        int stride_num = YOLO8_OUTPUT_DIM1; //outputNodeDims[1];
-        int signal_result_num = YOLO8_OUTPUT_DIM2; //outputNodeDims[2];
+    }
+    else {
+        // YOLO detection branch
+        // e.g. stride_num = 8400, signal_result_num = 84
+        int stride_num = YOLO8_OUTPUT_DIM1;
+        int signal_result_num = YOLO8_OUTPUT_DIM2;
+
+        // Usually YOLOv8 output = 8400 anchors × 84 floats each
+        // But if it's "pre-transposed," it is shape [84 x 8400]
+        cv::Mat raw_data(signal_result_num, stride_num, CV_32FC1, output);
+        // raw_data.rows = signal_result_num (e.g. 84)
+        // raw_data.cols = stride_num        (e.g. 8400)
 
         std::vector<int> class_ids;
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
 
-        cv::Mat raw_data = cv::Mat(signal_result_num, stride_num, CV_8SC4, output);
+        for (int anchor_idx = 0; anchor_idx < stride_num; ++anchor_idx)
+        {
+            // Rows 0..3: (x, y, w, h)
+            float x = raw_data.at<float>(0, anchor_idx);
+            float y = raw_data.at<float>(1, anchor_idx);
+            float w = raw_data.at<float>(2, anchor_idx);
+            float h = raw_data.at<float>(3, anchor_idx);
 
-        raw_data = raw_data.t();
-        float* data = (float*)(raw_data.data);
+            // Build a small 1 x #classes Mat out of row [4..(4 + classes.size() - 1)]
+            int num_classes = static_cast<int>(this->classes.size());
+            cv::Mat scores(1, num_classes, CV_32FC1);
 
-        for (int i = 0; i < stride_num; ++i) {
-            float* classes_scores = data + 4;
-            cv::Mat scores(1, (int)this->classes.size(), CV_32FC1, classes_scores);
+            for (int c = 0; c < num_classes; ++c) {
+                scores.at<float>(0, c) = raw_data.at<float>(4 + c, anchor_idx);
+            }
+
+            // Find best class score
+            double max_class_score = 0.0;
             cv::Point class_id;
             double max_class_score;
-            cv::minMaxLoc(scores, 0, &max_class_score, 0, &class_id);
+            cv::minMaxLoc(scores, nullptr, &max_class_score, nullptr, &class_id);
 
             bool detected = false;
             int target_class_id;
@@ -140,28 +158,29 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
 
             if (detected) {
 
-                confidences.push_back((float)max_class_score);
+                confidences.push_back(static_cast<float>(max_class_score));
                 class_ids.push_back(target_class_id);
                 float x = data[0];
                 float y = data[1];
                 float w = data[2];
                 float h = data[3];
 
-                int left = int((x - 0.5 * w) * x_resize_scale);
-                int top = int((y - 0.5 * h) * y_resize_scale);
-
-                int width = int(w * x_resize_scale);
-                int height = int(h * y_resize_scale);
+                // Scale box to your input coordinates
+                int left   = static_cast<int>((x - 0.5f * w) * x_resize_scale);
+                int top    = static_cast<int>((y - 0.5f * h) * y_resize_scale);
+                int width  = static_cast<int>(w * x_resize_scale);
+                int height = static_cast<int>(h * y_resize_scale);
 
                 boxes.emplace_back(left, top, width, height);
             }
-            data += signal_result_num;
         }
 
+        // Apply Non-Maximum Suppression
         std::vector<int> nms_result;
         cv::dnn::NMSBoxes(boxes, confidences, 0.3f, 0.3f, nms_result);
-        for (int i = 0; i < nms_result.size(); ++i) {
-            int idx = nms_result[i];
+
+        // Collect final results
+        for (int idx : nms_result) {
             DL_RESULT result;
             result.class_id = class_ids[idx];
             result.confidence = confidences[idx];
@@ -186,7 +205,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::detectorResultToImg(cv::
     for (auto& re : res) {
 
         cv::RNG rng(cv::getTickCount());
-        // TODO: Currently Hard-coded RGB value to fix the class color
+        // hard-coded YOLO detection color generation value
         cv::Scalar color((re.class_id + 72) * 1717 % 256, (re.class_id + 7) * 33 % 126 + 70, (re.class_id + 47) * 107 % 256);
 
         cv::rectangle(img, re.box, color, 5);

@@ -49,7 +49,6 @@ Zetic_MLange_Feature_Result_t FaceDetectionFeature::decodeBoxes(const std::vecto
 
     std::vector<std::array<float, 2>> points(num_points);
     for (int i = 0; i < num_boxes; ++i) {
-        points.clear();
         for (int j = 0; j < num_points; ++j) {
             points[j] = { raw_boxes[i * num_points * 2 + j * 2] / scale.width,
                           raw_boxes[i * num_points * 2 + j * 2 + 1] / scale.height };
