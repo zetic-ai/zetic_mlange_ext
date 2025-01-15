@@ -128,7 +128,6 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
             // Find best class score
             double max_class_score = 0.0;
             cv::Point class_id;
-            double max_class_score;
             cv::minMaxLoc(scores, nullptr, &max_class_score, nullptr, &class_id);
 
             bool detected = false;
@@ -160,10 +159,6 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::postprocess(std::vector<
 
                 confidences.push_back(static_cast<float>(max_class_score));
                 class_ids.push_back(target_class_id);
-                float x = data[0];
-                float y = data[1];
-                float w = data[2];
-                float h = data[3];
 
                 // Scale box to your input coordinates
                 int left   = static_cast<int>((x - 0.5f * w) * x_resize_scale);
