@@ -14,6 +14,7 @@ public:
     Zetic_MLange_Feature_Result_t preprocess(cv::Mat& input_img, cv::Mat& output_image);
     Zetic_MLange_Feature_Result_t postprocess(std::string& output_sentence_result, void* output);
     
+    MLangeFeatureOpenCV* mlange_feature_opencv;
 private:
     Zetic_MLange_Feature_Result_t readPreprocessorConfigJson(const char* preprocessor_config_file_path);
 
@@ -28,6 +29,4 @@ private:
     // for normalize
     cv::Mat image_mean;
     cv::Mat image_std;
-
-    MLangeFeatureOpenCV* mlange_feature_opencv;
 };
