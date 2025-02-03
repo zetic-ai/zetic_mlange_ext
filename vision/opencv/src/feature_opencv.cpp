@@ -4,6 +4,8 @@
 #include <opencv2/dnn.hpp>
 #define feature_min(a,b) (((a) < (b)) ? (a) : (b))
 
+// TODO: change all MLangeFeatureOpenCV to static
+
 MLangeFeatureOpenCV::MLangeFeatureOpenCV(){}
 MLangeFeatureOpenCV::~MLangeFeatureOpenCV(){}
 

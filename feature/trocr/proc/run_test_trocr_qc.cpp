@@ -76,7 +76,7 @@ void test_trocr_qnn(std::string model_file_path,
 
     std::vector<DL_RESULT> res;
 
-    ZeticMLangeTrocrFeature mlangeYoloV8Feature = ZeticMLangeTrocrFeature(yolo_model_type, coco_file_path.c_str());
+    ZeticMLangeTrocrProcessorFeature mlangeYoloV8Feature = ZeticMLangeTrocrProcessorFeature(yolo_model_type, coco_file_path.c_str());
 
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     ret = mlangeYoloV8Feature.preprocess(img, processedImg);
