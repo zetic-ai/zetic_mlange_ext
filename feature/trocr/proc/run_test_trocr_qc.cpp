@@ -91,7 +91,7 @@ void test_trocr_qnn(std::string encoder_model_file_path,
     }
 
     float* blob = new float[processedImg.total() * 3];
-    ret = mlangeTrocrProcessorFeature.mlange_feature_opencv->getFloatArrayFromImage(processedImg, blob);
+    ret = mlangeTrocrProcessorFeature.mlange_feature_opencv->_getFloatArrayFromImage(processedImg, blob);
 
     uint8_t** encoder_input_buffers = (uint8_t**)malloc(sizeof(uint8_t*) * TROCR_ENCODER_NUM_MODEL_INPUT);
     encoder_input_buffers[0] = (uint8_t*)blob;
@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
     char* qnn_graph_name = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "hm:b:c:i:o:g:n")) != -1) {
+    while ((opt = getopt(argc, argv, "e:d:b:i:p:g:h")) != -1) {
         switch (opt) {
             case 'h':
                 printf("Usage: %s -m ORT_MODEL_FILE_PATH"

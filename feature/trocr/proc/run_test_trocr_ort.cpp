@@ -63,7 +63,6 @@ Zetic_MLange_Feature_Result_t run_trocr_ort_model(std::string model_file_path,
 
 void test_trocr_ort(std::string encoder_model_file_path, 
                     std::string decoder_model_file_path, 
-                    std::string qnn_graph_name, 
                     std::string preprocessor_config_file_path, 
                     std::string generator_config_file_path, 
                     std::string img_file_path) {
@@ -84,7 +83,7 @@ void test_trocr_ort(std::string encoder_model_file_path,
     }
 
     float* blob = new float[processedImg.total() * 3];
-    ret = mlangeTrocrProcessorFeature.mlange_feature_opencv->getFloatArrayFromImage(processedImg, blob);
+    ret = mlangeTrocrProcessorFeature.mlange_feature_opencv->_getFloatArrayFromImage(processedImg, blob);
 
     // TODO: Implement Running Model
     uint8_t** encoder_input_buffers = (uint8_t**)malloc(sizeof(uint8_t*) * TROCR_ENCODER_NUM_MODEL_INPUT);
@@ -117,11 +116,10 @@ int main(int argc, char **argv) {
     char* input_file_path = NULL;
     char* preprocessor_config_file_path = NULL;
     char* generator_config_file_path = NULL;
-    char* qnn_graph_name = NULL;
     bool enable_nnapi = false;
 
     int opt;
-    while ((opt = getopt(argc, argv, "hm:i:c:o:n")) != -1) {
+    while ((opt = getopt(argc, argv, "e:d:i:p:g:hn")) != -1) {
         switch (opt) {
             case 'h':
                 printf("Usage: %s -m ORT_MODEL_FILE_PATH"
@@ -168,7 +166,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    test_trocr_ort(encoder_model_file_path, decoder_model_file_path, qnn_graph_name, preprocessor_config_file_path, 
+    test_trocr_ort(encoder_model_file_path, decoder_model_file_path, preprocessor_config_file_path, 
                     generator_config_file_path, input_file_path);
 
     printf("Test TrOCR\n");
