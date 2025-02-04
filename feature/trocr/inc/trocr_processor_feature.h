@@ -25,8 +25,8 @@ private:
     // for resize
     cv::Size size;
     // for rescale
-    double rescale_factor;
+    float rescale_factor;
     // for normalize
-    cv::Mat image_mean;
-    cv::Mat image_std;
+    cv::Scalar image_mean;
+    cv::Scalar image_std;
 };

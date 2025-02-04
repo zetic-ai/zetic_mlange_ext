@@ -28,6 +28,26 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getFloatArrayFromImage(cv::Ma
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
+// TODO: change this to getFloatArrayFromImage
+// TODO: and seperate dividing 1/255 to preprocessing in original getFloatArrayFromImage
+Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::_getFloatArrayFromImage(cv::Mat& input_image, float* t_array) {
+    input_image.convertTo(input_image, CV_32F);
+
+    std::vector<cv::Mat> image_channels;
+    cv::split(input_image, image_channels);
+
+    int height = input_image.rows;
+    int width = input_image.cols;
+    int channels = input_image.channels();
+
+    size_t offset = 0;
+    for (int c = 0; c < channels; ++c) {
+        std::memcpy(t_array + offset, image_channels[c].data, height * width * sizeof(float));
+        offset += height * width;
+    }
+    return ZETIC_MLANGE_FEATURE_SUCCESS;
+}
+
 Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getByteArrayFromImage(cv::Mat& input_image, int8_t* t_array) {
     float delimeter_for_division = 1.f / 255.f;
     input_image.convertTo(input_image, CV_32F, delimeter_for_division);

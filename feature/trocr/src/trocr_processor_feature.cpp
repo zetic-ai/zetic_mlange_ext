@@ -38,7 +38,10 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::getByteArrayFrom
 }
 
 Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
-    cv::Mat& current_mat = input_img;
+    cv::Mat current_mat;
+    input_img.convertTo(current_mat, CV_32F);
+    std::cout << current_mat.type() << std::endl;
+    std::cout << current_mat.at<float>(0, 0) << std::endl;
     if (this->do_resize) {
         cv::resize(current_mat, output_image, this->size);
         current_mat = output_image;
@@ -48,7 +51,9 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::preprocess(cv::M
         current_mat = output_image;
     }
     if (this->do_normalize) {
-        output_image = (current_mat - this->image_mean) / this->image_std;
+        cv::Mat mean_mat(current_mat.size(), current_mat.type(), this->image_mean);
+        cv::Mat std_mat(current_mat.size(), current_mat.type(), this->image_std);
+        output_image = (current_mat - mean_mat) / std_mat;
         current_mat = output_image;
     }
     output_image = current_mat;
@@ -76,8 +81,8 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::readPreprocessor
     this->do_resize = true;
     this->size = cv::Size(384, 384);
     this->rescale_factor = 0.00392156862745098;
-    this->image_mean = cv::Mat({0.5, 0.5, 0.5});
-    this->image_std = cv::Mat({0.5, 0.5, 0.5});
+    this->image_mean = cv::Scalar(0.5, 0.5, 0.5);
+    this->image_std = cv::Scalar(0.5, 0.5, 0.5);
 
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
