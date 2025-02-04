@@ -25,6 +25,7 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrGeneratorFeature::readGeneratorCon
     this->start_token_id = 2;
     this->pad_token_id = 1;
     this->eos_token_id = 2;
+    this->vocab_size = 50265;
     
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }

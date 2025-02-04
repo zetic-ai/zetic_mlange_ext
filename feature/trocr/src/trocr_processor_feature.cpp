@@ -40,8 +40,6 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::getByteArrayFrom
 Zetic_MLange_Feature_Result_t ZeticMLangeTrocrProcessorFeature::preprocess(cv::Mat& input_img, cv::Mat& output_image) {
     cv::Mat current_mat;
     input_img.convertTo(current_mat, CV_32F);
-    std::cout << current_mat.type() << std::endl;
-    std::cout << current_mat.at<float>(0, 0) << std::endl;
     if (this->do_resize) {
         cv::resize(current_mat, output_image, this->size);
         current_mat = output_image;
