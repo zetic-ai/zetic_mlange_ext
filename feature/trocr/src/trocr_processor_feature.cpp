@@ -1,4 +1,4 @@
-#include "trocr_feature.h"
+#include "trocr_processor_feature.h"
 #include "dbg_utils.h"
 
 #include <fstream>
@@ -13,7 +13,7 @@ ZeticMLangeTrocrProcessorFeature::ZeticMLangeTrocrProcessorFeature(const char* p
     Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
     ret = this->readPreprocessorConfigJson(preprocessor_config_file_path);
     if (ret != ZETIC_MLANGE_FEATURE_SUCCESS) {
-        ERRLOG("Failed to read coco yaml file to load Yolov8 model: %s", preprocessor_config_file_path);
+        ERRLOG("Failed to read preprocessor json file to load TrOCR model: %s", preprocessor_config_file_path);
         return ;
     }
     this->mlange_feature_opencv = new MLangeFeatureOpenCV();
