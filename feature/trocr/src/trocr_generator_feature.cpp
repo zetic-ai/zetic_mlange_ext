@@ -25,6 +25,8 @@ Zetic_MLange_Feature_Result_t ZeticMLangeTrocrGeneratorFeature::readGeneratorCon
     this->start_token_id = 2;
     this->pad_token_id = 1;
     this->eos_token_id = 2;
+    
+    return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
 
 // TODO: fix it to general input(not only one image output)
@@ -33,7 +35,7 @@ bool ZeticMLangeTrocrGeneratorFeature::stoppingCriteria(std::vector<int> &decode
     bool is_done = cur_len >= max_length;
     if (max_position_embeddings != VAL_NONE && !is_done && cur_len >= max_position_embeddings) {
         DBGLOG("This is a friendly reminder - the current text generation call will exceed the model's predefined "
-                "maximum length (%zu). Depending on the model, you may observe "
+                "maximum length (%d). Depending on the model, you may observe "
                 "exceptions, performance degradation, or nothing at all.", max_position_embeddings);
     }
     return is_done;

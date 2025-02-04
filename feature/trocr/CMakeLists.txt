@@ -41,7 +41,7 @@ target_link_libraries(run_test_trocr_qc trocr_feature)
 target_link_libraries(run_test_trocr_qc zetic_mlange_qnn)
 
 
-# add_executable(run_test_trocr_ort
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/proc/run_test_trocr_ort.cpp)
-# target_link_libraries(run_test_trocr_ort trocr_feature)
-# target_link_libraries(run_test_trocr_ort zetic_mlange_qnn)
+add_executable(run_test_trocr_ort
+                ${CMAKE_CURRENT_SOURCE_DIR}/proc/run_test_trocr_ort.cpp)
+target_link_libraries(run_test_trocr_ort trocr_feature)
+target_link_libraries(run_test_trocr_ort zetic_mlange_ort)
