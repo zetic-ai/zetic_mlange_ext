@@ -6,7 +6,6 @@
 #include "trocr_generator_feature.h"
 #include "ort_model.h"
 #include "getopt.h"
-#include <opencv4/opencv2/imgcodecs.hpp>
 
 #define TROCR_ENCODER_NUM_MODEL_INPUT 1
 #define TROCR_ENCODER_NUM_MODEL_OUTPUT 1
@@ -69,6 +68,30 @@ Zetic_MLange_Feature_Result_t run_trocr_ort_model(std::string model_file_path,
     return ret;
 }
 
+// How to run AI model
+
+// (1) Model load
+// (2) Setup buffers
+// (3+a) Run
+// (4) Model deload
+
+
+// First stage: encoder stage
+
+// (1) encoder load
+// (2) encoder setup
+// (3) encoder run
+// (4) delete(encoder)
+
+
+// Second stage: decoder stage
+
+// (1) decoder load
+// (2) decoder setup
+
+// (3: loop) decoder run
+
+// (4) delete(decoder)
 
 
 void test_trocr_ort(std::string encoder_model_file_path, 

@@ -7,7 +7,6 @@
 #include "trocr_generator_feature.h"
 #include "qnn_model.h"
 #include "getopt.h"
-#include <opencv4/opencv2/imgcodecs.hpp>
 
 #define TROCR_ENCODER_NUM_MODEL_INPUT 1
 #define TROCR_ENCODER_NUM_MODEL_OUTPUT 1
