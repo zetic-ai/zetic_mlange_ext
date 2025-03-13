@@ -11,7 +11,7 @@ file(CREATE_LINK
         ${ZETIC_UTIL_OPENCV_SYMLINK_DIR}
         SYMBOLIC)
 
-if(PLATFORM STREQUAL ios)
+if(PLATFORM STREQUAL iOS OR PLATFORM STREQUAL iOS-simulator)
     # Build for (1) XCode - iOS
     add_library(opencv_feature ${LIBRARY_BUILD_TYPE}
                     ${CMAKE_CURRENT_SOURCE_DIR}/src/feature_opencv.cpp)
