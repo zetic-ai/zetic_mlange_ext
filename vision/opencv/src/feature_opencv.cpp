@@ -130,5 +130,6 @@ cv::Mat MLangeFeatureOpenCV::convertToBGR(const uint8_t* data, int width, int he
         return cv::Mat();
     }
 
+    cv::rotate(bgr, bgr, cv::ROTATE_90_CLOCKWISE);
     return bgr;
 }
