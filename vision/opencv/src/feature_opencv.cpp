@@ -105,3 +105,30 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getCenterCrop(cv::Mat& input_
     
     return ZETIC_MLANGE_FEATURE_SUCCESS;
 }
+
+cv::Mat MLangeFeatureOpenCV::convertToBGR(const uint8_t* data, int width, int height, int formatCode)
+{
+    cv::Mat yuvImg;
+    cv::Mat bgr;
+
+    if (formatCode == 0) {
+        // NV21 (Y + VU), total height = height + height/2
+        yuvImg = cv::Mat(height + height/2, width, CV_8UC1, (void*)data);
+        cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_NV21);
+    }
+    else if (formatCode == 1) {
+        // I420 (Y + U + V), total height = height * 3/2
+        yuvImg = cv::Mat(height * 3/2, width, CV_8UC1, (void*)data);
+        cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_I420);
+    }
+    else if (formatCode == 2) {
+        // NV12 (Y + UV), total height = height + height/2
+        yuvImg = cv::Mat(height + height/2, width, CV_8UC1, (void*)data);
+        cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_NV12);
+    }
+    else {
+        return cv::Mat();
+    }
+
+    return bgr;
+}
