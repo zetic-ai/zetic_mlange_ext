@@ -18,6 +18,9 @@ public:
         
     Zetic_MLange_Feature_Result_t getLetterBox(cv::Mat& input_img, std::vector<int> input_img_size, cv::Mat& output_image);
     Zetic_MLange_Feature_Result_t getCenterCrop(cv::Mat& input_img, std::vector<int> input_img_size, cv::Mat& output_image);
+    
+    static cv::Mat convertToBGR(const uint8_t* data, int width, int height, int formatCode);
+
 
 private:
 };
