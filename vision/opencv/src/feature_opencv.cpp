@@ -108,28 +108,34 @@ Zetic_MLange_Feature_Result_t MLangeFeatureOpenCV::getCenterCrop(cv::Mat& input_
 
 cv::Mat MLangeFeatureOpenCV::convertToBGR(const uint8_t* data, int width, int height, int formatCode)
 {
-    cv::Mat yuvImg;
     cv::Mat bgr;
 
     if (formatCode == 0) {
         // NV21 (Y + VU), total height = height + height/2
-        yuvImg = cv::Mat(height + height/2, width, CV_8UC1, (void*)data);
+        cv::Mat yuvImg = cv::Mat(height + height / 2, width, CV_8UC1, (void*)data);
         cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_NV21);
+        cv::rotate(bgr, bgr, cv::ROTATE_90_CLOCKWISE);
     }
     else if (formatCode == 1) {
         // I420 (Y + U + V), total height = height * 3/2
-        yuvImg = cv::Mat(height * 3/2, width, CV_8UC1, (void*)data);
+        cv::Mat yuvImg = cv::Mat(height * 3 / 2, width, CV_8UC1, (void*)data);
         cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_I420);
+        cv::rotate(bgr, bgr, cv::ROTATE_90_CLOCKWISE);
     }
     else if (formatCode == 2) {
         // NV12 (Y + UV), total height = height + height/2
-        yuvImg = cv::Mat(height + height/2, width, CV_8UC1, (void*)data);
+        cv::Mat yuvImg = cv::Mat(height + height / 2, width, CV_8UC1, (void*)data);
         cv::cvtColor(yuvImg, bgr, cv::COLOR_YUV2BGR_NV12);
+    }
+    else if (formatCode == 3) {
+        // BGRA8888, no conversion needed, just copy the data
+        // Ensure that each channel is in BGRA order (i.e., BGR with Alpha)
+        cv::Mat bgraImg(height, width, CV_8UC4, (void*)data); // BGRA8888 format
+        cv::cvtColor(bgraImg, bgr, cv::COLOR_BGRA2BGR); // Convert BGRA to BGR
     }
     else {
         return cv::Mat();
     }
 
-    cv::rotate(bgr, bgr, cv::ROTATE_90_CLOCKWISE);
     return bgr;
 }
