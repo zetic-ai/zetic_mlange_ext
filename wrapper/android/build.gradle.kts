@@ -1,0 +1,62 @@
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    compileSdk = 34
+    namespace = "com.zeticai.mlange"
+
+    defaultConfig {
+        minSdk = 24
+        targetSdk = 34
+        externalNativeBuild {
+            cmake {
+                arguments += "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = File("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+
+    buildFeatures {
+        prefab = true
+    }
+}
+
+afterEvaluate {
+    android.libraryVariants.configureEach {
+        val variant = name
+        preBuildProvider.configure {
+            dependsOn(":jniutils:prefab${variant.capitalize()}ConfigurePackage")
+        }
+    }
+}
+
+dependencies {
+    compileOnly(project(":jniutils"))
+}
