@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.zeticai.mlange"
 
     defaultConfig {
@@ -58,5 +58,6 @@ afterEvaluate {
 }
 
 dependencies {
+    implementation(project(":zeticMLange"))
     compileOnly(project(":jniutils"))
 }
