@@ -24,5 +24,5 @@ set(LIBRARY_BUILD_TYPE STATIC)
 
 add_subdirectory(zetic_mlange_ext)
 
-add_subdirectory(wrapper/ext)
+add_subdirectory(wrapper)
 

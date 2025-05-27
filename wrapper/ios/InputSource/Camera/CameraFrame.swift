@@ -1,14 +1,14 @@
 import Foundation
 import CoreMedia
 
-class CameraFrame {
+public class CameraFrame {
     private let imageBuffer: Any?
     private(set) var imageAddress: UnsafeMutableRawPointer
     let width: Int32
     let height: Int32
     let bytesPerRow: Int32
     
-    init(buffer: Any, address: UnsafeMutableRawPointer, width: Int32, height: Int32, bytesPerRow: Int32) {
+    public init(buffer: Any, address: UnsafeMutableRawPointer, width: Int32, height: Int32, bytesPerRow: Int32) {
         self.imageBuffer = buffer
         self.imageAddress = address
         self.width = width
@@ -16,7 +16,7 @@ class CameraFrame {
         self.bytesPerRow = bytesPerRow
     }
     
-    convenience init?(from sampleBuffer: CMSampleBuffer) {
+    public convenience init?(from sampleBuffer: CMSampleBuffer) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return nil
         }
@@ -30,9 +30,15 @@ class CameraFrame {
         self.init(buffer: pixelBuffer, address: baseAddress, width: width, height: height, bytesPerRow: bytesPerRow)
     }
     
-    func withUnsafeBytes<T>(_ body: (UnsafeMutableRawBufferPointer) throws -> T) rethrows -> T {
+    public func withUnsafeBytes<T>(_ body: (UnsafeMutableRawBufferPointer) throws -> T) rethrows -> T {
         let bufferSize = Int(height * bytesPerRow)
         let buffer = UnsafeMutableRawBufferPointer(start: imageAddress, count: bufferSize)
         return try body(buffer)
+    }
+    
+    public func toData() -> Data {
+        return withUnsafeBytes { buffer in
+            return Data(buffer)
+        }
     }
 }

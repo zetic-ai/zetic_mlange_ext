@@ -2,13 +2,12 @@ import SwiftUI
 
 import ZeticMLange
 
-struct DetectionBoxView: View {
-    let result: YOLOv8Result
+public struct DetectionBoxView: View {
     let color: Color
     let label: String
     let box: [CGFloat]
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             // Bounding box
             Path { path in

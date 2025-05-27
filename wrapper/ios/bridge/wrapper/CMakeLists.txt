@@ -1,0 +1,8 @@
+
+add_subdirectory(opencv)
+
+add_subdirectory(face_detection)
+add_subdirectory(face_landmark)
+add_subdirectory(face_emotion_recognition)
+add_subdirectory(yolov8)
+add_subdirectory(whisper)

@@ -15,7 +15,7 @@ struct CustomFrameModifier: ViewModifier {
 }
 
 extension View {
-    func customFrame(targetWidth: CGFloat, targetHeight: CGFloat, geometryWidth: CGFloat, geometryHeight: CGFloat) -> some View {
+    public func customFrame(targetWidth: CGFloat, targetHeight: CGFloat, geometryWidth: CGFloat, geometryHeight: CGFloat) -> some View {
         self.modifier(CustomFrameModifier(targetWidth: targetWidth, targetHeight: targetHeight,
                                           geometryWidth: geometryWidth, geometryHeight: geometryHeight))
     }

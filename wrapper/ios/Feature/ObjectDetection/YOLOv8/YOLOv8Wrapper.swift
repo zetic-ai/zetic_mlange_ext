@@ -19,14 +19,14 @@ public class YOLOv8Wrapper {
         YOLOv8Wrapper.nativeDeinitFeature(wrapperPtr)
     }
     
-    public func featurePreprocess(_ baseAddress: UnsafeMutableRawPointer, _ width: Int32, _ height: Int32, _ bytesPerRow: Int32) -> Data {
+    public func featurePreprocess(_ baseAddress: UnsafeRawPointer, _ width: Int32, _ height: Int32, _ bytesPerRow: Int32) -> Data {
         var count: Int32 = 0
         let bytePointer = YOLOv8Wrapper.nativeFeaturePreprocess(wrapperPtr, baseAddress, width, height, bytesPerRow, &count)
         
         return convertBytePointerToDataWithCaching(bytePointer, count)
     }
     
-    public func featurePostprocess(_ outputFloatArray: UnsafeMutablePointer<UInt8>) -> [YOLOv8Result] {
+    public func featurePostprocess(_ outputFloatArray: UnsafePointer<UInt8>) -> [YOLOv8Result] {
         var count: Int32 = 0
         let resultsPtr = YOLOv8Wrapper.nativeFeaturePostprocess(wrapperPtr, outputFloatArray, &count)
         
@@ -61,10 +61,10 @@ public class YOLOv8Wrapper {
     static func nativeDeinitFeature(_ modelPtr: Int64)
     
     @_silgen_name("nativeFeaturePreprocess")
-    static func nativeFeaturePreprocess(_ modelPtr: Int64, _ baseAddress: UnsafeMutableRawPointer, _ width: Int32, _ height: Int32, _ bytesPerRow: Int32, _ countPtr: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<UInt8>
+    static func nativeFeaturePreprocess(_ modelPtr: Int64, _ baseAddress: UnsafeRawPointer, _ width: Int32, _ height: Int32, _ bytesPerRow: Int32, _ countPtr: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<UInt8>
     
     @_silgen_name("nativeFeaturePostprocess")
-    static func nativeFeaturePostprocess(_ modelPtr: Int64, _ outputFloatArray: UnsafeMutablePointer<UInt8>, _ countPtr: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<DLResultC>
+    static func nativeFeaturePostprocess(_ modelPtr: Int64, _ outputFloatArray: UnsafePointer<UInt8>, _ countPtr: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<DLResultC>
     
     @_silgen_name("nativeFeaturePreprocessWithFrame")
     static func nativeFeaturePreprocessWithFrame(_ modelPtr: Int64, _ frameData: UnsafePointer<UInt8>, _ width: Int32, _ height: Int32, _ formatCode: Int32, _ countPtr: UnsafeMutablePointer<Int32>)-> UnsafeMutablePointer<UInt8>

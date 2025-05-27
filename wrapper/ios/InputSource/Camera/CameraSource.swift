@@ -1,0 +1,167 @@
+import SwiftUI
+import AVFoundation
+import Vision
+import Combine
+
+public class CameraSource: NSObject, InputSource, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+    private let session = AVCaptureSession()
+    private let videoOutput = AVCaptureVideoDataOutput()
+    private let photoOutput = AVCapturePhotoOutput()
+    private var frameCallback: ((CameraFrame) -> Void)?
+    
+    @Published public var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    private let processingQueue = DispatchQueue(label: "image_processing_queue", qos: .userInitiated)
+    
+    public var resolution = CGSize(width: 640, height: 480)
+    private let position: AVCaptureDevice.Position
+    private let context: CIContext
+    
+    public init(_ position: AVCaptureDevice.Position = .back) {
+        let contextOptions = [CIContextOption.useSoftwareRenderer: false]
+        self.context = CIContext(options: contextOptions)
+        self.position = position
+        
+        super.init()
+    }
+    
+    public func checkCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            setupCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                if granted {
+                    DispatchQueue.main.async {
+                        self?.setupCamera()
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    private func setupCamera() {
+        do {
+            session.beginConfiguration()
+            
+            guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position) else {
+                print("Error: Unable to access the back camera.")
+                session.commitConfiguration()
+                return
+            }
+            
+            var selectedFormat: AVCaptureDevice.Format?
+            var maxFrameRate: Double = 0
+            
+            for format in device.formats {
+                for range in format.videoSupportedFrameRateRanges {
+                    if range.maxFrameRate == 120 {
+                        selectedFormat = format
+                        maxFrameRate = range.maxFrameRate
+                        break
+                    }
+                }
+                
+                if selectedFormat != nil {
+                    break
+                }
+            }
+            if selectedFormat == nil {
+                selectedFormat = device.activeFormat
+                maxFrameRate = selectedFormat!.videoSupportedFrameRateRanges.first!.maxFrameRate
+            }
+            
+            if let selectedFormat = selectedFormat {
+                try device.lockForConfiguration()
+                device.activeFormat = selectedFormat
+                device.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(maxFrameRate))
+                device.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(maxFrameRate))
+                device.unlockForConfiguration()
+                print("Selected format: \(selectedFormat)")
+                print("Configured min frame duration: \(device.activeVideoMinFrameDuration)")
+                print("Configured max frame duration: \(device.activeVideoMaxFrameDuration)")
+                let configuredFPS = Double(device.activeVideoMaxFrameDuration.timescale) / Double(device.activeVideoMaxFrameDuration.value)
+                print("Configured FPS: \(configuredFPS)")
+            } else {
+                print("Error: 240fps not supported on this device at the desired resolution.")
+                session.commitConfiguration()
+                return
+            }
+            
+            let input = try AVCaptureDeviceInput(device: device)
+            
+            // Set session preset to input priority
+            session.sessionPreset = .inputPriority
+            
+            if session.canAddInput(input) {
+                session.addInput(input)
+            } else {
+                print("Error: Cannot add input to session.")
+                session.commitConfiguration()
+                return
+            }
+            
+            // Configure video output
+            videoOutput.alwaysDiscardsLateVideoFrames = true
+            videoOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)
+            ]
+            videoOutput.setSampleBufferDelegate(self, queue: processingQueue)
+            
+            if session.canAddOutput(videoOutput) {
+                session.addOutput(videoOutput)
+            } else {
+                print("Error: Cannot add output to session.")
+                session.commitConfiguration()
+                return
+            }
+            
+            // Set the video orientation and disable stabilization
+            if let connection = videoOutput.connection(with: .video) {
+                connection.videoOrientation = .portrait
+                connection.isVideoMirrored = false
+                if connection.isVideoStabilizationSupported {
+                    connection.preferredVideoStabilizationMode = .off
+                }
+            }
+            
+            session.commitConfiguration()
+            
+            previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer?.videoGravity = .resizeAspectFill
+            
+            // Start running the session
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.session.startRunning()
+                self?.resolution = CGSize(
+                    width: CGFloat(device.activeFormat.formatDescription.dimensions.width),
+                    height: CGFloat(device.activeFormat.formatDescription.dimensions.height)
+                )
+            }
+        } catch {
+            print("Camera setup error: \(error)")
+            session.commitConfiguration()
+        }
+    }
+    
+    
+    public func acquire(_ frame: @escaping (CameraFrame) -> Void) {
+        frameCallback = frame
+        checkCameraPermission()
+    }
+    
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if let frameCallback = frameCallback {
+            DispatchQueue.main.async {
+                frameCallback(CameraFrame(from: sampleBuffer)!)
+            }
+        }
+    }
+    
+    public func stop() {
+        session.stopRunning()
+        frameCallback = nil
+    }
+}
