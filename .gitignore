@@ -36,3 +36,4 @@ build
 .vscode
 
 zetic-opencv-4.10.0
+.cxx
