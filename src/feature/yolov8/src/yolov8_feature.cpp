@@ -214,9 +214,6 @@ Zetic_MLange_Feature_Result_t ZeticMLangeYoloV8Feature::classifierResultToImg(cv
         positionY += 50;
     }
 
-    cv::imshow("TEST_CLS", img);
-
-
     return ret;
 }
 
