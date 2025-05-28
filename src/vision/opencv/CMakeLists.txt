@@ -35,8 +35,6 @@ if(PLATFORM STREQUAL iOS OR PLATFORM STREQUAL iOS-simulator)
     )
 
 elseif(ANDROID OR PLATFORM STREQUAL android)
-    message(OpenCV_LIBS)
-    message("${OpenCV_LIBS}")
     target_link_libraries(opencv_feature
             PUBLIC
             common_feature
