@@ -143,8 +143,6 @@ build_ios() {
         -DBUILD_opencv_core=ON \
         -DBUILD_opencv_imgproc=ON \
         -DBUILD_opencv_imgcodecs=OFF \
-        -DZLIB_INCLUDE_DIR="$OPENCV_ROOT/3rdparty/zlib" \
-        -DZLIB_LIBRARY="$OPENCV_ROOT/3rdparty/zlib/libzlib.a" \
         -DWITH_ITT=OFF \
         -DWITH_IPP=OFF \
         -DWITH_IPP_A=OFF \
@@ -362,6 +360,12 @@ create_ios_universal() {
     fi
 
     if [ -d "ios_install_arm64/lib" ]; then
+        ZLIB_LIB="ios_install_arm64/lib/opencv4/3rdparty/libzlib.a"
+        if [ -f "$ZLIB_LIB" ]; then
+            mkdir -p "$UNIVERSAL_DIR/lib/opencv4/3rdparty"
+            cp "$ZLIB_LIB" "$UNIVERSAL_DIR/lib/opencv4/3rdparty/"
+        fi
+
         for lib in ios_install_arm64/lib/*.a; do
             if [ -f "$lib" ]; then
                 lib_name=$(basename "$lib")

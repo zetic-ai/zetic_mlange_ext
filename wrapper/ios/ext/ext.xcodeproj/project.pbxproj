@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1608B7EA2DE0539E00828501 /* ZeticMLange.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1608B7E92DE0539E00828501 /* ZeticMLange.framework */; };
-		1608B7EB2DE0539E00828501 /* ZeticMLange.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1608B7E92DE0539E00828501 /* ZeticMLange.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1604747B2DE71574004CF544 /* ZeticMLange in Frameworks */ = {isa = PBXBuildFile; productRef = 1604747A2DE71574004CF544 /* ZeticMLange */; };
 		1608B7F62DE46F9600828501 /* yamnet_class_map.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F52DE46F9600828501 /* yamnet_class_map.csv */; };
 		1608B7F72DE46F9600828501 /* vocab.json in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F42DE46F9600828501 /* vocab.json */; };
 		1608B7F82DE46F9600828501 /* coco.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F32DE46F9600828501 /* coco.yaml */; };
@@ -24,20 +23,6 @@
 			remoteInfo = ext;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1608B7EC2DE0539E00828501 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1608B7EB2DE0539E00828501 /* ZeticMLange.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		160895672DDF244100828501 /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
@@ -166,7 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1608B7EA2DE0539E00828501 /* ZeticMLange.framework in Frameworks */,
+				1604747B2DE71574004CF544 /* ZeticMLange in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,7 +810,6 @@
 				16DEB95D2DB234E500ADAC60 /* Frameworks */,
 				16DEB95E2DB234E500ADAC60 /* Resources */,
 				169724362DB23BBE00A398EC /* Run Script */,
-				1608B7EC2DE0539E00828501 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -838,6 +822,7 @@
 			);
 			name = ext;
 			packageProductDependencies = (
+				1604747A2DE71574004CF544 /* ZeticMLange */,
 			);
 			productName = ext;
 			productReference = 16DEB9602DB234E500ADAC60 /* ext.framework */;
@@ -893,6 +878,9 @@
 			);
 			mainGroup = 16DEB9562DB234E500ADAC60;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 16DEB9612DB234E500ADAC60 /* Products */;
 			projectDirPath = "";
@@ -1279,7 +1267,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\n\nBUILD_OUTPUT_DIR=\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME/build\"\nFRAMEWORK_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework\"\nFRAMEWORK_LIB_PATH=\"${FRAMEWORK_DIR}/${PRODUCT_NAME}\"\n\nexport PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\nSRC_HASH_FILE=\"${BUILD_OUTPUT_DIR}/src_hash.txt\"\nNEW_HASH=$(find \"$SRCROOT\" -type f \\( -name \"*.*\" \\) -exec shasum {} + | shasum)\n\necho \"$NEW_HASH\"\ncat \"$SRC_HASH_FILE\"\n\nif [ -f \"$SRC_HASH_FILE\" ] && [ \"$NEW_HASH\" == \"$(cat \"$SRC_HASH_FILE\")\" ]; then\n  echo \"No source changes detected, skipping...\"\n  exit 0\nfi\n  \nif [ -d \"$BUILD_OUTPUT_DIR\" ]; then\n    rm -rf $BUILD_OUTPUT_DIR\nfi\n\nmkdir -p $BUILD_OUTPUT_DIR\necho \"$NEW_HASH\" > $SRC_HASH_FILE\n\n# install opencv\ncp $SRCROOT/bridge/zetic_mlange_ext/vision/opencv/zetic-opencv-4.10.0/ios_install/lib/libopencv_world.a ${BUILD_OUTPUT_DIR}/libopencv_world.a\ncp $SRCROOT/bridge/zetic_mlange_ext/vision/opencv/zetic-opencv-4.10.0/ios_install/lib/opencv4/3rdparty/libzlib.a ${BUILD_OUTPUT_DIR}/libzlib.a\n\npushd $BUILD_OUTPUT_DIR\ncmake -G Xcode $SRCROOT/bridge\ncmake --build . --target ALL_BUILD\npopd\n\nCOMBINED_LIB_NAME=\"CombinedLib.a\"\n\ncp -f \"${FRAMEWORK_LIB_PATH}\" \"OriginalFrameworkLib.a\"\n\nEXTRA_LIBS_ARRAY=()\nwhile IFS= read -r -d '' file; do\n    EXTRA_LIBS_ARRAY+=(\"$file\")\ndone < <(find \"$BUILD_OUTPUT_DIR\" -type f -name '*.a' -print0)\n\nlibtool -static -o \"${COMBINED_LIB_NAME}\" \\\n    \"OriginalFrameworkLib.a\" \\\n    \"${EXTRA_LIBS_ARRAY[@]}\"\n\nif [[ -f \"${FRAMEWORK_LIB_PATH}\" ]]; then\n    lipo -create \"${COMBINED_LIB_NAME}\" -output \"${FRAMEWORK_LIB_PATH}\"\n    rm -f \"CombinedLib.a\"\nelse\n    mv -f \"${COMBINED_LIB_NAME}\" \"${FRAMEWORK_LIB_PATH}\"\nfi\n\nrm -f \"OriginalFrameworkLib.a\"\n";
+			shellScript = "#!/bin/bash\n\nBUILD_OUTPUT_DIR=\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME/build\"\nFRAMEWORK_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework\"\nFRAMEWORK_LIB_PATH=\"${FRAMEWORK_DIR}/${PRODUCT_NAME}\"\n\nexport PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\nSRC_HASH_FILE=\"${BUILD_OUTPUT_DIR}/src_hash.txt\"\nNEW_HASH=$(find \"$SRCROOT\" -type f \\( -name \"*.*\" \\) -exec shasum {} + | shasum)\n\necho \"$NEW_HASH\"\ncat \"$SRC_HASH_FILE\"\n\nif [ -f \"$SRC_HASH_FILE\" ] && [ \"$NEW_HASH\" == \"$(cat \"$SRC_HASH_FILE\")\" ]; then\n  echo \"No source changes detected, skipping...\"\n  exit 0\nfi\n  \nif [ -d \"$BUILD_OUTPUT_DIR\" ]; then\n    rm -rf $BUILD_OUTPUT_DIR\nfi\n\nmkdir -p $BUILD_OUTPUT_DIR\necho \"$NEW_HASH\" > $SRC_HASH_FILE\n\n# install opencv\ncp $SRCROOT/../../../third-party/opencv/ios_install/lib/libopencv_world.a ${BUILD_OUTPUT_DIR}/libopencv_world.a\ncp $SRCROOT/../../../third-party/opencv/ios_install/lib/opencv4/3rdparty/libzlib.a ${BUILD_OUTPUT_DIR}/libzlib.a\n\npushd $BUILD_OUTPUT_DIR\ncmake -G Xcode $SRCROOT/bridge\ncmake --build . --target ALL_BUILD\npopd\n\nCOMBINED_LIB_NAME=\"CombinedLib.a\"\n\ncp -f \"${FRAMEWORK_LIB_PATH}\" \"OriginalFrameworkLib.a\"\n\nEXTRA_LIBS_ARRAY=()\nwhile IFS= read -r -d '' file; do\n    EXTRA_LIBS_ARRAY+=(\"$file\")\ndone < <(find \"$BUILD_OUTPUT_DIR\" -type f -name '*.a' -print0)\n\nlibtool -static -o \"${COMBINED_LIB_NAME}\" \\\n    \"OriginalFrameworkLib.a\" \\\n    \"${EXTRA_LIBS_ARRAY[@]}\"\n\nif [[ -f \"${FRAMEWORK_LIB_PATH}\" ]]; then\n    lipo -create \"${COMBINED_LIB_NAME}\" -output \"${FRAMEWORK_LIB_PATH}\"\n    rm -f \"CombinedLib.a\"\nelse\n    mv -f \"${COMBINED_LIB_NAME}\" \"${FRAMEWORK_LIB_PATH}\"\nfi\n\nrm -f \"OriginalFrameworkLib.a\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1569,6 +1557,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zetic-ai/ZeticMLangeiOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1604747A2DE71574004CF544 /* ZeticMLange */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */;
+			productName = ZeticMLange;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 16DEB9572DB234E500ADAC60 /* Project object */;
 }
