@@ -16,8 +16,6 @@ limitations under the License.
 
 # ZETIC MLange Extension (zetic_mlange_ext)
 
-## [WIP]
-
 <p align="center">
     <a href="https://docs.zetic.ai"><img alt="MLange Documentation" src="https://img.shields.io/endpoint?url=https://docs.zetic.ai&color=brightgreen"></a>
     <a href="https://mlange.zetic.ai"><img alt="LICENSE" src="https://img.shields.io/circleci/build/github/huggingface/transformers/main"></a>
@@ -61,40 +59,61 @@ limitations under the License.
 ## Installation
 
 ### 1. Import to your mobile project
-(TBD: Gradle, SPM, ...)
+#### Gradle
+```kotlin
+implementation("com.zeticai:mlange:ext:0.0.1")
+```
+#### SPM
+```
+github.com/zetic-ai/zetic_mlange_ext.git
+```
 
 ### 2. Build From source code
 
 ### Prerequisite
 - java19
 - NDK ($ANDROID_NDK)
-- Build `third-party` libraries by run `build_third-party.sh`.
+
+### Build
+1. Build `third-party` libraries by run `build_third-party.sh`.
+2. Build android or ios project using Android Studio or Xcode.
 
 
 ## Quick Start
 
 - Android(Kotlin)
 
-
 ``` kotlin
-    
-    val objectDetectionPipeline = ZeticMLangePipeline(
-        feature = ObjectDetection(this),
-        inputSource = CameraSource(this, surface.holder, preferredSize),
-    )
+val objectDetectionPipeline = ZeticMLangePipeline(
+    feature = ObjectDetection(this),
+    inputSource = CameraSource(this, surface.holder, preferredSize),
+)
 
-    objectDetectionPipeline.loop { runOnUiThread {
-        yolo.visualize(YOLOResult(it.value), preferredSize, true)
-    }}
-
+objectDetectionPipeline.loop { runOnUiThread {
+    yolo.visualize(YOLOResult(it.value), preferredSize, true)
+}}
 ```
 
 - iOS(Swift)
 
 ``` swift
-
-    (TBD)
-
+GeometryReader { geometry in
+    ZStack {
+        if let previewLayer = cameraSource.previewLayer {
+            CameraPreviewView(previewLayer: previewLayer)
+        }
+        
+        if let detections = pipeline.latestResult {
+            DetectionsView(detectionResult: detections, cameraResolution: cameraSource.resolution)
+        }
+    }
+}
+.onAppear {
+    pipeline.startLoop()
+}
+.onDisappear {
+    pipeline.stopLoop()
+}
 ```
 
 
