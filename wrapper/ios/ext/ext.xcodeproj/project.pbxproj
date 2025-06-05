@@ -1,0 +1,1581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1604747B2DE71574004CF544 /* ZeticMLange in Frameworks */ = {isa = PBXBuildFile; productRef = 1604747A2DE71574004CF544 /* ZeticMLange */; };
+		1608B7F62DE46F9600828501 /* yamnet_class_map.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F52DE46F9600828501 /* yamnet_class_map.csv */; };
+		1608B7F72DE46F9600828501 /* vocab.json in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F42DE46F9600828501 /* vocab.json */; };
+		1608B7F82DE46F9600828501 /* coco.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 1608B7F32DE46F9600828501 /* coco.yaml */; };
+		16DEB96C2DB234E500ADAC60 /* ext.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16DEB9602DB234E500ADAC60 /* ext.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		16DEB96D2DB234E500ADAC60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16DEB9572DB234E500ADAC60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16DEB95F2DB234E500ADAC60;
+			remoteInfo = ext;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		160895672DDF244100828501 /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		16089D832DDF244100828501 /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		16089DB22DDF244100828501 /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		16089E6B2DDF244100828501 /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16089E742DDF244100828501 /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16089E7F2DDF244100828501 /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16089E872DDF244100828501 /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16089E8F2DDF244100828501 /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		16089F322DDF244100828501 /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		16089F752DDF244100828501 /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		1608B5852DDF244100828501 /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		1608B5862DDF244100828501 /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		1608B5952DDF244100828501 /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		1608B5962DDF244100828501 /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		1608B7242DDF24E000828501 /* ZeticMLange.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZeticMLange.framework; path = "/Users/gimdoyeob/Library/Developer/Xcode/DerivedData/ZeticMLangeiOS-dzcsrqdyjqbrsrbqcjtwblrqfyqf/Build/Products/Release-iphoneos/ZeticMLange.framework"; sourceTree = "<absolute>"; };
+		1608B7E92DE0539E00828501 /* ZeticMLange.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZeticMLange.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1608B7F32DE46F9600828501 /* coco.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = coco.yaml; sourceTree = "<group>"; };
+		1608B7F42DE46F9600828501 /* vocab.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vocab.json; sourceTree = "<group>"; };
+		1608B7F52DE46F9600828501 /* yamnet_class_map.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = yamnet_class_map.csv; sourceTree = "<group>"; };
+		1635B4832DDDDBE000875DB1 /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		1635BC9F2DDDDBE000875DB1 /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		1635BCCE2DDDDBE000875DB1 /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		1635BD872DDDDBE000875DB1 /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1635BD902DDDDBE000875DB1 /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1635BD9B2DDDDBE000875DB1 /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1635BDA32DDDDBE000875DB1 /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1635BDAB2DDDDBE000875DB1 /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		1635BE4E2DDDDBE000875DB1 /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		1635BE912DDDDBE000875DB1 /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		1635D4A12DDDDBE000875DB1 /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		1635D4A22DDDDBE000875DB1 /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		1635D4B12DDDDBE000875DB1 /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		1635D4B22DDDDBE000875DB1 /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16543C822DD5AD2B002BE037 /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		1654449E2DD5AD2B002BE037 /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		165444CD2DD5AD2B002BE037 /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		165445862DD5AD2B002BE037 /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1654458F2DD5AD2B002BE037 /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		1654459A2DD5AD2B002BE037 /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		165445A22DD5AD2B002BE037 /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		165445AA2DD5AD2B002BE037 /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		1654464D2DD5AD2B002BE037 /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		165446902DD5AD2B002BE037 /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		16545CA02DD5AD2B002BE037 /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		16545CA12DD5AD2B002BE037 /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16545CB02DD5AD2B002BE037 /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		16545CB12DD5AD2B002BE037 /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		168527892DB5F32400CC2465 /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		16852FA52DB5F32400CC2465 /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		16852FD42DB5F32400CC2465 /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		1685308D2DB5F32400CC2465 /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		168530962DB5F32400CC2465 /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		168530A12DB5F32400CC2465 /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		168530A92DB5F32400CC2465 /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		168530B12DB5F32400CC2465 /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		168531542DB5F32400CC2465 /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		168531972DB5F32400CC2465 /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		168547A72DB5F32400CC2465 /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		168547A82DB5F32400CC2465 /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		168547B72DB5F32400CC2465 /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		168547B82DB5F32400CC2465 /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16A8DA272DB24714003F395A /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		16A8E2432DB24714003F395A /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		16A8E2722DB24714003F395A /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		16A8E32B2DB24714003F395A /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16A8E3342DB24714003F395A /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16A8E33F2DB24714003F395A /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16A8E3472DB24714003F395A /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16A8E34F2DB24714003F395A /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		16A8E3F22DB24714003F395A /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		16A8E4352DB24714003F395A /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		16A8FA452DB24714003F395A /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		16A8FA462DB24714003F395A /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16A8FA552DB24714003F395A /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		16A8FA562DB24714003F395A /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16DEB9602DB234E500ADAC60 /* ext.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ext.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16DEB96B2DB234E500ADAC60 /* extTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = extTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		16EA8FAA2DB619FF00586B6C /* zlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = zlib.xcodeproj; sourceTree = "<group>"; };
+		16EA97C62DB619FF00586B6C /* CompilerIdC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdC.xcodeproj; sourceTree = "<group>"; };
+		16EA97F52DB619FF00586B6C /* CompilerIdCXX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CompilerIdCXX.xcodeproj; sourceTree = "<group>"; };
+		16EA98AE2DB619FF00586B6C /* opencv_java_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_java_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16EA98B72DB619FF00586B6C /* opencv_js_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_js_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16EA98C22DB619FF00586B6C /* opencv_objc_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_objc_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16EA98CA2DB619FF00586B6C /* opencv_python_bindings_generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_bindings_generator.xcodeproj; sourceTree = "<group>"; };
+		16EA98D22DB619FF00586B6C /* opencv_python_tests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_python_tests.xcodeproj; sourceTree = "<group>"; };
+		16EA99752DB619FF00586B6C /* opencv_world.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = opencv_world.xcodeproj; sourceTree = "<group>"; };
+		16EA99B82DB619FF00586B6C /* OpenCV.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = OpenCV.xcodeproj; sourceTree = "<group>"; };
+		16EAAFC82DB619FF00586B6C /* ColorBlobDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetection.xcodeproj; sourceTree = "<group>"; };
+		16EAAFC92DB619FF00586B6C /* ColorBlobDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ColorBlobDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+		16EAAFD82DB619FF00586B6C /* FaceDetection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetection.xcodeproj; sourceTree = "<group>"; };
+		16EAAFD92DB619FF00586B6C /* FaceDetectionDynamic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FaceDetectionDynamic.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1635D6AB2DDF089100875DB1 /* Feature */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		1635D6AC2DDF089900875DB1 /* Pipeline */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		1635D6AD2DDF08A200875DB1 /* InputSource */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = InputSource;
+			sourceTree = "<group>";
+		};
+		16A8FBCA2DB24714003F395A /* bridge */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = bridge;
+			sourceTree = "<group>";
+		};
+		16DEB96F2DB234E500ADAC60 /* extTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = extTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16DEB95D2DB234E500ADAC60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1604747B2DE71574004CF544 /* ZeticMLange in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16DEB9682DB234E500ADAC60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16DEB96C2DB234E500ADAC60 /* ext.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1608B7082DDF244100828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B70A2DDF244100828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B70C2DDF244100828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B70E2DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7102DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7122DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7142DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7162DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7182DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B71A2DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B71C2DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B71E2DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7202DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7222DDF244200828501 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1608B7982DDF2CE500828501 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1608B7E92DE0539E00828501 /* ZeticMLange.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1635D6242DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6262DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6282DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D62A2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D62C2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D62E2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6302DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6322DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6342DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6362DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D6382DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D63A2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D63C2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1635D63E2DDDDBE000875DB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E252DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E272DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E292DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E2B2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E2D2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E2F2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E312DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E332DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E352DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E372DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E392DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E3B2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E3D2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16545E3F2DD5AD2B002BE037 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1685492C2DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1685492E2DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549302DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549322DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549342DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549362DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549382DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1685493A2DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1685493C2DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1685493E2DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549402DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549422DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549442DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168549462DB5F32400CC2465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBCB2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBCD2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBCF2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBD12DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBD32DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBD52DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBD72DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBD92DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBDB2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBDD2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBDF2DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBE12DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBE32DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A8FBE52DB24714003F395A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16DEB9562DB234E500ADAC60 = {
+			isa = PBXGroup;
+			children = (
+				1635D6AD2DDF08A200875DB1 /* InputSource */,
+				1635D6AC2DDF089900875DB1 /* Pipeline */,
+				1635D6AB2DDF089100875DB1 /* Feature */,
+				16DEB96F2DB234E500ADAC60 /* extTests */,
+				16DEB9612DB234E500ADAC60 /* Products */,
+				16A8FBCA2DB24714003F395A /* bridge */,
+				1608B7982DDF2CE500828501 /* Frameworks */,
+				1608B7F32DE46F9600828501 /* coco.yaml */,
+				1608B7F42DE46F9600828501 /* vocab.json */,
+				1608B7F52DE46F9600828501 /* yamnet_class_map.csv */,
+			);
+			sourceTree = "<group>";
+		};
+		16DEB9612DB234E500ADAC60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16DEB9602DB234E500ADAC60 /* ext.framework */,
+				16DEB96B2DB234E500ADAC60 /* extTests.xctest */,
+				1608B7242DDF24E000828501 /* ZeticMLange.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB14D2DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB14F2DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1512DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1532DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1552DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1572DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1592DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB15B2DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB15D2DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB15F2DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1612DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1632DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1652DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16EAB1672DB619FF00586B6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		16DEB95B2DB234E500ADAC60 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		16DEB95F2DB234E500ADAC60 /* ext */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16DEB9742DB234E500ADAC60 /* Build configuration list for PBXNativeTarget "ext" */;
+			buildPhases = (
+				16DEB95B2DB234E500ADAC60 /* Headers */,
+				16DEB95C2DB234E500ADAC60 /* Sources */,
+				16DEB95D2DB234E500ADAC60 /* Frameworks */,
+				16DEB95E2DB234E500ADAC60 /* Resources */,
+				169724362DB23BBE00A398EC /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1635D6AB2DDF089100875DB1 /* Feature */,
+				1635D6AC2DDF089900875DB1 /* Pipeline */,
+				1635D6AD2DDF08A200875DB1 /* InputSource */,
+			);
+			name = ext;
+			packageProductDependencies = (
+				1604747A2DE71574004CF544 /* ZeticMLange */,
+			);
+			productName = ext;
+			productReference = 16DEB9602DB234E500ADAC60 /* ext.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		16DEB96A2DB234E500ADAC60 /* extTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16DEB9772DB234E500ADAC60 /* Build configuration list for PBXNativeTarget "extTests" */;
+			buildPhases = (
+				16DEB9672DB234E500ADAC60 /* Sources */,
+				16DEB9682DB234E500ADAC60 /* Frameworks */,
+				16DEB9692DB234E500ADAC60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				16DEB96E2DB234E500ADAC60 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				16DEB96F2DB234E500ADAC60 /* extTests */,
+			);
+			name = extTests;
+			packageProductDependencies = (
+			);
+			productName = extTests;
+			productReference = 16DEB96B2DB234E500ADAC60 /* extTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16DEB9572DB234E500ADAC60 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					16DEB95F2DB234E500ADAC60 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					16DEB96A2DB234E500ADAC60 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = 16DEB95A2DB234E500ADAC60 /* Build configuration list for PBXProject "ext" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 16DEB9562DB234E500ADAC60;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 16DEB9612DB234E500ADAC60 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1608B7162DDF244200828501 /* Products */;
+					ProjectRef = 1608B5852DDF244100828501 /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6382DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635D4A12DDDDBE000875DB1 /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1552DB619FF00586B6C /* Products */;
+					ProjectRef = 16EAAFC82DB619FF00586B6C /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E252DD5AD2B002BE037 /* Products */;
+					ProjectRef = 16545CA02DD5AD2B002BE037 /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBDD2DB24714003F395A /* Products */;
+					ProjectRef = 16A8FA452DB24714003F395A /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549422DB5F32400CC2465 /* Products */;
+					ProjectRef = 168547A72DB5F32400CC2465 /* ColorBlobDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6362DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635D4A22DDDDBE000875DB1 /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1612DB619FF00586B6C /* Products */;
+					ProjectRef = 16EAAFC92DB619FF00586B6C /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E332DD5AD2B002BE037 /* Products */;
+					ProjectRef = 16545CA12DD5AD2B002BE037 /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBE32DB24714003F395A /* Products */;
+					ProjectRef = 16A8FA462DB24714003F395A /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549442DB5F32400CC2465 /* Products */;
+					ProjectRef = 168547A82DB5F32400CC2465 /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7202DDF244200828501 /* Products */;
+					ProjectRef = 1608B5862DDF244100828501 /* ColorBlobDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 1685492E2DB5F32400CC2465 /* Products */;
+					ProjectRef = 16852FA52DB5F32400CC2465 /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E272DD5AD2B002BE037 /* Products */;
+					ProjectRef = 1654449E2DD5AD2B002BE037 /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7102DDF244200828501 /* Products */;
+					ProjectRef = 16089D832DDF244100828501 /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBD12DB24714003F395A /* Products */;
+					ProjectRef = 16A8E2432DB24714003F395A /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D63E2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BC9F2DDDDBE000875DB1 /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1672DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA97C62DB619FF00586B6C /* CompilerIdC.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6282DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BCCE2DDDDBE000875DB1 /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7122DDF244200828501 /* Products */;
+					ProjectRef = 16089DB22DDF244100828501 /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1592DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA97F52DB619FF00586B6C /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBDB2DB24714003F395A /* Products */;
+					ProjectRef = 16A8E2722DB24714003F395A /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549462DB5F32400CC2465 /* Products */;
+					ProjectRef = 16852FD42DB5F32400CC2465 /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E2D2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 165444CD2DD5AD2B002BE037 /* CompilerIdCXX.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1632DB619FF00586B6C /* Products */;
+					ProjectRef = 16EAAFD82DB619FF00586B6C /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E2B2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 16545CB02DD5AD2B002BE037 /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7142DDF244200828501 /* Products */;
+					ProjectRef = 1608B5952DDF244100828501 /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549362DB5F32400CC2465 /* Products */;
+					ProjectRef = 168547B72DB5F32400CC2465 /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBE12DB24714003F395A /* Products */;
+					ProjectRef = 16A8FA552DB24714003F395A /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D63A2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635D4B12DDDDBE000875DB1 /* FaceDetection.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E352DD5AD2B002BE037 /* Products */;
+					ProjectRef = 16545CB12DD5AD2B002BE037 /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 1685492C2DB5F32400CC2465 /* Products */;
+					ProjectRef = 168547B82DB5F32400CC2465 /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D63C2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635D4B22DDDDBE000875DB1 /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B71E2DDF244200828501 /* Products */;
+					ProjectRef = 1608B5962DDF244100828501 /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBE52DB24714003F395A /* Products */;
+					ProjectRef = 16A8FA562DB24714003F395A /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB14F2DB619FF00586B6C /* Products */;
+					ProjectRef = 16EAAFD92DB619FF00586B6C /* FaceDetectionDynamic.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E392DD5AD2B002BE037 /* Products */;
+					ProjectRef = 165446902DD5AD2B002BE037 /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 1685493A2DB5F32400CC2465 /* Products */;
+					ProjectRef = 168531972DB5F32400CC2465 /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B70E2DDF244200828501 /* Products */;
+					ProjectRef = 16089F752DDF244100828501 /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB14D2DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA99B82DB619FF00586B6C /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6262DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BE912DDDDBE000875DB1 /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBDF2DB24714003F395A /* Products */;
+					ProjectRef = 16A8E4352DB24714003F395A /* OpenCV.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B70A2DDF244100828501 /* Products */;
+					ProjectRef = 16089E6B2DDF244100828501 /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1572DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA98AE2DB619FF00586B6C /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1685493C2DB5F32400CC2465 /* Products */;
+					ProjectRef = 1685308D2DB5F32400CC2465 /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6322DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BD872DDDDBE000875DB1 /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E3F2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 165445862DD5AD2B002BE037 /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBD32DB24714003F395A /* Products */;
+					ProjectRef = 16A8E32B2DB24714003F395A /* opencv_java_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1512DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA98B72DB619FF00586B6C /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E3D2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 1654458F2DD5AD2B002BE037 /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBCD2DB24714003F395A /* Products */;
+					ProjectRef = 16A8E3342DB24714003F395A /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D62C2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BD902DDDDBE000875DB1 /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549402DB5F32400CC2465 /* Products */;
+					ProjectRef = 168530962DB5F32400CC2465 /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B71C2DDF244200828501 /* Products */;
+					ProjectRef = 16089E742DDF244100828501 /* opencv_js_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6302DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BD9B2DDDDBE000875DB1 /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB15F2DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA98C22DB619FF00586B6C /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBD92DB24714003F395A /* Products */;
+					ProjectRef = 16A8E33F2DB24714003F395A /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549302DB5F32400CC2465 /* Products */;
+					ProjectRef = 168530A12DB5F32400CC2465 /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B70C2DDF244100828501 /* Products */;
+					ProjectRef = 16089E7F2DDF244100828501 /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E2F2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 1654459A2DD5AD2B002BE037 /* opencv_objc_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1532DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA98CA2DB619FF00586B6C /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBD52DB24714003F395A /* Products */;
+					ProjectRef = 16A8E3472DB24714003F395A /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D62A2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BDA32DDDDBE000875DB1 /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7182DDF244200828501 /* Products */;
+					ProjectRef = 16089E872DDF244100828501 /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549342DB5F32400CC2465 /* Products */;
+					ProjectRef = 168530A92DB5F32400CC2465 /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E372DD5AD2B002BE037 /* Products */;
+					ProjectRef = 165445A22DD5AD2B002BE037 /* opencv_python_bindings_generator.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549322DB5F32400CC2465 /* Products */;
+					ProjectRef = 168530B12DB5F32400CC2465 /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6242DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BDAB2DDDDBE000875DB1 /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB1652DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA98D22DB619FF00586B6C /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBCB2DB24714003F395A /* Products */;
+					ProjectRef = 16A8E34F2DB24714003F395A /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7082DDF244100828501 /* Products */;
+					ProjectRef = 16089E8F2DDF244100828501 /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E3B2DD5AD2B002BE037 /* Products */;
+					ProjectRef = 165445AA2DD5AD2B002BE037 /* opencv_python_tests.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B7222DDF244200828501 /* Products */;
+					ProjectRef = 16089F322DDF244100828501 /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB15B2DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA99752DB619FF00586B6C /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D6342DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635BE4E2DDDDBE000875DB1 /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 168549382DB5F32400CC2465 /* Products */;
+					ProjectRef = 168531542DB5F32400CC2465 /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBCF2DB24714003F395A /* Products */;
+					ProjectRef = 16A8E3F22DB24714003F395A /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E292DD5AD2B002BE037 /* Products */;
+					ProjectRef = 1654464D2DD5AD2B002BE037 /* opencv_world.xcodeproj */;
+				},
+				{
+					ProductGroup = 1635D62E2DDDDBE000875DB1 /* Products */;
+					ProjectRef = 1635B4832DDDDBE000875DB1 /* zlib.xcodeproj */;
+				},
+				{
+					ProductGroup = 1608B71A2DDF244200828501 /* Products */;
+					ProjectRef = 160895672DDF244100828501 /* zlib.xcodeproj */;
+				},
+				{
+					ProductGroup = 16A8FBD72DB24714003F395A /* Products */;
+					ProjectRef = 16A8DA272DB24714003F395A /* zlib.xcodeproj */;
+				},
+				{
+					ProductGroup = 16EAB15D2DB619FF00586B6C /* Products */;
+					ProjectRef = 16EA8FAA2DB619FF00586B6C /* zlib.xcodeproj */;
+				},
+				{
+					ProductGroup = 16545E312DD5AD2B002BE037 /* Products */;
+					ProjectRef = 16543C822DD5AD2B002BE037 /* zlib.xcodeproj */;
+				},
+				{
+					ProductGroup = 1685493E2DB5F32400CC2465 /* Products */;
+					ProjectRef = 168527892DB5F32400CC2465 /* zlib.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				16DEB95F2DB234E500ADAC60 /* ext */,
+				16DEB96A2DB234E500ADAC60 /* extTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16DEB95E2DB234E500ADAC60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1608B7F62DE46F9600828501 /* yamnet_class_map.csv in Resources */,
+				1608B7F72DE46F9600828501 /* vocab.json in Resources */,
+				1608B7F82DE46F9600828501 /* coco.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16DEB9692DB234E500ADAC60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		169724362DB23BBE00A398EC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\n\nBUILD_OUTPUT_DIR=\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME/build\"\nFRAMEWORK_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework\"\nFRAMEWORK_LIB_PATH=\"${FRAMEWORK_DIR}/${PRODUCT_NAME}\"\n\nexport PATH=\"$PATH:/opt/homebrew/bin:/usr/local/bin\"\nSRC_HASH_FILE=\"${BUILD_OUTPUT_DIR}/src_hash.txt\"\nNEW_HASH=$(find \"$SRCROOT\" -type f \\( -name \"*.*\" \\) -exec shasum {} + | shasum)\n\necho \"$NEW_HASH\"\ncat \"$SRC_HASH_FILE\"\n\nif [ -f \"$SRC_HASH_FILE\" ] && [ \"$NEW_HASH\" == \"$(cat \"$SRC_HASH_FILE\")\" ]; then\n  echo \"No source changes detected, skipping...\"\n  exit 0\nfi\n  \nif [ -d \"$BUILD_OUTPUT_DIR\" ]; then\n    rm -rf $BUILD_OUTPUT_DIR\nfi\n\nmkdir -p $BUILD_OUTPUT_DIR\necho \"$NEW_HASH\" > $SRC_HASH_FILE\n\n# install opencv\ncp $SRCROOT/../../../third-party/opencv/ios_install/lib/libopencv_world.a ${BUILD_OUTPUT_DIR}/libopencv_world.a\ncp $SRCROOT/../../../third-party/opencv/ios_install/lib/opencv4/3rdparty/libzlib.a ${BUILD_OUTPUT_DIR}/libzlib.a\n\npushd $BUILD_OUTPUT_DIR\ncmake -G Xcode $SRCROOT/bridge\ncmake --build . --target ALL_BUILD\npopd\n\nCOMBINED_LIB_NAME=\"CombinedLib.a\"\n\ncp -f \"${FRAMEWORK_LIB_PATH}\" \"OriginalFrameworkLib.a\"\n\nEXTRA_LIBS_ARRAY=()\nwhile IFS= read -r -d '' file; do\n    EXTRA_LIBS_ARRAY+=(\"$file\")\ndone < <(find \"$BUILD_OUTPUT_DIR\" -type f -name '*.a' -print0)\n\nlibtool -static -o \"${COMBINED_LIB_NAME}\" \\\n    \"OriginalFrameworkLib.a\" \\\n    \"${EXTRA_LIBS_ARRAY[@]}\"\n\nif [[ -f \"${FRAMEWORK_LIB_PATH}\" ]]; then\n    lipo -create \"${COMBINED_LIB_NAME}\" -output \"${FRAMEWORK_LIB_PATH}\"\n    rm -f \"CombinedLib.a\"\nelse\n    mv -f \"${COMBINED_LIB_NAME}\" \"${FRAMEWORK_LIB_PATH}\"\nfi\n\nrm -f \"OriginalFrameworkLib.a\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16DEB95C2DB234E500ADAC60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16DEB9672DB234E500ADAC60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		16DEB96E2DB234E500ADAC60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16DEB95F2DB234E500ADAC60 /* ext */;
+			targetProxy = 16DEB96D2DB234E500ADAC60 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		16DEB9722DB234E500ADAC60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		16DEB9732DB234E500ADAC60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		16DEB9752DB234E500ADAC60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/Frameworks";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/bridge/zetic_mlange_ext/vision/opencv/zetic-opencv-4.10.0/ios/build/build-arm64-iphoneos/lib/Release";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "@executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/Frameworks/ext.framework/ext";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks/ext.framework/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zeticai.ext;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		16DEB9762DB234E500ADAC60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/Frameworks";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/bridge/zetic_mlange_ext/vision/opencv/zetic-opencv-4.10.0/ios/build/build-arm64-iphoneos/lib/Release";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "@executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/Frameworks/ext.framework/ext";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks/ext.framework/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zeticai.ext;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		16DEB9782DB234E500ADAC60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zeticai.extTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		16DEB9792DB234E500ADAC60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8WTTXXB63L;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zeticai.extTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16DEB95A2DB234E500ADAC60 /* Build configuration list for PBXProject "ext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16DEB9722DB234E500ADAC60 /* Debug */,
+				16DEB9732DB234E500ADAC60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16DEB9742DB234E500ADAC60 /* Build configuration list for PBXNativeTarget "ext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16DEB9752DB234E500ADAC60 /* Debug */,
+				16DEB9762DB234E500ADAC60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16DEB9772DB234E500ADAC60 /* Build configuration list for PBXNativeTarget "extTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16DEB9782DB234E500ADAC60 /* Debug */,
+				16DEB9792DB234E500ADAC60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zetic-ai/ZeticMLangeiOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1604747A2DE71574004CF544 /* ZeticMLange */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 160474792DE71574004CF544 /* XCRemoteSwiftPackageReference "ZeticMLangeiOS" */;
+			productName = ZeticMLange;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 16DEB9572DB234E500ADAC60 /* Project object */;
+}

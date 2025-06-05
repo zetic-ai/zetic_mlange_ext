@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.01)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+    set(CMAKE_C_FLAGS_DEBUG "-g")
+endif()
+
+project(ext)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(ZETIC_MLANGE_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(ZETIC_MLANGE_TARGET iOS)
+set(CMAKE_SYSTEM_NAME ${ZETIC_MLANGE_TARGET})
+set(CMAKE_OSX_SYSROOT iphoneos)
+set(CMAKE_OSX_ARCHITECTURES "arm64")
+set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "12.0")
+set(THIRD_PARTY_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../third-party)
+
+set(LIBRARY_BUILD_TYPE STATIC)
+
+add_subdirectory(zetic_mlange_ext)
+
+add_subdirectory(wrapper)
+
