@@ -12,18 +12,26 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+https://img.shields.io/endpoint/docs-zetic.ai-orange
+https://img.shields.io/badge/docs-zetic.ai-orange
 -->
 
-# ZETIC MLange Extension (zetic_mlange_ext)
+
+<h1 align="center">
+ZETIC MLange Extension
+</h3>
 
 <p align="center">
-    <a href="https://docs.zetic.ai"><img alt="MLange Documentation" src="https://img.shields.io/endpoint?url=https://docs.zetic.ai&color=brightgreen"></a>
-    <a href="https://mlange.zetic.ai"><img alt="LICENSE" src="https://img.shields.io/circleci/build/github/huggingface/transformers/main"></a>
-    <a href="https://github.com/huggingface/transformers/blob/main/LICENSE"><img alt="MLange Dashboard" src="https://img.shields.io/github/license/huggingface/transformers.svg?color=blue"></a>
-    <a href="https://huggingface.co/docs/transformers/index"><img alt="Documentation" src="https://img.shields.io/website/http/huggingface.co/docs/transformers/index.svg?down_color=red&down_message=offline&up_message=online"></a>
-    <a href="https://github.com/huggingface/transformers/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/huggingface/transformers.svg"></a>
-    <a href="https://github.com/huggingface/transformers/blob/main/CODE_OF_CONDUCT.md"><img alt="Contributor Covenant" src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg"></a>
+    <a href="https://zetic.ai"><img alt="ZETIC.ai Homepage" src="https://img.shields.io/badge/Website-zetic.ai-brightgreen"></a>
+    <a href="https://docs.zetic.ai"><img alt="MLange Documentation" src="https://img.shields.io/badge/Document-online-yellow"></a>
+    <a href="https://mlange.zetic.ai"><img alt="LICENSE" src="https://img.shields.io/badge/MLange Dashboard-web-hotpink"></a>
+    <a href="https://github.com/zetic-ai/ZETIC_MLange_apps"><img alt="GitHub release" src="https://img.shields.io/badge/Demo-MLange Apps-red"></a>
+    <a href="https://play.google.com/store/apps/details?id=com.zeticai.zeticapp"><img alt="GitHub release" src="https://img.shields.io/badge/ZeticApp-Play Store-darkgreen"></a>
+    <a href="https://apps.apple.com/app/zeticapp/id6739862746"><img alt="Contributor Covenant" src="https://img.shields.io/badge/ZeticApp-App Store-lightblue"></a>
 </p>
+
+
 
 
 <h3 align="center">
@@ -73,6 +81,10 @@ github.com/zetic-ai/zetic_mlange_ext.git
 ### Prerequisite
 - java19
 - NDK ($ANDROID_NDK)
+
+``` bash
+(Ser environment varialbe for ANDROID_NDK)
+```
 
 ### Build
 1. Build `third-party` libraries by run `build_third-party.sh`.
@@ -174,6 +186,4 @@ GeometryReader { geometry in
 
 
 
--------------------------------------------------------
 
-## Built with ❤️ for mobile AI deployment by the community
