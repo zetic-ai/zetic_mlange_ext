@@ -1,6 +1,8 @@
-## Contributing
+# Contribute to ZETIC MLange Extensions
  
  We welcome contributions from the community! Whether you're optimizing mobile performance, adding new processors, improving platform bindings, or enhancing documentation, your help makes this project better.
+
+ Please join our [Discord community chanenel](https://discord.com/invite/gVFX6myuMx).
 
 ## How to Contribute
 
