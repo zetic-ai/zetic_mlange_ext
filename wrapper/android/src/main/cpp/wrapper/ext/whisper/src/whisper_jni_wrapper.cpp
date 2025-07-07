@@ -9,21 +9,21 @@ static WhisperTokenizer* whisper_tokenizer;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_whisper_WhisperWrapper_nativeInit(JNIEnv *env, jobject thiz, jstring vocabulary_path) {
+Java_com_zeticai_mlange_feature_automaticspeechrecognition_whisper_WhisperWrapper_nativeInit(JNIEnv *env, jobject thiz, jstring vocabulary_path) {
     whisper_processor = new WhisperProcessor();
     whisper_tokenizer = new WhisperTokenizer(convertJStringToCString(env, vocabulary_path));
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_whisper_WhisperWrapper_nativeDeinit(JNIEnv *env, jobject thiz) {
+Java_com_zeticai_mlange_feature_automaticspeechrecognition_whisper_WhisperWrapper_nativeDeinit(JNIEnv *env, jobject thiz) {
     delete whisper_processor;
     delete whisper_tokenizer;
 }
 
 extern "C"
 JNIEXPORT jfloatArray JNICALL
-Java_com_zeticai_mlange_feature_whisper_WhisperWrapper_nativeProcess(JNIEnv *env, jobject thiz,
+Java_com_zeticai_mlange_feature_automaticspeechrecognition_whisper_WhisperWrapper_nativeProcess(JNIEnv *env, jobject thiz,
                                                                      jfloatArray audio) {
     auto vector_audio_data = convertJFloatArrayToCFloatVector(env, audio);
     auto process_result =  whisper_processor->process(vector_audio_data);
@@ -32,7 +32,7 @@ Java_com_zeticai_mlange_feature_whisper_WhisperWrapper_nativeProcess(JNIEnv *env
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_zeticai_mlange_feature_whisper_WhisperWrapper_nativeDecodeToken(JNIEnv *env,
+Java_com_zeticai_mlange_feature_automaticspeechrecognition_whisper_WhisperWrapper_nativeDecodeToken(JNIEnv *env,
                                                                          jobject thiz,
                                                                          jintArray ids,
                                                                          jboolean skip_special_token) {
