@@ -2,7 +2,7 @@
 
 set -e
 
-OPENCV_VERSION="4.10.0"
+OPENCV_VERSION="4.12.0"
 THIRD_PARTY_DIR="${THIRD_PARTY_PATH:-$(pwd)/third-party}"
 OPENCV_ROOT="$THIRD_PARTY_DIR/opencv"
 PLATFORM=${1:-"all"}  # all, android, ios, ios-simulator

@@ -21,7 +21,7 @@ class FaceLandmarkWrapper {
 
     private external fun nativePostprocess(
         zeticMLangeFeatureFaceDetectionPtr: Long,
-        outputData: Array<ByteArray>
+        outputData: Array<ByteBuffer>
     ): FaceLandmarkResult
 
     fun preprocess(imagePtr: Long, roi: Box): ByteBuffer {
@@ -29,7 +29,7 @@ class FaceLandmarkWrapper {
         return ByteBuffer.wrap(output)
     }
 
-    fun postprocess(outputData: Array<ByteArray>): FaceLandmarkResult {
+    fun postprocess(outputData: Array<ByteBuffer>): FaceLandmarkResult {
         return nativePostprocess(zeticMLangeFeatureFaceLandmarkPtr, outputData)
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import com.zeticai.mlange.feature.PipelineFeature
 import com.zeticai.mlange.feature.PipelineInferenceModel
 import com.zeticai.mlange.feature.ZeticMLangeModelWrapper
+import java.nio.ByteBuffer
 
 class Whisper(
     private val context: Context,
@@ -17,7 +18,7 @@ class Whisper(
         TODO("Not yet implemented")
     }
 
-    override fun postprocess(output: Array<ByteArray>): String {
+    override fun postprocess(output: Array<ByteBuffer>): String {
         TODO("Not yet implemented")
     }
 

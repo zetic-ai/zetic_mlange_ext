@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.01)
+cmake_minimum_required(VERSION 3.5)
 
 project(common_feature C)
 
