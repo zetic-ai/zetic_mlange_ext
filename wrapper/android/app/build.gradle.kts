@@ -7,6 +7,13 @@ android {
     namespace = "com.zeticai.ext"
     compileSdk = 35
 
+    packaging {
+        jniLibs.pickFirsts.add("lib/arm64-v8a/libc++_shared.so")
+        jniLibs.pickFirsts.add("lib/armeabi-v7a/libc++_shared.so")
+        jniLibs.pickFirsts.add("lib/x86/libc++_shared.so")
+        jniLibs.pickFirsts.add("lib/x86_64/libc++_shared.so")
+    }
+
     defaultConfig {
         applicationId = "com.zeticai.ext"
         minSdk = 24

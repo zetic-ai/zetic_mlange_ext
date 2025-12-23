@@ -1,6 +1,8 @@
 package com.zeticai.mlange.feature.objectdetection.yolov8
 
 import android.content.Context
+import com.zeticai.mlange.core.common.DataUtils
+import com.zeticai.mlange.core.tensor.Tensor
 import com.zeticai.mlange.feature.PipelineFeature
 import com.zeticai.mlange.feature.PipelineInferenceModel
 import com.zeticai.mlange.feature.ZeticMLangeModelWrapper
@@ -8,6 +10,7 @@ import com.zeticai.mlange.feature.objectdetection.ObjectDetectionResult
 import com.zeticai.mlange.feature.vision.OpenCVImageUtilsWrapper
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.ByteBuffer
 
 class YOLOv8(
     private val context: Context,
@@ -26,14 +29,18 @@ class YOLOv8(
         return arrayOf(wrapper.preprocess(imagePtr))
     }
 
-    override fun postprocess(output: Array<ByteArray>): ObjectDetectionResult {
+    override fun postprocess(output: Array<ByteBuffer>): ObjectDetectionResult {
         return ObjectDetectionResult(wrapper.postprocess(output[0]).value)
     }
 
     override fun run(input: Array<ByteArray>): ObjectDetectionResult {
         val pre = preprocess(input)
-        val output = model.inference(pre)
-        return postprocess(output)
+        val output = model.inference(pre.map {
+            Tensor.of(it)
+        }.toTypedArray())
+        return postprocess(output.map {
+            it.data
+        }.toTypedArray())
     }
 
     companion object {

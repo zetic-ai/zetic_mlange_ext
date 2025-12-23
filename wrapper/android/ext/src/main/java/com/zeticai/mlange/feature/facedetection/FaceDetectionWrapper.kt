@@ -16,7 +16,7 @@ class FaceDetectionWrapper {
 
     private external fun nativePostprocess(
         zeticMLangeFeatureFaceDetectionPtr: Long,
-        outputData: Array<ByteArray>
+        outputData: Array<ByteBuffer>
     ): FaceDetectionResults
 
     fun preprocess(imagePtr: Long): ByteBuffer {
@@ -24,7 +24,7 @@ class FaceDetectionWrapper {
         return ByteBuffer.wrap(output)
     }
 
-    fun postprocess(outputData: Array<ByteArray>): FaceDetectionResults {
+    fun postprocess(outputData: Array<ByteBuffer>): FaceDetectionResults {
         return nativePostprocess(zeticMLangeFeatureFaceDetectionPtr, outputData)
     }
 

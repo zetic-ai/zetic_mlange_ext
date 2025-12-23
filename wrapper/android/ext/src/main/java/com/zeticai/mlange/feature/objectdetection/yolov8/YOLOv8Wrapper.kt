@@ -13,7 +13,7 @@ class YOLOv8Wrapper(cocoYamlFilePath: String) {
         return nativePreprocess(this.featurePtr, imagePtr)
     }
 
-    fun postprocess(outputData: ByteArray): YOLOResult {
+    fun postprocess(outputData: ByteBuffer): YOLOResult {
         return nativePostProcess(this.featurePtr, outputData)
     }
 
@@ -44,7 +44,7 @@ class YOLOv8Wrapper(cocoYamlFilePath: String) {
 
     private external fun nativePostProcess(
         featurePtr: Long,
-        outputData: ByteArray
+        outputData: ByteBuffer
     ): YOLOResult
 
     private external fun nativeFreePreprocessedBuffer(byteBuffer: ByteBuffer)

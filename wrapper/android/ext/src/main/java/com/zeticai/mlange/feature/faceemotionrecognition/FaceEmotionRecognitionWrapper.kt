@@ -21,7 +21,7 @@ class FaceEmotionRecognitionWrapper {
 
     private external fun nativePostprocess(
         zeticMLangeFeatureFaceEmotionRecognitionPtr: Long,
-        outputData: Array<ByteArray>
+        outputData: Array<ByteBuffer>
     ): FaceEmotionRecognitionResult
 
     fun preprocess(imagePtr: Long, roi: Box): ByteBuffer {
@@ -30,7 +30,7 @@ class FaceEmotionRecognitionWrapper {
         )
     }
 
-    fun postprocess(outputData: Array<ByteArray>): FaceEmotionRecognitionResult {
+    fun postprocess(outputData: Array<ByteBuffer>): FaceEmotionRecognitionResult {
         return nativePostprocess(zeticMLangeFeatureFaceEmotionRecognitionPtr, outputData)
     }
 

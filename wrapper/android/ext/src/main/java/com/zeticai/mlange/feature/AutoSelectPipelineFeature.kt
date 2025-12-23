@@ -1,5 +1,7 @@
 package com.zeticai.mlange.feature
 
+import java.nio.ByteBuffer
+
 abstract class AutoSelectPipelineFeature<T> : PipelineFeature<T> {
     val feature: PipelineFeature<T> by lazy {
         selectFeature()
@@ -11,7 +13,7 @@ abstract class AutoSelectPipelineFeature<T> : PipelineFeature<T> {
         return feature.preprocess(input)
     }
 
-    override fun postprocess(output: Array<ByteArray>): T {
+    override fun postprocess(output: Array<ByteBuffer>): T {
         return feature.postprocess(output)
     }
 

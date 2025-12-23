@@ -23,7 +23,8 @@ static cv::Mat *img;
 static int8_t *blob;
 static int8_t *byte_array;
 
-extern "C" jbyteArray convertMatToJByteArray(JNIEnv *env, ZeticMLangeYoloV8Feature* yolo_v8_feature, cv::Mat& mat) {
+extern "C" jbyteArray
+convertMatToJByteArray(JNIEnv *env, ZeticMLangeYoloV8Feature *yolo_v8_feature, cv::Mat &mat) {
     int len_blob = mat.total() * mat.channels() * sizeof(float);
     if (!blob) {
         blob = new int8_t[len_blob];
@@ -50,8 +51,8 @@ extern "C" jbyteArray convertMatToJByteArray(JNIEnv *env, ZeticMLangeYoloV8Featu
 
 extern "C" JNIEXPORT jlong JNICALL
 Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeInitDetect(JNIEnv *env,
-                                                                      jobject obj,
-                                                                      jstring j_coco_file_path) {
+                                                                                      jobject obj,
+                                                                                      jstring j_coco_file_path) {
 
     std::string coco_file_path = convertJStringToCString(env, j_coco_file_path);
     ZeticMLangeYoloV8Feature *yolo_v8_feature = new ZeticMLangeYoloV8Feature(YOLO_DETECT_V8,
@@ -60,9 +61,8 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeInitD
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeInitClassifier(JNIEnv *env,
-                                                                          jobject obj,
-                                                                          jstring j_coco_file_path) {
+Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeInitClassifier(
+        JNIEnv *env, jobject obj, jstring j_coco_file_path) {
 
     std::string coco_file_path = convertJStringToCString(env, j_coco_file_path);
     ZeticMLangeYoloV8Feature *yolo_v8_feature = new ZeticMLangeYoloV8Feature(YOLO_CLS,
@@ -72,9 +72,9 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeInitC
 
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePreprocess(JNIEnv *env,
-                                                                      jobject obj,
-                                                                      jlong yolo_v8_feature_ptr,
-                                                                      jlong input_img_ptr) {
+                                                                                      jobject obj,
+                                                                                      jlong yolo_v8_feature_ptr,
+                                                                                      jlong input_img_ptr) {
 
     ZeticMLangeYoloV8Feature *yolo_v8_feature = reinterpret_cast<ZeticMLangeYoloV8Feature *>(yolo_v8_feature_ptr);
 
@@ -100,78 +100,66 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePrepr
     return convertMatToJByteArray(env, yolo_v8_feature, processed_img);
 }
 
-extern "C"
-JNIEXPORT jobject JNICALL
+extern "C" JNIEXPORT jobject JNICALL
 Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePostProcess(JNIEnv *env,
-                                                                       jobject /* this */,
-                                                                       jlong yolo_v8_feature_ptr,
-                                                                       jbyteArray output) {
+                                                                                       jobject /* this */,
+                                                                                       jlong yolo_v8_feature_ptr,
+                                                                                       jobject output) {
 
-    ZeticMLangeYoloV8Feature *yolo_v8_feature = reinterpret_cast<ZeticMLangeYoloV8Feature *>(yolo_v8_feature_ptr);
+    auto *yolo_v8_feature = reinterpret_cast<ZeticMLangeYoloV8Feature *>(yolo_v8_feature_ptr);
 
-    if (yolo_v8_feature == nullptr)
+    if (!yolo_v8_feature || !output)
         return nullptr;
 
-    Zetic_MLange_Feature_Result_t ret = ZETIC_MLANGE_FEATURE_FAIL;
+    void *output_addr = env->GetDirectBufferAddress(output);
+    jlong output_capacity = env->GetDirectBufferCapacity(output);
+
+    if (!output_addr || output_capacity <= 0)
+        return nullptr;
 
     std::vector<DL_RESULT> res;
 
-    // Get the length of the jfloatArray
-    jsize length = env->GetArrayLength(output);
+    auto ret = yolo_v8_feature->postprocess(res, output_addr  // zero-copy
+    );
 
-    // Allocate a native float array
-    if (!byte_array) {
-        byte_array = new int8_t[length];
-    }
-
-    // Get the elements from the jfloatArray
-    env->GetByteArrayRegion(output, 0, length, byte_array);
-
-
-    ret = yolo_v8_feature->postprocess(res, (void *) byte_array);
     if (ret != ZETIC_MLANGE_FEATURE_SUCCESS) {
-        printf("Failed to postprocess!");
         return nullptr;
     }
 
     jclass array_list_class = env->FindClass("java/util/ArrayList");
-    jmethodID array_list_constructor = env->GetMethodID(array_list_class, "<init>", "()V");
-    jobject array_list_face_detection_result = env->NewObject(array_list_class,
-                                                              array_list_constructor);
+    jmethodID array_list_ctor = env->GetMethodID(array_list_class, "<init>", "()V");
+    jobject yolo_result_list = env->NewObject(array_list_class, array_list_ctor);
+
     jmethodID array_list_add = env->GetMethodID(array_list_class, "add", "(Ljava/lang/Object;)Z");
 
     jclass yolo_result_class = env->FindClass(
             "com/zeticai/mlange/feature/objectdetection/yolov8/YOLOResult");
-    jmethodID yolo_result_class_constructor = env->GetMethodID(yolo_result_class,
-                                                               "<init>", "(Ljava/util/List;)V");
+    jmethodID yolo_result_ctor = env->GetMethodID(yolo_result_class, "<init>",
+                                                  "(Ljava/util/List;)V");
 
     JNIMemoryManager::clear("com/zeticai/mlange/feature/entity/Box");
     JNIMemoryManager::clear("com/zeticai/mlange/feature/objectdetection/yolov8/YOLOObject");
 
-    for (int i = 0; i < res.size(); i++) {
-        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/mlange/feature/entity/Box", "(FFFF)V",
-                                     (float) res[i].box.x,
-                                     (float) res[i].box.y,
-                                     (float) res[i].box.x + (float) res[i].box.width,
-                                     (float) res[i].box.y + (float) res[i].box.height);
+    for (const auto &r: res) {
+        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/mlange/feature/entity/Box",
+                                                "(FFFF)V", (float) r.box.x, (float) r.box.y,
+                                                (float) r.box.x + (float) r.box.width,
+                                                (float) r.box.y + (float) r.box.height);
 
-        jobject yolo_object = JNIMemoryManager::acquire(env,   "com/zeticai/mlange/feature/objectdetection/yolov8/YOLOObject", "(IFLcom/zeticai/mlange/feature/entity/Box;)V",
-                                             res[i].class_id, res[i].confidence, box);
+        jobject yolo_object = JNIMemoryManager::acquire(env,
+                                                        "com/zeticai/mlange/feature/objectdetection/yolov8/YOLOObject",
+                                                        "(IFLcom/zeticai/mlange/feature/entity/Box;)V",
+                                                        r.class_id, r.confidence, box);
 
-        env->CallBooleanMethod(array_list_face_detection_result, array_list_add, yolo_object);
+        env->CallBooleanMethod(yolo_result_list, array_list_add, yolo_object);
     }
 
-    return env->NewObject(
-            yolo_result_class,
-            yolo_result_class_constructor,
-            array_list_face_detection_result);
+    return env->NewObject(yolo_result_class, yolo_result_ctor, yolo_result_list);
 }
 
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeFreePreprocessedBuffer(JNIEnv *env,
-                                                                                  jobject /* this */,
-                                                                                  jobject byte_buffer) {
+extern "C" JNIEXPORT void JNICALL
+Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeFreePreprocessedBuffer(
+        JNIEnv *env, jobject /* this */, jobject byte_buffer) {
     // Get the pointer to the native memory from the ByteBuffer
     void *buffer = env->GetDirectBufferAddress(byte_buffer);
     if (buffer != nullptr) {
@@ -179,11 +167,10 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeFreeP
     }
 }
 
-extern "C"
-JNIEXPORT void JNICALL
+extern "C" JNIEXPORT void JNICALL
 Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeDeinit(JNIEnv *env,
-                                                                  jobject /* this */,
-                                                                  jlong yolov8_feature_ptr) {
+                                                                                  jobject /* this */,
+                                                                                  jlong yolov8_feature_ptr) {
 
     ZeticMLangeYoloV8Feature *yolo_v8_feature = reinterpret_cast<ZeticMLangeYoloV8Feature *>(yolov8_feature_ptr);
     delete (yolo_v8_feature);
@@ -191,26 +178,19 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativeDeini
     delete (byte_array);
 }
 
-extern "C"
-JNIEXPORT jbyteArray JNICALL
-Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePreprocessWithFrame(JNIEnv *env, jobject thiz,
-                                                                               jlong yolov8_feature_ptr,
-                                                                               jbyteArray frame,
-                                                                               jint width, jint height,
-                                                                               jint format_code) {
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePreprocessWithFrame(
+        JNIEnv *env, jobject thiz, jlong yolov8_feature_ptr, jbyteArray frame, jint width,
+        jint height, jint format_code) {
 
     ZeticMLangeYoloV8Feature *yolo_v8_feature = reinterpret_cast<ZeticMLangeYoloV8Feature *>(yolov8_feature_ptr);
-    jbyte* nvPtr = env->GetByteArrayElements(frame, nullptr);
+    jbyte *nvPtr = env->GetByteArrayElements(frame, nullptr);
     if (!nvPtr) {
         return JNI_FALSE;
     }
 
-    cv::Mat bgrMat = MLangeFeatureOpenCV::convertToBGR(
-            reinterpret_cast<const uint8_t*>(nvPtr),
-            width,
-            height,
-            format_code
-    );
+    cv::Mat bgrMat = MLangeFeatureOpenCV::convertToBGR(reinterpret_cast<const uint8_t *>(nvPtr),
+                                                       width, height, format_code);
 
     cv::Mat output;
 
