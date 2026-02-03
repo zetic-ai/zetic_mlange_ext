@@ -11,12 +11,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.zeticai.mlange.feature.objectdetection.ObjectDetection
-import com.zeticai.mlange.feature.objectdetection.yolov8.YOLOResult
-import com.zeticai.mlange.inputsource.camera.CameraSource
-import com.zeticai.mlange.inputsource.camera.PreviewSurfaceView
-import com.zeticai.mlange.inputsource.camera.YOLOResultSurfaceView
-import com.zeticai.mlange.pipeline.ZeticMLangePipeline
+import com.zeticai.ext.feature.objectdetection.ObjectDetection
+import com.zeticai.ext.feature.objectdetection.yolov8.YOLOResult
+import com.zeticai.ext.inputsource.camera.CameraSource
+import com.zeticai.ext.inputsource.camera.PreviewSurfaceView
+import com.zeticai.ext.inputsource.camera.YOLOResultSurfaceView
+import com.zeticai.ext.pipeline.ZeticMLangePipeline
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

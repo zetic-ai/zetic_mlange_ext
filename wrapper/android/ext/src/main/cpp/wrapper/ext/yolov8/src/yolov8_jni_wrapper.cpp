@@ -133,22 +133,22 @@ Java_com_zeticai_mlange_feature_objectdetection_yolov8_YOLOv8Wrapper_nativePostP
     jmethodID array_list_add = env->GetMethodID(array_list_class, "add", "(Ljava/lang/Object;)Z");
 
     jclass yolo_result_class = env->FindClass(
-            "com/zeticai/mlange/feature/objectdetection/yolov8/YOLOResult");
+            "com/zeticai/ext/feature/objectdetection/yolov8/YOLOResult");
     jmethodID yolo_result_ctor = env->GetMethodID(yolo_result_class, "<init>",
                                                   "(Ljava/util/List;)V");
 
-    JNIMemoryManager::clear("com/zeticai/mlange/feature/entity/Box");
-    JNIMemoryManager::clear("com/zeticai/mlange/feature/objectdetection/yolov8/YOLOObject");
+    JNIMemoryManager::clear("com/zeticai/ext/feature/entity/Box");
+    JNIMemoryManager::clear("com/zeticai/ext/feature/objectdetection/yolov8/YOLOObject");
 
     for (const auto &r: res) {
-        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/mlange/feature/entity/Box",
+        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/ext/feature/entity/Box",
                                                 "(FFFF)V", (float) r.box.x, (float) r.box.y,
                                                 (float) r.box.x + (float) r.box.width,
                                                 (float) r.box.y + (float) r.box.height);
 
         jobject yolo_object = JNIMemoryManager::acquire(env,
-                                                        "com/zeticai/mlange/feature/objectdetection/yolov8/YOLOObject",
-                                                        "(IFLcom/zeticai/mlange/feature/entity/Box;)V",
+                                                        "com/zeticai/ext/feature/objectdetection/yolov8/YOLOObject",
+                                                        "(IFLcom/zeticai/ext/feature/entity/Box;)V",
                                                         r.class_id, r.confidence, box);
 
         env->CallBooleanMethod(yolo_result_list, array_list_add, yolo_object);

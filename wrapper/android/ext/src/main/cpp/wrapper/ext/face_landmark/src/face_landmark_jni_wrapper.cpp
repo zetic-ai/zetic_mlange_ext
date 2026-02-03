@@ -87,10 +87,10 @@ Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePostproce
         return nullptr;
 
     jclass result_class = env->FindClass(
-            "com/zeticai/mlange/feature/facelandmark/FaceLandmarkResult");
+            "com/zeticai/ext/feature/facelandmark/FaceLandmarkResult");
     jmethodID result_ctor = env->GetMethodID(result_class, "<init>", "(Ljava/util/List;F)V");
 
-    jclass landmark_class = env->FindClass("com/zeticai/mlange/feature/entity/Landmark");
+    jclass landmark_class = env->FindClass("com/zeticai/ext/feature/entity/Landmark");
     jmethodID landmark_ctor = env->GetMethodID(landmark_class, "<init>", "(FFF)V");
 
     jclass array_list_class = env->FindClass("java/util/ArrayList");

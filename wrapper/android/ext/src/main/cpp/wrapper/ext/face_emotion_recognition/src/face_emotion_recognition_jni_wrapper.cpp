@@ -85,7 +85,7 @@ Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWra
         return nullptr;
 
     jclass result_class = env->FindClass(
-            "com/zeticai/mlange/feature/faceemotionrecognition/FaceEmotionRecognitionResult");
+            "com/zeticai/ext/feature/faceemotionrecognition/FaceEmotionRecognitionResult");
     jmethodID result_ctor = env->GetMethodID(result_class, "<init>", "(FLjava/lang/String;)V");
 
     jstring emotion_str = env->NewStringUTF(postprocess_result.second.c_str());
