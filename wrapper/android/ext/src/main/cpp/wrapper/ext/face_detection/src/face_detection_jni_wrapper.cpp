@@ -15,7 +15,7 @@
 using namespace ZeticMLange;
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePreprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativePreprocess(JNIEnv *env,
                                                                                     jobject thiz,
                                                                                     jlong face_detection_feature_ptr,
                                                                                     jlong input_img_ptr) {
@@ -40,7 +40,7 @@ Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePreproc
     return byte_array;
 }
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePostprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativePostprocess(JNIEnv *env,
                                                                                      jobject thiz,
                                                                                      jlong face_detection_feature_ptr,
                                                                                      jobjectArray output_data) {
@@ -112,13 +112,13 @@ Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePostpro
 
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativeInit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativeInit(JNIEnv *env,
                                                                               jobject thiz) {
     FaceDetectionFeature *face_detection_feature = new FaceDetectionFeature();
     return reinterpret_cast<jlong>(face_detection_feature);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativeDeinit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativeDeinit(JNIEnv *env,
                                                                                 jobject thiz,
                                                                                 jlong face_detection_feature_ptr) {
     delete reinterpret_cast<FaceDetectionFeature *>(face_detection_feature_ptr);

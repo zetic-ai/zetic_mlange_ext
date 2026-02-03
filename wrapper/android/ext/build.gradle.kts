@@ -46,5 +46,5 @@ android {
 }
 
 dependencies {
-    implementation("com.zeticai.mlange:mlange:1.4.7.2")
+    implementation("com.zeticai.mlange:mlange:1.5.1")
 }
