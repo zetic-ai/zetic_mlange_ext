@@ -16,7 +16,7 @@
 using namespace ZeticMLange;
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativePreprocess(
+Java_com_zeticai_ext_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativePreprocess(
         JNIEnv *env, jobject thiz, jlong face_emotion_recognition_feature_ptr, jlong input_img_ptr,
         jfloat x_min, jfloat y_min, jfloat x_max, jfloat y_max) {
     FaceEmotionRecognitionFeature *face_emotion_recognition_feature = reinterpret_cast<FaceEmotionRecognitionFeature *>(face_emotion_recognition_feature_ptr);
@@ -41,7 +41,7 @@ Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWra
 }
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativePostprocess(
+Java_com_zeticai_ext_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativePostprocess(
         JNIEnv *env, jobject thiz, jlong face_emotion_recognition_feature_ptr,
         jobjectArray output_data) {
 
@@ -85,7 +85,7 @@ Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWra
         return nullptr;
 
     jclass result_class = env->FindClass(
-            "com/zeticai/mlange/feature/faceemotionrecognition/FaceEmotionRecognitionResult");
+            "com/zeticai/ext/feature/faceemotionrecognition/FaceEmotionRecognitionResult");
     jmethodID result_ctor = env->GetMethodID(result_class, "<init>", "(FLjava/lang/String;)V");
 
     jstring emotion_str = env->NewStringUTF(postprocess_result.second.c_str());
@@ -94,13 +94,13 @@ Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWra
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativeInit(
+Java_com_zeticai_ext_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativeInit(
         JNIEnv *env, jobject thiz) {
     FaceEmotionRecognitionFeature *face_emotion_recognition_feature = new FaceEmotionRecognitionFeature();
     return reinterpret_cast<jlong>(face_emotion_recognition_feature);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativeDeinit(
+Java_com_zeticai_ext_feature_faceemotionrecognition_FaceEmotionRecognitionWrapper_nativeDeinit(
         JNIEnv *env, jobject thiz, jlong face_emotion_recognition_feature_ptr) {
     delete reinterpret_cast<FaceEmotionRecognitionFeature *>(face_emotion_recognition_feature_ptr);
 }

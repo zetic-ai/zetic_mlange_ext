@@ -16,7 +16,7 @@
 using namespace ZeticMLange;
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePreprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facelandmark_FaceLandmarkWrapper_nativePreprocess(JNIEnv *env,
                                                                                   jobject thiz,
                                                                                   jlong face_landmark_feature_ptr,
                                                                                   jlong input_img_ptr,
@@ -45,7 +45,7 @@ Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePreproces
 }
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePostprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facelandmark_FaceLandmarkWrapper_nativePostprocess(JNIEnv *env,
                                                                                    jobject thiz,
                                                                                    jlong face_landmark_feature_ptr,
                                                                                    jobjectArray output_data) {
@@ -87,10 +87,10 @@ Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePostproce
         return nullptr;
 
     jclass result_class = env->FindClass(
-            "com/zeticai/mlange/feature/facelandmark/FaceLandmarkResult");
+            "com/zeticai/ext/feature/facelandmark/FaceLandmarkResult");
     jmethodID result_ctor = env->GetMethodID(result_class, "<init>", "(Ljava/util/List;F)V");
 
-    jclass landmark_class = env->FindClass("com/zeticai/mlange/feature/entity/Landmark");
+    jclass landmark_class = env->FindClass("com/zeticai/ext/feature/entity/Landmark");
     jmethodID landmark_ctor = env->GetMethodID(landmark_class, "<init>", "(FFF)V");
 
     jclass array_list_class = env->FindClass("java/util/ArrayList");
@@ -111,13 +111,13 @@ Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativePostproce
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativeInit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facelandmark_FaceLandmarkWrapper_nativeInit(JNIEnv *env,
                                                                             jobject thiz) {
     FaceLandmarkFeature *face_landmark_feature = new FaceLandmarkFeature();
     return reinterpret_cast<jlong>(face_landmark_feature);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_facelandmark_FaceLandmarkWrapper_nativeDeinit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facelandmark_FaceLandmarkWrapper_nativeDeinit(JNIEnv *env,
                                                                               jobject thiz,
                                                                               jlong face_landmark_feature_ptr) {
     delete reinterpret_cast<FaceLandmarkFeature *>(face_landmark_feature_ptr);

@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdk = 35
-    namespace = "com.zeticai.mlange"
+    namespace = "com.zeticai.ext"
     ndkVersion = "29.0.14206865"
 
     defaultConfig {
@@ -46,5 +46,5 @@ android {
 }
 
 dependencies {
-    implementation("com.zeticai.mlange:mlange:1.4.7.2")
+    implementation("com.zeticai.mlange:mlange:1.5.1")
 }

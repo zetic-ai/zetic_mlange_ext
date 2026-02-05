@@ -7,14 +7,14 @@ cv::Mat current_image;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_vision_OpenCVImageUtilsWrapper_nativeSetSurface(JNIEnv *env,
+Java_com_zeticai_ext_feature_vision_OpenCVImageUtilsWrapper_nativeSetSurface(JNIEnv *env,
                                                                                 jobject thiz,
                                                                                 jobject surface) {
 }
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_vision_OpenCVImageUtilsWrapper_nativeFrame(JNIEnv *env,
+Java_com_zeticai_ext_feature_vision_OpenCVImageUtilsWrapper_nativeFrame(JNIEnv *env,
                                                                            jobject thiz,
                                                                            jbyteArray image,
                                                                            jint rotate) {

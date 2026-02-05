@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.zeticai.ext"
+    namespace = "com.zeticai.android_ext"
     compileSdk = 35
 
     packaging {
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.zeticai.ext"
+        applicationId = "com.zeticai.android_ext"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

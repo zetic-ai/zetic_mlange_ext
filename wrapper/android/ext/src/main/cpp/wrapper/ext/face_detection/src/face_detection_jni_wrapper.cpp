@@ -15,7 +15,7 @@
 using namespace ZeticMLange;
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePreprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativePreprocess(JNIEnv *env,
                                                                                     jobject thiz,
                                                                                     jlong face_detection_feature_ptr,
                                                                                     jlong input_img_ptr) {
@@ -40,7 +40,7 @@ Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePreproc
     return byte_array;
 }
 extern "C" JNIEXPORT jobject JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePostprocess(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativePostprocess(JNIEnv *env,
                                                                                      jobject thiz,
                                                                                      jlong face_detection_feature_ptr,
                                                                                      jobjectArray output_data) {
@@ -88,20 +88,20 @@ Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePostpro
     jmethodID array_list_add = env->GetMethodID(array_list_class, "add", "(Ljava/lang/Object;)Z");
 
     jclass face_detection_results_class = env->FindClass(
-            "com/zeticai/mlange/feature/facedetection/FaceDetectionResults");
+            "com/zeticai/ext/feature/facedetection/FaceDetectionResults");
     jmethodID results_ctor = env->GetMethodID(face_detection_results_class, "<init>",
                                               "(Ljava/util/List;)V");
 
     for (const auto &r: face_detection_results) {
 
-        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/mlange/feature/entity/Box",
+        jobject box = JNIMemoryManager::acquire(env, "com/zeticai/ext/feature/entity/Box",
                                                 "(FFFF)V", r.bounding_box.x_min,
                                                 r.bounding_box.y_min, r.bounding_box.x_max,
                                                 r.bounding_box.y_max);
 
         jobject face_detection = JNIMemoryManager::acquire(env,
-                                                           "com/zeticai/mlange/feature/facedetection/FaceDetectionResult",
-                                                           "(Lcom/zeticai/mlange/feature/entity/Box;F)V",
+                                                           "com/zeticai/ext/feature/facedetection/FaceDetectionResult",
+                                                           "(Lcom/zeticai/ext/feature/entity/Box;F)V",
                                                            box, r.score);
 
         env->CallBooleanMethod(result_list, array_list_add, face_detection);
@@ -112,13 +112,13 @@ Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativePostpro
 
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativeInit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativeInit(JNIEnv *env,
                                                                               jobject thiz) {
     FaceDetectionFeature *face_detection_feature = new FaceDetectionFeature();
     return reinterpret_cast<jlong>(face_detection_feature);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_zeticai_mlange_feature_facedetection_FaceDetectionWrapper_nativeDeinit(JNIEnv *env,
+Java_com_zeticai_ext_feature_facedetection_FaceDetectionWrapper_nativeDeinit(JNIEnv *env,
                                                                                 jobject thiz,
                                                                                 jlong face_detection_feature_ptr) {
     delete reinterpret_cast<FaceDetectionFeature *>(face_detection_feature_ptr);
